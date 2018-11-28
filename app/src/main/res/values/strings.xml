@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">HospitalManager</string>
+    <string name="app_name">Hospital Manager</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_surname">Surname</string>
+    <string name="select_role">Role</string>
+    <string name="role_medic">Medic</string>
+    <string name="role_asistent">Asistent</string>
+    <string name="role_farmacist">Farmacist</string>
+    <string name="role_manager">Manager</string>
+    <string name="text_login">Login</string>
+    <string name="text_save">Save</string>
+    <string name="text_signUp">Sign Up</string>
+    <string name="cb_rememberMe">Remember me</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
