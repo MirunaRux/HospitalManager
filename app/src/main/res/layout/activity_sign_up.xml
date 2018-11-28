@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toTopOf="@id/spinner_signUp_role"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_username">
+            android:hint="@string/hint_surname">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_surname"
                 android:layout_width="match_parent"
