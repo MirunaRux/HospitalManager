@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "118039389658",
+    "firebase_url": "https://hospitalmanager-3b2b7.firebaseio.com",
+    "project_id": "hospitalmanager-3b2b7",
+    "storage_bucket": "hospitalmanager-3b2b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118039389658:android:6eb41c374bb318c0",
+        "android_client_info": {
+          "package_name": "com.miruna.hospitalmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118039389658-9iigsifm5lfg6caffbgo1ub4la6jb3er.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.miruna.hospitalmanager",
+            "certificate_hash": "4049534d408a81cea9802796f5fe3ca52eedb611"
+          }
+        },
+        {
+          "client_id": "118039389658-02go4lgl468pp31ssbh9jtcmr7cieg5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3fZFrMl54m1CY_o4MvjrFh9sjb8D7DdE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118039389658-02go4lgl468pp31ssbh9jtcmr7cieg5g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

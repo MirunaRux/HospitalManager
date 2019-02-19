@@ -1,7 +1,6 @@
 package com.miruna.hospitalmanager.application.dashboard
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -10,10 +9,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.agenda.AgendaFragment
-import com.miruna.hospitalmanager.application.meds.MedsFragment
+import com.miruna.hospitalmanager.application.meds.MedsListFragment
 import com.miruna.hospitalmanager.application.pacient.PacientsFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import kotlinx.android.synthetic.main.nav_header_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,12 +21,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
+        val username = intent.getExtras().getString("EXTRA_USERNAME")
+//        dashboard_username.setText(username.toString())
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
@@ -61,7 +57,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_medicamente -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.drawer_layout, MedsFragment.newInstance(1))
+                fragmentTransaction.replace(R.id.drawer_layout, MedsListFragment.newInstance(1))
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
             }
