@@ -1,11 +1,12 @@
 package com.miruna.hospitalmanager.application.signUp
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.miruna.hospitalmanager.R
-import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
+import com.miruna.hospitalmanager.application.login.LoginActivity
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -14,12 +15,14 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         btn_save.setOnClickListener {
-            val dashboardIntent = Intent(this, DashboardActivity::class.java)
+            val loginIntent = Intent(this, LoginActivity::class.java)
             if (isInputValid()) {
                 SharedPreferenceManager.saveUsername(this, til_signUp_username.toString())
-                dashboardIntent.putExtra("EXTRA_USERNAME", til_signUp_username.toString())
-                setResult(Activity.RESULT_OK, dashboardIntent)
+                loginIntent.putExtra("EXTRA_USERNAME", et_signUp_username.text.toString())
+                loginIntent.putExtra("EXTRA_ROLE", spinner_signUp_role.selectedItem.toString())
+                startActivity(loginIntent)
                 finish()
             }
         }
@@ -43,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
 
-        if (til_signUp_password.toString().trim({ it <= ' ' }) != til_signUp_re_password.toString().trim({ it <= ' ' })) {
+        if (!et_signUp_password.getText().toString().equals(et_signUp_re_password.getText().toString())) {
             til_signUp_re_password.setError("Password not matching")
             et_signUp_re_password.requestFocus()
             return false

@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:id="@+id/dashboard_username"
-            android:text="username"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

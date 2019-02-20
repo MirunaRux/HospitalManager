@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.login
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -11,15 +12,20 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        btn_login.setOnClickListener {
+        val loginIntent :Intent = getIntent()
+        val extraUsername = loginIntent.getStringExtra("EXTRA_USERNAME")
+        val extraRole = loginIntent.getStringExtra("EXTRA_ROLE")
+        et_login_username.setText(extraUsername)
+        btn_login.setOnClickListener{
             val dashboardIntent = Intent(this, DashboardActivity::class.java)
             if (isInputValid()) {
-                SharedPreferenceManager.saveUsername(this, til_login_username.toString())
-                dashboardIntent.putExtra("EXTRA_USERNAME", til_login_username.toString())
+                SharedPreferenceManager.saveUsername(this, et_login_username.text.toString())
+                dashboardIntent.putExtra("EXTRA_USERNAME", et_login_username.text.toString())
+                dashboardIntent.putExtra("EXTRA_ROLE", extraRole)
                 startActivity(dashboardIntent)
                 finish()
             }
@@ -30,6 +36,20 @@ class LoginActivity : AppCompatActivity() {
             startActivity(signUpScreenIntent)
             finish()
         }
+
+        /*checkBox_constraint_remember.setOnCheckedChangeListener { buttonView, isChecked ->
+            SharedPreferenceManager.saveRememberMe(
+                this@LoginActivity)
+        }*/
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    fun goToDashboard(){
 
     }
 
