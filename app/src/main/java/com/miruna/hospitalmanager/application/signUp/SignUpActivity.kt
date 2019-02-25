@@ -1,7 +1,5 @@
 package com.miruna.hospitalmanager.application.signUp
 
-import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

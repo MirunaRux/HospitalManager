@@ -9,14 +9,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import com.miruna.hospitalmanager.R
-import com.miruna.hospitalmanager.application.agenda.AgendaFragment
-import com.miruna.hospitalmanager.application.meds.MedsListFragment
-import com.miruna.hospitalmanager.application.pacient.PacientsFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
-import kotlinx.android.synthetic.main.nav_header_dashboard.*
 import android.widget.TextView
-
+import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
+import com.miruna.hospitalmanager.application.drug.DrugListFragment
+import com.miruna.hospitalmanager.application.pacient.PacientListFragment
 
 
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -52,23 +50,25 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_pacienti -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.drawer_layout, PacientsFragment.newInstance(1))
+                val fragment = PacientListFragment()
+                fragmentTransaction.replace(R.id.content_dashboard, fragment)
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
             }
             R.id.nav_agenda -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.drawer_layout, AgendaFragment.newInstance(2))
+                val fragment = AgendaListFragment()
+                fragmentTransaction.replace(R.id.content_dashboard, fragment)
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
             }
             R.id.nav_medicamente -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.drawer_layout, MedsListFragment.newInstance(1))
+                val fragment = DrugListFragment()
+                fragmentTransaction.replace(R.id.content_dashboard, fragment)
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
             }

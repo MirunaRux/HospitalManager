@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pacient_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/surname"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/surname"
+            app:layout_constraintTop_toBottomOf="@id/pacient_name"
+            app:layout_constraintBottom_toTopOf="@+id/age"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/age"
+            app:layout_constraintTop_toBottomOf="@id/surname"
+            app:layout_constraintBottom_toTopOf="@+id/date_in"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_in"
+            app:layout_constraintTop_toBottomOf="@id/age"
+            app:layout_constraintBottom_toTopOf="@+id/date_ex"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_ex"
+            app:layout_constraintTop_toBottomOf="@id/date_in"
+            app:layout_constraintBottom_toTopOf="@+id/department"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/department"
+            app:layout_constraintTop_toBottomOf="@id/date_ex"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+    />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
