@@ -28,4 +28,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_pacient_details">PacientDetailsActivity</string>
+    <string name="hint_age">Age</string>
+    <string name="hint_cnp">CNP</string>
+    <string name="hint_dateIn">Check-In Date</string>
+    <string name="hint_dateEx">Check-Out Date</string>
+    <string name="text_submit">Submit</string>
+    <string name="hint_location">Location</string>
+    <string name="hint_number">Cantity</string>
 </resources>

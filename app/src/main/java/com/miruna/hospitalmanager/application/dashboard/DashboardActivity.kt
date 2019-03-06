@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import android.widget.TextView
 import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
+import com.miruna.hospitalmanager.application.pacient.AddPacientFragment
 import com.miruna.hospitalmanager.application.pacient.PacientDetailsFragment
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
 
@@ -24,11 +25,19 @@ interface OnActivityFragmentCommunication {
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnActivityFragmentCommunication {
 
     override fun onAddFragment(TAG: String, bundle: Bundle?) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = PacientDetailsFragment()
-        fragmentTransaction.add(R.id.fragmentsContainer, fragment)
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        fragmentTransaction.commit()
+        if(TAG.equals("DETAILS_FRAGMENT")) {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            val fragment = PacientDetailsFragment()
+            fragmentTransaction.add(R.id.fragmentsContainer, fragment)
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            fragmentTransaction.commit()
+        }else if (TAG.equals("ADD_NEW_PACIENT_FRAGMENT")){
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            val fragment = AddPacientFragment()
+            fragmentTransaction.add(R.id.fragmentsContainer, fragment)
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            fragmentTransaction.commit()
+        }
 
     }
 

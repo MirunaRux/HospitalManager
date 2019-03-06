@@ -12,6 +12,7 @@ import android.widget.EditText
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
+import kotlinx.android.synthetic.main.content_dashboard.*
 import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
 
@@ -49,8 +50,7 @@ class PacientListFragment : Fragment(){
 
         for (i in 1..9){
             pacients.add(Pacient(i, "Pacient" + i.toString(), "Pacient" + i.toString(), i,
-                null, "0"+i.toString()+".0"+i.toString()+".2018", "0"+i.toString()+".0"+i.toString()+".2018",
-                "Departament"+i.toString()))
+                null, "0"+i.toString()+".0"+i.toString()+".2018", "0"+i.toString()+".0"+i.toString()+".2018"))
         }
 
         displayPacients.addAll(pacients)
@@ -58,13 +58,11 @@ class PacientListFragment : Fragment(){
             layoutManager = LinearLayoutManager(context)
             val adapter = PacientsAdapter(pacients)
             adapter.onItemClick = {
-                onActivityFragmentCommunication.onAddFragment("details fragment")
+                onActivityFragmentCommunication.onAddFragment("DETAILS_FRAGMENT")
 
             }
             this.adapter = adapter
         }
-
-
     }
 
     override fun onAttach(context: Context?) {
@@ -133,5 +131,6 @@ class PacientListFragment : Fragment(){
                     putString(ARG_PARAM1, param1.toString())
                 }
             }
+
     }
 }

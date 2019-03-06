@@ -1,5 +1,7 @@
 package com.miruna.hospitalmanager.application.pacient
 
+import java.io.Serializable
+
 
 data class Pacient (
     val id: Int,
@@ -8,5 +10,4 @@ data class Pacient (
     val age: Int,
     val CNP: String?,
     val dateIn: String,
-    val dateEx: String,
-    val department: String)
+    val dateEx: String) : Serializable

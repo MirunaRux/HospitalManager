@@ -5,4 +5,4 @@ data class Event (
     var name : String,
     var location : String,
     var pacientName : String,
-    var doctorId: Int)
+    var doctorUsername: String)
