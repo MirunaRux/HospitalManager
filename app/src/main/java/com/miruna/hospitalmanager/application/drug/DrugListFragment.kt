@@ -5,19 +5,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.widget.SearchView
+import android.view.*
+import android.widget.EditText
 
 import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.fragment_drug_list.*
-import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
 private const val ARG_PARAM1 = "param1"
 
 class DrugListFragment : Fragment() {
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    var drugs = mutableListOf<Drug>()
+    var displayDrugs = mutableListOf<Drug>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +42,9 @@ class DrugListFragment : Fragment() {
 
         val context : Context = view.getContext()
 
-        var drugs = mutableListOf<Drug>()
         for (i in 1..9){
             drugs.add(
-                Drug("Drug"+i.toString(), i*100)
+                Drug(i, "Drug"+i.toString(), i*100)
             )
         }
         recyclerViewDrugList.apply {
@@ -65,6 +65,42 @@ class DrugListFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.main, menu)
+        val searchItem = menu?.findItem(R.id.menu_search)
+        if(searchItem != null){
+            val searchView = searchItem.actionView as SearchView
+            val editText = searchView.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text)
+            editText.hint = "Search here..."
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query : String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText : String?): Boolean {
+                    if(newText!!.isNotEmpty()){
+                        displayDrugs.clear()
+                        val search = newText.toLowerCase()
+                        drugs.forEach {
+                            if(it.name.toLowerCase().contains(search))
+                                displayDrugs.add(it)
+                        }
+
+                        recyclerViewDrugList.adapter?.notifyDataSetChanged()
+                    }else{
+                        displayDrugs.clear()
+                        displayDrugs.addAll(drugs)
+                        recyclerViewDrugList.adapter?.notifyDataSetChanged()
+                    }
+                    return true
+                }
+
+            })
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

@@ -14,10 +14,23 @@ import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import android.widget.TextView
 import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
+import com.miruna.hospitalmanager.application.pacient.PacientDetailsFragment
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
 
+interface OnActivityFragmentCommunication {
+    fun onAddFragment(TAG: String, bundle: Bundle? = null)
+}
 
-class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnActivityFragmentCommunication {
+
+    override fun onAddFragment(TAG: String, bundle: Bundle?) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment = PacientDetailsFragment()
+        fragmentTransaction.add(R.id.fragmentsContainer, fragment)
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragmentTransaction.commit()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -18,10 +18,14 @@ class EventsAdapter (private val events: MutableList<Event>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.event_name.text = events[position].name
+        holder.location.text = events[position].location
+        holder.pacient.text = events[position].pacientName
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val event_name : TextView = itemView.event_name
+        val location : TextView = itemView.location
+        val pacient : TextView = itemView.pacient
     }
 
 }

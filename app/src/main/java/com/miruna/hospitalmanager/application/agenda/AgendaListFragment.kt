@@ -44,7 +44,7 @@ class AgendaListFragment : Fragment() {
         var events = mutableListOf<Event>()
         for (i in 1..9){
             events.add(
-                Event(i, "Eveniment" + i.toString(), "Locatie" + i.toString(), "Pacient" + i.toString())
+                Event(i, "Eveniment" + i.toString(), "Locatie" + i.toString(), "Pacient" + i.toString(), i)
             )
         }
         recyclerViewAgendaList.apply {
