@@ -15,22 +15,25 @@ import android.widget.TextView
 import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
 import com.miruna.hospitalmanager.application.pacient.AddPacientFragment
+import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientDetailsFragment
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
 
 interface OnActivityFragmentCommunication {
-    fun onAddFragment(TAG: String, bundle: Bundle? = null)
+    fun onAddFragment(TAG: String, bundle: Bundle? = null, pacient : Pacient)
 }
 
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnActivityFragmentCommunication {
 
-    override fun onAddFragment(TAG: String, bundle: Bundle?) {
+    override fun onAddFragment(TAG: String, bundle: Bundle?, pacient: Pacient) {
         if(TAG.equals("DETAILS_FRAGMENT")) {
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment = PacientDetailsFragment()
-            fragmentTransaction.add(R.id.fragmentsContainer, fragment)
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.commit()
+            val pacientDetailsFragment = PacientDetailsFragment()
+
+            bundle?.putParcelable("product", pacient.clone() as Pacient)
+            pacientDetailsFragment.setArguments(bundle)
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.addToBackStack(null).add(R.id.fragmentsContainer, pacientDetailsFragment).commit()
         }else if (TAG.equals("ADD_NEW_PACIENT_FRAGMENT")){
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             val fragment = AddPacientFragment()

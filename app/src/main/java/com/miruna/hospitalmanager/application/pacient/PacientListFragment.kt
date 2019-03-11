@@ -58,8 +58,7 @@ class PacientListFragment : Fragment(){
             layoutManager = LinearLayoutManager(context)
             val adapter = PacientsAdapter(pacients)
             adapter.onItemClick = {
-                onActivityFragmentCommunication.onAddFragment("DETAILS_FRAGMENT")
-
+                onActivityFragmentCommunication.onAddFragment("DETAILS_FRAGMENT", null , it)
             }
             this.adapter = adapter
         }
