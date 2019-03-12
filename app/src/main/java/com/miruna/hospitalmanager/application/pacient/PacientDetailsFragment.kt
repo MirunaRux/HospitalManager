@@ -44,7 +44,7 @@ class PacientDetailsFragment : Fragment() {
         val context : Context = view.getContext()
 
         for (i in 1..4){
-            files.add(File(i, "File for pacient"))
+            files.add(File(i.toString(), "File for pacient"))
         }
 
         recyclerViewPacientFileList.apply {

@@ -34,7 +34,7 @@ class AddPacientFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_submit_pacient.setOnClickListener{
-            val newPacient : Pacient = Pacient(1997, et_add_pacient_name.text.toString(), et_add_pacient_surname.text.toString(), et_add_pacient_age.text.toString().toInt(),
+            val newPacient : Pacient = Pacient(1997, et_add_pacient_name.text.toString(), et_add_pacient_surname.text.toString(), et_add_pacient_age.text.toString(),
                 et_add_pacient_cnp.text.toString(), et_add_pacient_dateIn.text.toString(), et_add_pacient_dateEx.text.toString())
 
         }

@@ -23,4 +23,15 @@ object SharedPreferenceManager {
         val pref = context.getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE)
         return pref.getString(Constants.PREFS_USER, "")
     }
+
+    fun savePacientId(context: Context, user: String) {
+        val pref = context.getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE)
+        pref.edit().putString(Constants.PREFS_USER, user).commit()
+
+    }
+
+    fun saveFileId(context: Context, user: String) {
+        val pref = context.getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE)
+        pref.edit().putString(Constants.PREFS_USER, user).commit()
+    }
 }

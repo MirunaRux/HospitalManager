@@ -16,12 +16,21 @@ class FilesAdapter (private val files: MutableList<File>) : RecyclerView.Adapter
 
     override fun getItemCount() = files.size
 
+    var onItemClick: ((File) -> Unit)? = null
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.file_id.text = files[position].id.toString()
+        holder.file_id.text = "File " + files[position].id
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val file_id : TextView = itemView.file_id
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        val file_id :TextView = itemView.file_id
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(files[adapterPosition])
+            }
+        }
     }
 
 }

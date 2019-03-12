@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.pacient
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,7 @@ class PacientsAdapter(private val pacients: MutableList<Pacient>) : RecyclerView
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.pacient_name.text = pacients[position].name
         holder.pacient_surname.text = pacients[position].surname
-        holder.pacient_age.text = pacients[position].age.toString()
+        holder.pacient_age.text = pacients[position].age
         holder.pacient_date_in.text = pacients[position].dateIn
         holder.pacient_date_ex.text = pacients[position].dateEx
     }

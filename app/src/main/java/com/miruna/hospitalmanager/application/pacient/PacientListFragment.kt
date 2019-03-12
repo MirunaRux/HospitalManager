@@ -1,18 +1,20 @@
 package com.miruna.hospitalmanager.application.pacient
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.EditText
 import com.miruna.hospitalmanager.R
-import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
-import kotlinx.android.synthetic.main.content_dashboard.*
+import com.miruna.hospitalmanager.application.signUp.SignUpActivity
+import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
 
@@ -21,7 +23,7 @@ private const val ARG_PARAM1 = "param1"
 
 class PacientListFragment : Fragment(){
     private var param1: String? = null
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: PacientDetailsFragment.OnFragmentInteractionListener? = null
     var pacients = mutableListOf<Pacient>()
     var displayPacients = mutableListOf<Pacient>()
     lateinit var onActivityFragmentCommunication : OnActivityFragmentCommunication
@@ -49,8 +51,8 @@ class PacientListFragment : Fragment(){
         val context : Context = view.getContext()
 
         for (i in 1..9){
-            pacients.add(Pacient(i, "Pacient" + i.toString(), "Pacient" + i.toString(), i,
-                null, "0"+i.toString()+".0"+i.toString()+".2018", "0"+i.toString()+".0"+i.toString()+".2018"))
+            pacients.add(Pacient(i, "Pacient" + i.toString(), "Pacient" + i.toString(), i.toString(),
+                "2971209152479", "0"+i.toString()+".0"+i.toString()+".2018", "0"+i.toString()+".0"+i.toString()+".2018"))
         }
 
         displayPacients.addAll(pacients)
@@ -58,7 +60,16 @@ class PacientListFragment : Fragment(){
             layoutManager = LinearLayoutManager(context)
             val adapter = PacientsAdapter(pacients)
             adapter.onItemClick = {
-                onActivityFragmentCommunication.onAddFragment("DETAILS_FRAGMENT", null , it)
+               // onActivityFragmentCommunication.onAddFragment("DETAILS_FRAGMENT", null , it)
+                val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
+                SharedPreferenceManager.savePacientId(context, it.id.toString())
+                pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
+                pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
+                pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
+                pacientDetailsIntent.putExtra("EXTRA_CNP", it.CNP)
+                pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
+                pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
+                startActivity(pacientDetailsIntent)
             }
             this.adapter = adapter
         }
@@ -80,10 +91,6 @@ class PacientListFragment : Fragment(){
         listener = null
     }
 
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.main, menu)

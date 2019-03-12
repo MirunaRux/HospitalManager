@@ -8,7 +8,7 @@ data class Pacient(
     val id: Int,
     val name: String,
     val surname: String,
-    val age: Int,
+    val age: String,
     val CNP: String?,
     val dateIn: String,
     val dateEx: String) : Parcelable, Cloneable{
@@ -28,7 +28,7 @@ data class Pacient(
         parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
