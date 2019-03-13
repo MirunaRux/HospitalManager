@@ -35,4 +35,8 @@
     <string name="text_submit">Submit</string>
     <string name="hint_location">Location</string>
     <string name="hint_number">Cantity</string>
+    <string name="hint_id">Id</string>
+    <string name="hint_content">Content</string>
+    <string name="hint_pacient_name">Pacient Name</string>
+    <string name="hint_doctor_name">Doctor Name</string>
 </resources>

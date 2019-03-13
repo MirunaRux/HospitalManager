@@ -41,6 +41,14 @@
         </activity>
         <activity android:name=".application.pacient.file.FileDetailsActivity">
         </activity>
+        <activity android:name=".application.pacient.file.AddPacientFileActivity">
+        </activity>
+        <activity android:name=".application.agenda.AddEventActivity">
+        </activity>
+        <activity android:name=".application.pacient.AddPacientActivity">
+        </activity>
+        <activity android:name=".application.drug.AddDrugActivity">
+        </activity>
     </application>
 
 </manifest>

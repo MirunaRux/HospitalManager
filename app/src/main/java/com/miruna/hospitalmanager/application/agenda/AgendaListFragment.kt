@@ -1,6 +1,8 @@
 package com.miruna.hospitalmanager.application.agenda
 
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +13,9 @@ import android.view.ViewGroup
 
 import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.fragment_agenda_list.*
+import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
+
+
 
 private const val ARG_PARAM1 = "param1"
 
@@ -18,6 +23,7 @@ private const val ARG_PARAM1 = "param1"
 class AgendaListFragment : Fragment() {
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +53,28 @@ class AgendaListFragment : Fragment() {
                 Event(i, "Eveniment" + i.toString(), "Locatie" + i.toString(), "Pacient" + i.toString(), "Doctor"+i.toString())
             )
         }
+
+        val bundle = Bundle()
+
+        mOnActivityFragmentCommunication.onAddObject("EVENT_LIST_FRAGMENT", bundle)
+
+        val newEvent = bundle.getParcelable<Event>("eveniment nou")
+
+        if(newEvent != null){
+            events.add(newEvent)
+        }
+
         recyclerViewAgendaList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = EventsAdapter(events)
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnActivityFragmentCommunication) {
+            this.mOnActivityFragmentCommunication = context
         }
     }
 

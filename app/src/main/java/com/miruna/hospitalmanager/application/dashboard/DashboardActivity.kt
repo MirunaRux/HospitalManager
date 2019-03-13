@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
@@ -12,32 +13,29 @@ import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import android.widget.TextView
+import com.miruna.hospitalmanager.application.agenda.AddEventActivity
 import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
+import com.miruna.hospitalmanager.application.agenda.Event
+import com.miruna.hospitalmanager.application.drug.AddDrugActivity
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
-import com.miruna.hospitalmanager.application.pacient.Pacient
+import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
+import kotlinx.android.synthetic.main.content_dashboard.*
 
 interface OnActivityFragmentCommunication {
-    fun onAddFragment(TAG: String, bundle: Bundle? = null, pacient : Pacient)
+    fun onAddObject(TAG: String, bundle: Bundle? = null)
 }
 
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnActivityFragmentCommunication {
 
-    override fun onAddFragment(TAG: String, bundle: Bundle?, pacient: Pacient) {
-        /*if(TAG.equals("DETAILS_FRAGMENT")) {
-            val pacientDetailsFragment = PacientDetailsFragment()
+    lateinit var newEvent : Event
 
-            bundle?.putParcelable("product", pacient.clone() as Pacient)
-            pacientDetailsFragment.setArguments(bundle)
+    override fun onAddObject(TAG: String, bundle: Bundle?) {
+        /*if(TAG.equals("EVENT_LIST_FRAGMENT")) {
+            val eventListFragment = AgendaListFragment()
 
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.addToBackStack(null).add(R.id.fragmentsContainer, pacientDetailsFragment).commit()
-        }else if (TAG.equals("ADD_NEW_PACIENT_FRAGMENT")){
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment = AddPacientFragment()
-            fragmentTransaction.add(R.id.fragmentsContainer, fragment)
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.commit()
+            bundle?.putParcelable("eveniment nou", newEvent)
+            eventListFragment.setArguments(bundle)
         }*/
 
     }
@@ -54,6 +52,25 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val headerView = navigationView.getHeaderView(0)
         val navUsername = headerView.findViewById(R.id.dashboard_username) as TextView
         navUsername.text = username + "     " + role
+
+        /*floating_button.setOnClickListener {
+            //if()
+            when (supportFragmentManager.fragments[supportFragmentManager.fragments.size]) {
+                is PacientListFragment ->{
+
+                }
+
+            }
+
+            val extraEventName = dahsboardIntent.getStringExtra("EXTRA_EVENT_NAME")
+            val extraEventLocation = dahsboardIntent.getStringExtra("EXTRA_EVENT_LOCATION")
+            val extraEventPacient = dahsboardIntent.getStringExtra("EXTRA_EVENT_PACIENT")
+            val extraEventDoctor = dahsboardIntent.getStringExtra("EXTRA_EVENT_DOCTOR")
+
+            if(extraEventName!= null && extraEventLocation != null && extraEventPacient != null && extraEventDoctor != null){
+                val newEvent = Event(10, extraEventName, extraEventLocation, extraEventPacient, extraEventDoctor)
+            }
+        }*/
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -77,23 +94,38 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_pacienti -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 val fragment = PacientListFragment()
-                fragmentTransaction.replace(R.id.content_dashboard, fragment)
+                fragmentTransaction.replace(R.id.content_dashboard, fragment, "PACIENT_LIST_FRAGMENT")
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
+
+                floating_button.setOnClickListener {
+                    val addPacientActivity: Intent =  Intent(this, AddPacientActivity::class.java)
+                    startActivity(addPacientActivity)
+                }
             }
             R.id.nav_agenda -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 val fragment = AgendaListFragment()
-                fragmentTransaction.replace(R.id.content_dashboard, fragment)
+                fragmentTransaction.replace(R.id.content_dashboard, fragment, "AGENDA_LIST_FRAGMENT")
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
+
+                floating_button.setOnClickListener {
+                    val addEventActivity: Intent =  Intent(this, AddEventActivity::class.java)
+                    startActivity(addEventActivity)
+                }
             }
             R.id.nav_medicamente -> {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 val fragment = DrugListFragment()
-                fragmentTransaction.replace(R.id.content_dashboard, fragment)
+                fragmentTransaction.replace(R.id.content_dashboard, fragment, "DRUGS_LIST_FRAGMENT")
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
+
+                floating_button.setOnClickListener {
+                    val addDrugActivity: Intent =  Intent(this, AddDrugActivity::class.java)
+                    startActivity(addDrugActivity)
+                }
             }
             R.id.nav_cereri -> {
 

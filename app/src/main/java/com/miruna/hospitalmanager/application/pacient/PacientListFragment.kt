@@ -27,6 +27,7 @@ class PacientListFragment : Fragment(){
     var pacients = mutableListOf<Pacient>()
     var displayPacients = mutableListOf<Pacient>()
     lateinit var onActivityFragmentCommunication : OnActivityFragmentCommunication
+    lateinit var newPacient : Pacient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,6 @@ class PacientListFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_pacient_list, container, false)
 
         return view
@@ -54,6 +54,22 @@ class PacientListFragment : Fragment(){
             pacients.add(Pacient(i, "Pacient" + i.toString(), "Pacient" + i.toString(), i.toString(),
                 "2971209152479", "0"+i.toString()+".0"+i.toString()+".2018", "0"+i.toString()+".0"+i.toString()+".2018"))
         }
+
+        /*val newPacient_id = arguments!!.getString("PACIENT_ID")
+        val newPacient_name = arguments!!.getString("PACIENT_NAME")
+        val newPacient_surname = arguments!!.getString("PACIENT_SURNAME")
+        val newPacient_age = arguments!!.getString("PACIENT_AGE")
+        val newPacient_cnp = arguments!!.getString("PACIENT_CNP")
+        val newPacient_date_in = arguments!!.getString("PACIENT_DATE_IN")
+        val newPacient_date_ex = arguments!!.getString("PACIENT_DATE_EX")
+
+        if(newPacient_id != null && newPacient_name != null && newPacient_surname != null && newPacient_age != null && newPacient_cnp != null &&
+            newPacient_date_in != null && newPacient_date_ex != null){
+            newPacient = Pacient(newPacient_id.toInt(), newPacient_name, newPacient_surname, newPacient_age, newPacient_cnp, newPacient_date_in, newPacient_date_ex)
+        }
+
+        if(newPacient != null)
+            pacients.add(newPacient)*/
 
         displayPacients.addAll(pacients)
         recyclerViewPacientList.apply {
