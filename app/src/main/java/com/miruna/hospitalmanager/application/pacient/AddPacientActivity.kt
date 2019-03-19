@@ -1,8 +1,12 @@
 package com.miruna.hospitalmanager.application.pacient
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.miruna.hospitalmanager.R
+import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
+import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.activity_add_pacient.*
 
 class AddPacientActivity : AppCompatActivity() {
@@ -21,8 +25,13 @@ class AddPacientActivity : AppCompatActivity() {
             bundle.putString("PACIENT_DATE_IN", et_add_pacient_dateIn.text.toString())
             bundle.putString("PACIENT_DATE_EX", et_add_pacient_dateEx.text.toString())
 
-            val pacientListFragment = PacientListFragment()
-            pacientListFragment.setArguments(bundle)
+
+            val dashboardIntent : Intent = Intent(this, DashboardActivity()::class.java)
+
+            dashboardIntent.putExtra("BUNDLE_EXTRA_PACIENT", bundle)
+
+            setResult(Constants.RESULT_CODE_ADD_PACIENT, dashboardIntent)
+
             finish()
         }
     }

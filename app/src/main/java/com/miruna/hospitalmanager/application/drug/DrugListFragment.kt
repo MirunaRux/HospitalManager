@@ -1,6 +1,7 @@
 package com.miruna.hospitalmanager.application.drug
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,20 +11,37 @@ import android.view.*
 import android.widget.EditText
 
 import com.miruna.hospitalmanager.R
+import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.fragment_drug_list.*
 
 private const val ARG_PARAM1 = "param1"
 
 class DrugListFragment : Fragment() {
-    private var param1: String? = null
-    private var listener: OnFragmentInteractionListener? = null
-    var drugs = mutableListOf<Drug>()
-    var displayDrugs = mutableListOf<Drug>()
+    private var param1 : String? = null
+    private var listener : OnFragmentInteractionListener? = null
+    var drugList : MutableList<Drug>? = null
+    var drugsAdapter : DrugsAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Constants.RESULT_CODE_ADD_DRUG) {
+            val bundle = data?.getBundleExtra("BUNDLE_EXTRA_DRUG") ?: return
+            val drugId = bundle.getString("DRUG_ID")?: ""
+            val drugName = bundle.getString("DRUG_NAME")?: ""
+            val drugNumber = bundle.getString("DRUG_NUMBER")?: ""
+            val newDrug = Drug(drugId.toInt(), drugName, drugNumber.toInt())
+
+            drugList?.add(newDrug)
+            drugsAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -42,14 +60,13 @@ class DrugListFragment : Fragment() {
 
         val context : Context = view.getContext()
 
-        for (i in 1..9){
-            drugs.add(
-                Drug(i, "Drug"+i.toString(), i*100)
-            )
-        }
+        drugList = DrugService().findAllDrugs()
+
         recyclerViewDrugList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DrugsAdapter(drugs)
+            drugsAdapter = DrugsAdapter(drugList!!)
+
+            this.adapter = drugsAdapter
         }
     }
 
@@ -65,42 +82,6 @@ class DrugListFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.main, menu)
-        val searchItem = menu?.findItem(R.id.menu_search)
-        if(searchItem != null){
-            val searchView = searchItem.actionView as SearchView
-            val editText = searchView.findViewById<EditText>(android.support.v7.appcompat.R.id.search_src_text)
-            editText.hint = "Search here..."
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query : String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextChange(newText : String?): Boolean {
-                    if(newText!!.isNotEmpty()){
-                        displayDrugs.clear()
-                        val search = newText.toLowerCase()
-                        drugs.forEach {
-                            if(it.name.toLowerCase().contains(search))
-                                displayDrugs.add(it)
-                        }
-
-                        recyclerViewDrugList.adapter?.notifyDataSetChanged()
-                    }else{
-                        displayDrugs.clear()
-                        displayDrugs.addAll(drugs)
-                        recyclerViewDrugList.adapter?.notifyDataSetChanged()
-                    }
-                    return true
-                }
-
-            })
-        }
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

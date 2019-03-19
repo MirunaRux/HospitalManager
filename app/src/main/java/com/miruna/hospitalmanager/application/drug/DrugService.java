@@ -1,0 +1,74 @@
+package com.miruna.hospitalmanager.application.drug;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class DrugService {
+    private static final AtomicInteger counter = new AtomicInteger();
+
+    private static List<Drug> drugs;
+
+    static {
+        drugs = populateDummyDrugs();
+    }
+
+    public List<Drug> findAllDrugs() {
+        return drugs;
+    }
+
+    public Drug findById(int id) {
+        for (Drug drug : drugs) {
+            if (drug.getId() == id) {
+                return drug;
+            }
+        }
+        return null;
+    }
+
+    public Drug findByName(String name) {
+        for (Drug drug : drugs) {
+            if (drug.getName().equalsIgnoreCase(name)) {
+                return drug;
+            }
+        }
+        return null;
+    }
+
+    public Drug createDrug(Drug drug) {
+        drugs.add(drug);
+        return drug;
+    }
+
+    public void updateDrug(Drug drug) {
+        int index = drugs.indexOf(drug);
+        drugs.set(index, drug);
+    }
+
+    public void deleteDrugById(int id) {
+        for (Iterator<Drug> iterator = drugs.iterator(); iterator.hasNext(); ) {
+            Drug drug = iterator.next();
+            if (drug.getId()== id) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public boolean isDrugExist(Drug drug) {
+        return findByName(drug.getName()) != null;
+    }
+
+    public void deleteAllDrugs() {
+        drugs.clear();
+    }
+
+    private static List<Drug> populateDummyDrugs() {
+        List<Drug> drugs = new ArrayList<Drug>();
+        for (int i = 1; i <= 9 ; i++) {
+            drugs.add(new Drug(i, "Drug"+i, i*100));
+        }
+
+        return drugs;
+    }
+}

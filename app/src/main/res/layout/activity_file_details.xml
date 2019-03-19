@@ -21,10 +21,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/file_details_content"
             app:layout_constraintTop_toBottomOf="@id/file_details_id"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_edit_file"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
+    />
+
+    <Button
+            android:id="@+id/btn_edit_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_edit"
+            app:layout_constraintTop_toBottomOf="@id/file_details_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
     />
 
 </android.support.constraint.ConstraintLayout>

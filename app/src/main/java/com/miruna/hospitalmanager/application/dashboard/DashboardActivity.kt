@@ -2,6 +2,7 @@ package com.miruna.hospitalmanager.application.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -19,7 +20,9 @@ import com.miruna.hospitalmanager.application.agenda.Event
 import com.miruna.hospitalmanager.application.drug.AddDrugActivity
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
 import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
+import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
+import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.content_dashboard.*
 
 interface OnActivityFragmentCommunication {
@@ -89,6 +92,16 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val fragment = supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1]
+        when(fragment){
+            is PacientListFragment -> fragment.onActivityResult(requestCode, resultCode,data)
+            is AgendaListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
+            is DrugListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_pacienti -> {
@@ -100,7 +113,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 floating_button.setOnClickListener {
                     val addPacientActivity: Intent =  Intent(this, AddPacientActivity::class.java)
-                    startActivity(addPacientActivity)
+                    startActivityForResult(addPacientActivity, Constants.RQUEST_CODE_ADD_PACIENT)
                 }
             }
             R.id.nav_agenda -> {
@@ -112,7 +125,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 floating_button.setOnClickListener {
                     val addEventActivity: Intent =  Intent(this, AddEventActivity::class.java)
-                    startActivity(addEventActivity)
+                    startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
                 }
             }
             R.id.nav_medicamente -> {
@@ -124,7 +137,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 floating_button.setOnClickListener {
                     val addDrugActivity: Intent =  Intent(this, AddDrugActivity::class.java)
-                    startActivity(addDrugActivity)
+                    startActivityForResult(addDrugActivity, Constants.RQUEST_CODE_ADD_DRUG)
                 }
             }
             R.id.nav_cereri -> {

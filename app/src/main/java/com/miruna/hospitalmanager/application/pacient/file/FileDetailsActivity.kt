@@ -15,7 +15,28 @@ class FileDetailsActivity : AppCompatActivity() {
         val pacientFileDetailsIntent : Intent = getIntent()
         val extraId = pacientFileDetailsIntent.getStringExtra("EXTRA_ID")
         val extraContent = pacientFileDetailsIntent.getStringExtra("EXTRA_CONTENT")
-        file_details_id.setText("File : " + extraId)
-        file_details_content.setText(extraContent)
+        val editFileContentIntent : Intent = Intent(this, EditFileContentActivity()::class.java)
+
+        btn_edit_file.setOnClickListener {
+            editFileContentIntent.putExtra("EXTRA_CONTENT_MODIFIED", file_details_content.text.toString())
+            editFileContentIntent.putExtra("EXTRA_ID_MODIFIED", file_details_id.text.toString())
+            startActivity(editFileContentIntent)
+            finish()
+        }
+
+        val extraUpdatedFileContent = editFileContentIntent.getStringExtra("EXTRA_UPDATED_FILE_CONTENT")
+        val extraUpdatedFileId = editFileContentIntent.getStringExtra("EXTRA_UPDATED_FILE_ID")
+
+        if(extraUpdatedFileContent!= null && extraUpdatedFileId!= null && !(extraUpdatedFileContent.equals(file_details_content.text.toString()))){
+            file_details_content.setText(extraUpdatedFileContent)
+            file_details_id.setText("File : " + extraUpdatedFileId)
+
+        }
+        else{
+            file_details_content.setText(extraContent)
+            file_details_id.setText("File : " + extraId)
+
+        }
     }
+
 }

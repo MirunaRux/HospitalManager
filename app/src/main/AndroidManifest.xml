@@ -32,7 +32,8 @@
         <activity
                 android:name=".application.dashboard.DashboardActivity"
                 android:label="@string/title_activity_dashboard"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:launchMode="singleTop">
         </activity>
         <activity
                 android:name=".application.pacient.PacientDetailsActivity"
@@ -48,6 +49,8 @@
         <activity android:name=".application.pacient.AddPacientActivity">
         </activity>
         <activity android:name=".application.drug.AddDrugActivity">
+        </activity>
+        <activity android:name=".application.pacient.file.EditFileContentActivity">
         </activity>
     </application>
 

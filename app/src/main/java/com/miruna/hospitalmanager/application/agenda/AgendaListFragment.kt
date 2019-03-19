@@ -2,7 +2,6 @@ package com.miruna.hospitalmanager.application.agenda
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,7 +13,7 @@ import android.view.ViewGroup
 import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
-
+import com.miruna.hospitalmanager.application.utils.Constants
 
 
 private const val ARG_PARAM1 = "param1"
@@ -24,11 +23,30 @@ class AgendaListFragment : Fragment() {
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
+    var eventList: MutableList<Event>? = null
+    var eventsAdapter:EventsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
+            val bundle = data?.getBundleExtra("BUNDLE_EXTRA_EVENT") ?: return
+            val eventId = bundle.getString("EVENT_ID")?: ""
+            val eventName = bundle.getString("EVENT_NAME")?: ""
+            val eventLocation = bundle.getString("EVENT_LOCATION")?: ""
+            val eventPacient = bundle.getString("EVENT_PACIENT")?: ""
+            val eventDoctor = bundle.getString("EVENT_DOCTOR")?: ""
+            val newEvent = Event(eventId.toInt(), eventName, eventLocation, eventPacient, eventDoctor)
+
+            eventList?.add(newEvent)
+            eventsAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -47,26 +65,12 @@ class AgendaListFragment : Fragment() {
 
         val context : Context = view.getContext()
 
-        var events = mutableListOf<Event>()
-        for (i in 1..9){
-            events.add(
-                Event(i, "Eveniment" + i.toString(), "Locatie" + i.toString(), "Pacient" + i.toString(), "Doctor"+i.toString())
-            )
-        }
-
-        val bundle = Bundle()
-
-        mOnActivityFragmentCommunication.onAddObject("EVENT_LIST_FRAGMENT", bundle)
-
-        val newEvent = bundle.getParcelable<Event>("eveniment nou")
-
-        if(newEvent != null){
-            events.add(newEvent)
-        }
+        eventList = EventService().findAllEvents()
 
         recyclerViewAgendaList.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = EventsAdapter(events)
+            eventsAdapter = EventsAdapter(eventList!!)
+            this.adapter = eventsAdapter
         }
     }
 
