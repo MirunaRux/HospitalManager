@@ -15,7 +15,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_save_updates"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_username">
+            android:hint="@string/hint_content">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_file_content"
                 android:layout_width="match_parent"

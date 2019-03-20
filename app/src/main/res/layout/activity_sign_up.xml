@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".application.signUp.SignUpActivity">
+        tools:context=".application.signUp.SignUpActivity"
+        android:background="@drawable/gradient_backgorund">
     <ImageView
             android:id="@+id/img_contact"
             android:layout_width="@dimen/img_contact_dimension"
@@ -24,11 +25,14 @@
             app:layout_constraintBottom_toTopOf="@id/til_signUp_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_username">
+            android:hint="@string/hint_username"
+            android:textColorHint="@color/colorAccent">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_username"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/medium_text"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -39,11 +43,14 @@
             app:layout_constraintBottom_toBottomOf="@id/til_signUp_surname"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_name">
+            android:hint="@string/hint_name"
+            android:textColorHint="@color/colorAccent">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/medium_text"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -54,11 +61,14 @@
             app:layout_constraintBottom_toTopOf="@id/spinner_signUp_role"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_surname">
+            android:hint="@string/hint_surname"
+            android:textColorHint="@color/colorAccent">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_surname"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/medium_text"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -70,13 +80,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/hint_password"
+            android:textColorHint="@color/colorAccent"
             app:passwordToggleEnabled="true">
 
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/medium_text"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -89,13 +102,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/hint_password"
+            android:textColorHint="@color/colorAccent"
             app:passwordToggleEnabled="true">
 
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_signUp_re_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/medium_text"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -103,13 +119,14 @@
             android:id="@+id/spinner_signUp_role"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:entries="@array/gender_array"
+            android:entries="@array/job_array"
             android:popupBackground="@color/colorSpinner"
             app:layout_constraintTop_toBottomOf="@id/til_signUp_surname"
             app:layout_constraintBottom_toTopOf="@id/btn_save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1">
+            app:layout_constraintHorizontal_bias="0.1"
+            android:spinnerMode="dialog">
     </Spinner>
 
     <Button
@@ -121,6 +138,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/medium_text"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/rounded_button"
     />
 
 </android.support.constraint.ConstraintLayout>

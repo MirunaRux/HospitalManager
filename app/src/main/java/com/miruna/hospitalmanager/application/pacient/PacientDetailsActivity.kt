@@ -5,15 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.miruna.hospitalmanager.R
-import com.miruna.hospitalmanager.application.pacient.file.AddPacientFileActivity
-import com.miruna.hospitalmanager.application.pacient.file.File
-import com.miruna.hospitalmanager.application.pacient.file.FileDetailsActivity
-import com.miruna.hospitalmanager.application.pacient.file.FilesAdapter
+import com.miruna.hospitalmanager.application.pacient.file.*
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_pacient_details.*
 
 class PacientDetailsActivity : AppCompatActivity() {
-    var files = mutableListOf<File>()
+    var fileList : MutableList<File>? = null
+    var filesAdapter:FilesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,25 +35,23 @@ class PacientDetailsActivity : AppCompatActivity() {
         pacient_date_in.setText("Check-in date : " + extraDateIn)
         pacient_date_ex.setText("Check-out date : " + extraDateEx)
 
-        for (i in 1..9){
-            files.add(File(i.toString(), "Fisa pacient "+ i.toString()))
-        }
+        fileList = FileService().findAllFiles()
 
         if(extraFileId != null && extraFileContent != null){
-            files.add(File(extraFileId, extraFileContent))
+            fileList?.add(File(extraFileId, extraFileContent))
         }
 
         recyclerViewPacientFileList.apply {
             layoutManager = LinearLayoutManager(context)
-            val adapter = FilesAdapter(files)
-            adapter.onItemClick = {
+            val filesAdapter = FilesAdapter(fileList!!)
+            filesAdapter?.onItemClick = {
                 val pacientFileDetailsIntent = Intent(context, FileDetailsActivity::class.java)
                 SharedPreferenceManager.saveFileId(context, it.id)
                 pacientFileDetailsIntent.putExtra("EXTRA_ID", it.id)
                 pacientFileDetailsIntent.putExtra("EXTRA_CONTENT", it.content)
                 startActivity(pacientFileDetailsIntent)
             }
-            this.adapter = adapter
+            this.adapter = filesAdapter
         }
 
         floating_button_addFile.setOnClickListener {

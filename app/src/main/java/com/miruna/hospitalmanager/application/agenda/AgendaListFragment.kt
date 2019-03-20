@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.agenda
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +15,10 @@ import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
 import com.miruna.hospitalmanager.application.utils.Constants
+import kotlinx.android.synthetic.main.event_alert_dialog.*
+import android.support.v4.widget.SwipeRefreshLayout
+
+
 
 
 private const val ARG_PARAM1 = "param1"
@@ -56,7 +61,6 @@ class AgendaListFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_agenda_list, container, false)
-
         return view
     }
 
@@ -70,6 +74,18 @@ class AgendaListFragment : Fragment() {
         recyclerViewAgendaList.apply {
             layoutManager = LinearLayoutManager(context)
             eventsAdapter = EventsAdapter(eventList!!)
+
+            eventsAdapter?.onItemClick = {
+                val event = it
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.event_alert_dialog, null)
+                val dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
+                val  alertDialog = dialogBuilder.show()
+
+                alertDialog.btn_dialog_delete.setOnClickListener {
+                    EventService().deleteEventById(event.id)
+                    alertDialog.dismiss()
+                }
+            }
             this.adapter = eventsAdapter
         }
     }

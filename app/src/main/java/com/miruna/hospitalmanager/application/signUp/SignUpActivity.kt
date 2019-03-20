@@ -26,6 +26,13 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val loginIntent : Intent = Intent(this, LoginActivity()::class.java)
+        startActivity(loginIntent)
+        finish()
+    }
+
     fun isInputValid(): Boolean {
 
         if (et_signUp_username.text.isNullOrEmpty()) {

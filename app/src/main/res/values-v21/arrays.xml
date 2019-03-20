@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="gender_array">
+    <string-array name="job_array">
         <item>@string/select_role</item>
         <item>@string/role_medic</item>
         <item>@string/role_asistent</item>
         <item>@string/role_farmacist</item>
-        <item>@string/role_manager</item>
     </string-array>
 
 </resources>

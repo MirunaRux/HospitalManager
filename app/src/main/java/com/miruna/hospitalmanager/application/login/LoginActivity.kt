@@ -8,6 +8,11 @@ import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
 import com.miruna.hospitalmanager.application.signUp.SignUpActivity
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_login.*
+import android.widget.Spinner
+
+
+
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -19,6 +24,11 @@ class LoginActivity : AppCompatActivity() {
         val extraUsername = loginIntent.getStringExtra("EXTRA_USERNAME")
         val extraRole = loginIntent.getStringExtra("EXTRA_ROLE")
         et_login_username.setText(extraUsername)
+
+        if(extraRole!= null){
+            spinner_login_role.setSelection(getIndex(spinner_login_role, extraRole))
+        }
+
         btn_login.setOnClickListener{
             val dashboardIntent = Intent(this, DashboardActivity::class.java)
             if (isInputValid()) {
@@ -36,20 +46,15 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        /*checkBox_constraint_remember.setOnCheckedChangeListener { buttonView, isChecked ->
-            SharedPreferenceManager.saveRememberMe(
-                this@LoginActivity)
-        }*/
-
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-    fun goToDashboard(){
-
+    private fun getIndex(spinner: Spinner, myString: String): Int {
+        for (i in 0 .. spinner.count) {
+            if (spinner.getItemAtPosition(i).toString().equals(myString, ignoreCase = true)) {
+                return i
+            }
+        }
+        return 0
     }
 
     fun isInputValid(): Boolean {

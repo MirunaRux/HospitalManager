@@ -16,16 +16,24 @@ class EventsAdapter (private val events: MutableList<Event>) : RecyclerView.Adap
 
     override fun getItemCount() = events.size
 
+    var onItemClick: ((Event) -> Unit)? = null
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.event_name.text = events[position].name
         holder.location.text = events[position].location
         holder.pacient.text = events[position].pacientName
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         val event_name : TextView = itemView.event_name
         val location : TextView = itemView.location
         val pacient : TextView = itemView.pacient
-    }
 
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(events[adapterPosition])
+            }
+        }
+    }
 }
