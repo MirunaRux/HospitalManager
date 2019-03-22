@@ -22,6 +22,7 @@ import com.miruna.hospitalmanager.application.drug.DrugListFragment
 import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
 import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
+import com.miruna.hospitalmanager.application.request.RequestListFragment
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.content_dashboard.*
 
@@ -141,7 +142,11 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 }
             }
             R.id.nav_cereri -> {
-
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                val fragment = RequestListFragment()
+                fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                fragmentTransaction.commit()
             }
         }
 

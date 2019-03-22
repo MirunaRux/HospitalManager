@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.event_alert_dialog.*
-import android.support.v4.widget.SwipeRefreshLayout
 
 
 
