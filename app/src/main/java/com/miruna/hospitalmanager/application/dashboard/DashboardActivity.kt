@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.dashboard
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SyncStateContract
@@ -22,6 +23,7 @@ import com.miruna.hospitalmanager.application.drug.DrugListFragment
 import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
 import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
+import com.miruna.hospitalmanager.application.request.AddRequestFragment
 import com.miruna.hospitalmanager.application.request.RequestListFragment
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.content_dashboard.*
@@ -57,25 +59,6 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val navUsername = headerView.findViewById(R.id.dashboard_username) as TextView
         navUsername.text = username + "     " + role
 
-        /*floating_button.setOnClickListener {
-            //if()
-            when (supportFragmentManager.fragments[supportFragmentManager.fragments.size]) {
-                is PacientListFragment ->{
-
-                }
-
-            }
-
-            val extraEventName = dahsboardIntent.getStringExtra("EXTRA_EVENT_NAME")
-            val extraEventLocation = dahsboardIntent.getStringExtra("EXTRA_EVENT_LOCATION")
-            val extraEventPacient = dahsboardIntent.getStringExtra("EXTRA_EVENT_PACIENT")
-            val extraEventDoctor = dahsboardIntent.getStringExtra("EXTRA_EVENT_DOCTOR")
-
-            if(extraEventName!= null && extraEventLocation != null && extraEventPacient != null && extraEventDoctor != null){
-                val newEvent = Event(10, extraEventName, extraEventLocation, extraEventPacient, extraEventDoctor)
-            }
-        }*/
-
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
@@ -103,6 +86,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_pacienti -> {
@@ -112,9 +96,14 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
 
-                floating_button.setOnClickListener {
-                    val addPacientActivity: Intent =  Intent(this, AddPacientActivity::class.java)
-                    startActivityForResult(addPacientActivity, Constants.RQUEST_CODE_ADD_PACIENT)
+                val role = getIntent().getStringExtra("EXTRA_ROLE")
+                if(role.equals("Asistent")) {
+                    floating_button.setOnClickListener {
+                        val addPacientActivity: Intent = Intent(this, AddPacientActivity::class.java)
+                        startActivityForResult(addPacientActivity, Constants.RQUEST_CODE_ADD_PACIENT)
+                    }
+                }else{
+                    floating_button.visibility = View.INVISIBLE
                 }
             }
             R.id.nav_agenda -> {
@@ -124,9 +113,15 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
 
-                floating_button.setOnClickListener {
-                    val addEventActivity: Intent =  Intent(this, AddEventActivity::class.java)
-                    startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
+                val role = getIntent().getStringExtra("EXTRA_ROLE")
+                if(role.equals("Asistent")) {
+                    floating_button.setOnClickListener {
+                        val addEventActivity: Intent = Intent(this, AddEventActivity::class.java)
+                        startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
+                    }
+                }else
+                {
+                    floating_button.visibility = View.INVISIBLE
                 }
             }
             R.id.nav_medicamente -> {
@@ -135,18 +130,33 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.replace(R.id.content_dashboard, fragment, "DRUGS_LIST_FRAGMENT")
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
-
-                floating_button.setOnClickListener {
-                    val addDrugActivity: Intent =  Intent(this, AddDrugActivity::class.java)
-                    startActivityForResult(addDrugActivity, Constants.RQUEST_CODE_ADD_DRUG)
+                val role = getIntent().getStringExtra("EXTRA_ROLE")
+                if(role.equals("Farmacist")) {
+                    floating_button.setOnClickListener {
+                        val addDrugActivity: Intent =  Intent(this, AddDrugActivity::class.java)
+                        startActivityForResult(addDrugActivity, Constants.RQUEST_CODE_ADD_DRUG)
+                    }
+                }else{
+                    floating_button.visibility = View.INVISIBLE
                 }
             }
             R.id.nav_cereri -> {
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                val fragment = RequestListFragment()
-                fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                fragmentTransaction.commit()
+                val role = getIntent().getStringExtra("EXTRA_ROLE")
+                if(role.equals("Farmacist")){
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    val fragment = AddRequestFragment()
+                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "ADD_REQUESTS_FRAGMENT")
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    fragmentTransaction.commit()
+                }else{
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    val fragment = RequestListFragment()
+                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    fragmentTransaction.commit()
+                }
+
+                floating_button.visibility = View.INVISIBLE
             }
         }
 
