@@ -18,9 +18,9 @@ public class RequestService {
         return requests;
     }
 
-    public Request findById(int id) {
+    public Request findById(String id) {
         for (Request request : requests) {
-            if (request.getId()== id) {
+            if (request.getId().equals(id)) {
                 return request;
             }
         }
@@ -37,10 +37,10 @@ public class RequestService {
         requests.set(index, request);
     }
 
-    public void deleteRequestById(int id) {
+    public void deleteRequestById(String id) {
         for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {
             Request request = iterator.next();
-            if (request.getId() == id) {
+            if (request.getId().equals(id)) {
                 iterator.remove();
             }
         }
@@ -57,7 +57,7 @@ public class RequestService {
     private static List<Request> populateDummyRequests() {
         List<Request> requests = new ArrayList<Request>();
         for (int i = 1; i <= 9 ; i++) {
-            requests.add(new Request(i, "Drug" + i, i));
+            requests.add(new Request(i + "", "Drug" + i, i));
         }
 
         return requests;

@@ -38,7 +38,7 @@ class DrugListFragment : Fragment() {
             val drugId = bundle.getString("DRUG_ID")?: ""
             val drugName = bundle.getString("DRUG_NAME")?: ""
             val drugNumber = bundle.getString("DRUG_NUMBER")?: ""
-            val newDrug = Drug(drugId.toInt(), drugName, drugNumber.toInt())
+            val newDrug = Drug(drugId, drugName, drugNumber.toInt())
 
             drugList?.add(newDrug)
             drugsAdapter?.notifyDataSetChanged()

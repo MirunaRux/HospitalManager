@@ -8,23 +8,40 @@ import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.activity_add_pacient.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPacientActivity : AppCompatActivity() {
 
-    private fun getDatePickerListener() =
+    private fun getDatePickerListener_et_dateIn() =
         DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
+            calendar.time?.let {
+                et_add_pacient_dateIn.setText(it.formatToStringByPattern(Constants.DATE_FORMAT_MDY))
+            }
         }
+    private fun getDatePickerListener_et_dateEx() =
+        DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
+            calendar.time?.let {
+                et_add_pacient_dateEx.setText(it.formatToStringByPattern(Constants.DATE_FORMAT_MDY))
+            }
+        }
+
+    fun Date.formatToStringByPattern(pattern: String): String{
+        val df = SimpleDateFormat(pattern)
+        return df.format(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_pacient)
 
         var calendar : Calendar
-        var datePicker : DatePickerDialog
 
         btn_pick_dateIn.setOnClickListener {
             calendar = Calendar.getInstance()
@@ -34,49 +51,86 @@ class AddPacientActivity : AppCompatActivity() {
             var year : Int = calendar.get(Calendar.YEAR)
             val datePickerDialog = DatePickerDialog(
                 this,
-                getDatePickerListener(),
+                getDatePickerListener_et_dateIn(),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
-            et_add_pacient_dateIn.setText(datePickerDialog.toString())
-
+            datePickerDialog.show()
         }
         btn_pick_dateEx.setOnClickListener {
             calendar = Calendar.getInstance()
-
-            var day : Int = calendar.get(Calendar.DAY_OF_MONTH)
-            var month : Int = calendar.get(Calendar.MONTH)
-            var year : Int = calendar.get(Calendar.YEAR)
             val datePickerDialog = DatePickerDialog(
                 this,
-                getDatePickerListener(),
+                getDatePickerListener_et_dateEx(),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
-            et_add_pacient_dateEx.setText(datePickerDialog.toString())
-
+            datePickerDialog.show()
         }
 
         btn_submit_pacient.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("PACIENT_ID", et_add_pacient_id.text.toString())
-            bundle.putString("PACIENT_NAME", et_add_pacient_name.text.toString())
-            bundle.putString("PACIENT_SURNAME", et_add_pacient_surname.text.toString())
-            bundle.putString("PACIENT_AGE", et_add_pacient_age.text.toString())
-            bundle.putString("PACIENT_CNP", et_add_pacient_cnp.text.toString())
-            bundle.putString("PACIENT_DATE_IN", et_add_pacient_dateIn.text.toString())
-            bundle.putString("PACIENT_DATE_EX", et_add_pacient_dateEx.text.toString())
+            if(isInputValid()){
+                val bundle = Bundle()
+                bundle.putString("PACIENT_ID", et_add_pacient_id.text.toString())
+                bundle.putString("PACIENT_NAME", et_add_pacient_name.text.toString())
+                bundle.putString("PACIENT_SURNAME", et_add_pacient_surname.text.toString())
+                bundle.putString("PACIENT_AGE", et_add_pacient_age.text.toString())
+                bundle.putString("PACIENT_CNP", et_add_pacient_cnp.text.toString())
+                bundle.putString("PACIENT_DATE_IN", et_add_pacient_dateIn.text.toString())
+                bundle.putString("PACIENT_DATE_EX", et_add_pacient_dateEx.text.toString())
 
 
-            val dashboardIntent : Intent = Intent(this, DashboardActivity()::class.java)
+                val dashboardIntent : Intent = Intent(this, DashboardActivity()::class.java)
 
-            dashboardIntent.putExtra("BUNDLE_EXTRA_PACIENT", bundle)
+                dashboardIntent.putExtra("BUNDLE_EXTRA_PACIENT", bundle)
 
-            setResult(Constants.RESULT_CODE_ADD_PACIENT, dashboardIntent)
+                setResult(Constants.RESULT_CODE_ADD_PACIENT, dashboardIntent)
 
-            finish()
+                finish()
+            }
         }
+    }
+
+    fun isInputValid(): Boolean {
+
+        if (et_add_pacient_id.text.isNullOrEmpty()) {
+            til_add_pacient_id.setError("Field required")
+            et_add_pacient_id.requestFocus()
+            return false
+        }
+        if (et_add_pacient_name.text.isNullOrEmpty()) {
+            til_add_pacient_name.setError("Field required")
+            et_add_pacient_name.requestFocus()
+            return false
+        }
+        if (et_add_pacient_surname.text.isNullOrEmpty()) {
+            til_add_pacient_surname.setError("Field required")
+            et_add_pacient_surname.requestFocus()
+            return false
+        }
+        if (et_add_pacient_age.text.isNullOrEmpty()) {
+            til_add_pacient_age.setError("Field required")
+            et_add_pacient_age.requestFocus()
+            return false
+        }
+        if (et_add_pacient_cnp.text.isNullOrEmpty()) {
+            til_add_pacient_cnp.setError("Field required")
+            et_add_pacient_cnp.requestFocus()
+            return false
+        }
+        if (et_add_pacient_dateIn.text.isNullOrEmpty()) {
+            til_add_pacient_dateIn.setError("Field required")
+            et_add_pacient_dateIn.requestFocus()
+            return false
+        }
+        if (et_add_pacient_dateEx.text.isNullOrEmpty()) {
+            til_add_pacient_dateEx.setError("Field required")
+            et_add_pacient_dateEx.requestFocus()
+            return false
+        }
+
+        return true
     }
 }

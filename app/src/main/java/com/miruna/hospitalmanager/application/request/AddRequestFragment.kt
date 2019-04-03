@@ -10,6 +10,7 @@ import android.view.ViewGroup
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
+import kotlinx.android.synthetic.main.fragment_add_request.*
 
 private const val ARG_PARAM1 = "param1"
 
@@ -64,5 +65,26 @@ class AddRequestFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                 }
             }
+    }
+
+    fun isInputValid(): Boolean {
+
+        if (et_addRequest_id.text.isNullOrEmpty()) {
+            til_addRequest_id.setError("Field required")
+            et_addRequest_id.requestFocus()
+            return false
+        }
+        if (et_addRequest_drug_name.text.isNullOrEmpty()) {
+            til_addRequest_drug_name.setError("Field required")
+            et_addRequest_drug_name.requestFocus()
+            return false
+        }
+        if (et_addRequest_cantity.text.isNullOrEmpty()) {
+            til_addRequest_cantity.setError("Field required")
+            et_addRequest_cantity.requestFocus()
+            return false
+        }
+
+        return true
     }
 }

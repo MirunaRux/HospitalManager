@@ -18,9 +18,9 @@ public class EventService {
         return events;
     }
 
-    public Event findById(int id) {
+    public Event findById(String id) {
         for (Event event : events) {
-            if (event.getId()== id) {
+            if (event.getId().equals(id)) {
                 return event;
             }
         }
@@ -46,10 +46,10 @@ public class EventService {
         events.set(index, event);
     }
 
-    public void deleteEventById(int id) {
+    public void deleteEventById(String id) {
         for (Iterator<Event> iterator = events.iterator(); iterator.hasNext(); ) {
             Event event = iterator.next();
-            if (event.getId() == id) {
+            if (event.getId().equals(id)) {
                 iterator.remove();
             }
         }
@@ -66,7 +66,7 @@ public class EventService {
     private static List<Event> populateDummyEvents() {
         List<Event> events = new ArrayList<Event>();
         for (int i = 1; i <= 9 ; i++) {
-            events.add(new Event(i, "Eveniment" + i, "Locatie" + i, "Pacient" + i, "Doctor"+i));
+            events.add(new Event(i + "", "Eveniment" + i, "Locatie" + i, "Pacient" + i, "Doctor"+i));
         }
 
         return events;

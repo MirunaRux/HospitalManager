@@ -47,4 +47,5 @@
     <string name="hint_drug_name">Drug name</string>
     <string name="hint_cantity">Cantity</string>
     <string name="pick_date">Pick date</string>
+    <string name="search">Search</string>
 </resources>

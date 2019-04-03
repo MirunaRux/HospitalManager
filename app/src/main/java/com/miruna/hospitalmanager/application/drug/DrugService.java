@@ -18,9 +18,9 @@ public class DrugService {
         return drugs;
     }
 
-    public Drug findById(int id) {
+    public Drug findById(String id) {
         for (Drug drug : drugs) {
-            if (drug.getId() == id) {
+            if (drug.getId().equals(id)) {
                 return drug;
             }
         }
@@ -46,10 +46,10 @@ public class DrugService {
         drugs.set(index, drug);
     }
 
-    public void deleteDrugById(int id) {
+    public void deleteDrugById(String id) {
         for (Iterator<Drug> iterator = drugs.iterator(); iterator.hasNext(); ) {
             Drug drug = iterator.next();
-            if (drug.getId()== id) {
+            if (drug.getId().equals(id)) {
                 iterator.remove();
             }
         }
@@ -66,7 +66,7 @@ public class DrugService {
     private static List<Drug> populateDummyDrugs() {
         List<Drug> drugs = new ArrayList<Drug>();
         for (int i = 1; i <= 9 ; i++) {
-            drugs.add(new Drug(i, "Drug"+i, i*100));
+            drugs.add(new Drug(i+"", "Drug"+i, i*100));
         }
 
         return drugs;

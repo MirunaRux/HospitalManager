@@ -4,22 +4,21 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Event (
-    var id : Int,
+    var id : String,
     var name : String,
     var location : String,
     var pacientName : String,
-    var doctorUsername: String): Parcelable, Cloneable {
+    var doctorUsername: String
+): Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
-
+    )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(location)
         parcel.writeString(pacientName)

@@ -33,6 +33,16 @@
                 android:padding="10dp"/>
 
         <Button
+                android:id="@+id/search_pacient_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/search"
+                android:textColor="@color/colorAccent"/>
+
+        <Button
                 android:id="@+id/cancel_search_pacient_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

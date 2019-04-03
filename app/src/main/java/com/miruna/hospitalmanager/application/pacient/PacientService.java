@@ -27,13 +27,14 @@ public class PacientService {
         return null;
     }
 
-    public Pacient findByName(String name) {
-        for (Pacient pacient : pacients) {
+    public List<Pacient> findByName(List<Pacient> pacientsAux, String name) {
+        List<Pacient> result = new ArrayList<>();
+        for (Pacient pacient : pacientsAux) {
             if (pacient.getName().equalsIgnoreCase(name)) {
-                return pacient;
+                result.add(pacient);
             }
         }
-        return null;
+        return result;
     }
 
     public Pacient createPacient(Pacient pacient) {
@@ -56,7 +57,7 @@ public class PacientService {
     }
 
     public boolean isPacientExist(Pacient pacient) {
-        return findByName(pacient.getName()) != null;
+        return findByName(pacients, pacient.getName()) != null;
     }
 
     public void deleteAllPacients() {

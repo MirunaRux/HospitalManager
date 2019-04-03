@@ -4,18 +4,18 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Request(
-    var id : Int,
+    var id : String,
     var drugName : String,
     var cantity : Int
 ):Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeString(id)
         parcel.writeString(drugName)
         parcel.writeInt(cantity)
     }

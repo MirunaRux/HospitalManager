@@ -14,10 +14,28 @@ class AddPacientFileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_pacient_file)
 
         btn_submit_file.setOnClickListener {
-            val pacientDetailsIntent = Intent(this, PacientDetailsActivity::class.java)
-            pacientDetailsIntent.putExtra("EXTRA_FILE_ID", et_addFile_id.text.toString())
-            pacientDetailsIntent.putExtra("EXTRA_FILE_CONTENT", et_addFile_content.text.toString())
-            startActivity(pacientDetailsIntent)
+            if(isInputValid()){
+                val pacientDetailsIntent = Intent(this, PacientDetailsActivity::class.java)
+                pacientDetailsIntent.putExtra("EXTRA_FILE_ID", et_addFile_id.text.toString())
+                pacientDetailsIntent.putExtra("EXTRA_FILE_CONTENT", et_addFile_content.text.toString())
+                startActivity(pacientDetailsIntent)
+            }
         }
+    }
+
+    fun isInputValid(): Boolean {
+
+        if (et_addFile_id.text.isNullOrEmpty()) {
+            til_addFile_id.setError("Field required")
+            et_addFile_id.requestFocus()
+            return false
+        }
+        if (et_addFile_content.text.isNullOrEmpty()) {
+            til_addFile_content.setError("Field required")
+            et_addFile_content.requestFocus()
+            return false
+        }
+
+        return true
     }
 }

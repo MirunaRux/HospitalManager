@@ -16,10 +16,6 @@ import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.event_alert_dialog.*
-
-
-
-
 private const val ARG_PARAM1 = "param1"
 
 
@@ -47,7 +43,7 @@ class AgendaListFragment : Fragment() {
             val eventLocation = bundle.getString("EVENT_LOCATION")?: ""
             val eventPacient = bundle.getString("EVENT_PACIENT")?: ""
             val eventDoctor = bundle.getString("EVENT_DOCTOR")?: ""
-            val newEvent = Event(eventId.toInt(), eventName, eventLocation, eventPacient, eventDoctor)
+            val newEvent = Event(eventId, eventName, eventLocation, eventPacient, eventDoctor)
 
             eventList?.add(newEvent)
             eventsAdapter?.notifyDataSetChanged()

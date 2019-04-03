@@ -23,10 +23,10 @@ private const val ARG_PARAM1 = "param1"
 
 class PacientListFragment : Fragment() {
     private var param1: String? = null
-    private var listener: PacientDetailsFragment.OnFragmentInteractionListener? = null
+    private var listener: OnFragmentInteractionListener? = null
     lateinit var onActivityFragmentCommunication: OnActivityFragmentCommunication
     var pacientList: MutableList<Pacient>? = null
-    var pcientsAdapter:PacientsAdapter? = null
+    var pacientsAdapter: PacientsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,17 +41,18 @@ class PacientListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_PACIENT) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_PACIENT") ?: return
-            val pacientId = bundle.getString("PACIENT_ID")?: ""
-            val pacientName = bundle.getString("PACIENT_NAME")?: ""
-            val pacientSurname = bundle.getString("PACIENT_SURNAME")?: ""
-            val pacientAge = bundle.getString("PACIENT_AGE")?: ""
-            val pacientCNP = bundle.getString("PACIENT_CNP")?: ""
-            val pacientDateIn = bundle.getString("PACIENT_DATE_IN")?: ""
-            val pacientDateEx = bundle.getString("PACIENT_DATE_EX")?: ""
-            val newPacient = Pacient(pacientId, pacientName, pacientSurname, pacientAge, pacientCNP, pacientDateIn, pacientDateEx)
+            val pacientId = bundle.getString("PACIENT_ID") ?: ""
+            val pacientName = bundle.getString("PACIENT_NAME") ?: ""
+            val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
+            val pacientAge = bundle.getString("PACIENT_AGE") ?: ""
+            val pacientCNP = bundle.getString("PACIENT_CNP") ?: ""
+            val pacientDateIn = bundle.getString("PACIENT_DATE_IN") ?: ""
+            val pacientDateEx = bundle.getString("PACIENT_DATE_EX") ?: ""
+            val newPacient =
+                Pacient(pacientId, pacientName, pacientSurname, pacientAge, pacientCNP, pacientDateIn, pacientDateEx)
 
             pacientList?.add(newPacient)
-            pcientsAdapter?.notifyDataSetChanged()
+            pacientsAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -67,23 +68,30 @@ class PacientListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*et_search_pacient.addTextChangedListener(textChangedListener)
-        et_search_pacient.setOnEditorActionListener(doneInputListener)
-
-       searchbar_pacient_container.setPadding(0, getStatusBarHeight(), 0, 0)
-
-        cancel_search_pacient_button.setOnClickListener { mHandleFragmentsCallback?.onRemoveFragment(FragmentTags.TAG_FRAGMENT_SEARCH_USER_DATA) }
-
-        setupResultsList()*/
-
         val context: Context = view.getContext()
 
-         pacientList = PacientService().findAllPacients()
+        pacientList = PacientService().findAllPacients()
+
+        var pacientListAux = pacientList
+
+        search_pacient_button.setOnClickListener {
+
+            PacientService().findByName(pacientList, et_search_pacient.text.toString())?.let{
+                pacientListAux?.addAll(it)
+                pacientsAdapter = PacientsAdapter(pacientListAux!!)
+                pacientsAdapter?.notifyDataSetChanged()
+            }
+        }
+
+        cancel_search_pacient_button.setOnClickListener {
+            pacientsAdapter = PacientsAdapter(pacientList!!)
+            pacientsAdapter?.notifyDataSetChanged()
+        }
 
         recyclerViewPacientList.apply {
             layoutManager = LinearLayoutManager(context)
-            pcientsAdapter = PacientsAdapter(pacientList!!)
-            pcientsAdapter?.onItemClick = {
+            pacientsAdapter = PacientsAdapter(pacientList!!)
+            pacientsAdapter?.onItemClick = {
                 val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
                 SharedPreferenceManager.savePacientId(context, it.id)
                 pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
@@ -94,65 +102,9 @@ class PacientListFragment : Fragment() {
                 pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
                 startActivity(pacientDetailsIntent)
             }
-            this.adapter = pcientsAdapter
+            this.adapter = pacientsAdapter
         }
     }
-
-   /* private fun setupResultsList() {
-        val linearLayoutManager = LinearLayoutManager(context)
-        recyclerViewPacientList.apply {
-            layoutManager = LinearLayoutManager(context)
-            pcientsAdapter = PacientsAdapter(pacientList!!)
-            pcientsAdapter?.onItemClick = {
-                val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
-                SharedPreferenceManager.savePacientId(context, it.id)
-                pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
-                pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
-                pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
-                pacientDetailsIntent.putExtra("EXTRA_CNP", it.CNP)
-                pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
-                pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
-                startActivity(pacientDetailsIntent)
-            }
-            this.adapter = pcientsAdapter
-        }
-    }
-
-    private fun returnValueAsResult(data: Any) {
-        *//*val intent = Intent()
-        intent.putExtra(fieldOption.value, resultJson)
-        this@PacientListFragment.targetFragment?.onActivityResult(targetRequestCode, fieldOption.id, intent)*//*
-    }
-
-    private val textChangedListener = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            *//*val value = s.toString().trim()
-
-            if (value.length > 1) {
-                getLocationsList(value)
-            }*//*
-        }
-
-    }
-
-    private val doneInputListener = TextView.OnEditorActionListener { v, actionId, _ ->
-        when (actionId) {
-            EditorInfo.IME_ACTION_DONE -> {
-                return@OnEditorActionListener true
-            }
-        }
-
-        false
-    }
-*/
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -160,6 +112,11 @@ class PacientListFragment : Fragment() {
             onActivityFragmentCommunication = context
         }
     }
+
+    interface OnFragmentInteractionListener {
+        fun onFragmentInteraction(uri: Uri)
+    }
+
 
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)

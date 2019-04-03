@@ -1,13 +1,15 @@
-package com.miruna.hospitalmanager.application.pacient.file
+package com.miruna.hospitalmanager.application.signUp
 
 import android.os.Parcel
 import android.os.Parcelable
 
-data class File (
-    val id : String,
-    val content : String
+data class User (
+    var username : String,
+    var password : String,
+    var role : String
 ):Parcelable, Cloneable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString()
     )
@@ -19,12 +21,12 @@ data class File (
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    companion object CREATOR : Parcelable.Creator<File> {
-        override fun createFromParcel(parcel: Parcel): File {
-            return File(parcel)
+    companion object CREATOR : Parcelable.Creator<User> {
+        override fun createFromParcel(parcel: Parcel): User {
+            return User(parcel)
         }
 
-        override fun newArray(size: Int): Array<File?> {
+        override fun newArray(size: Int): Array<User?> {
             return arrayOfNulls(size)
         }
     }
