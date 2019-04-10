@@ -10,11 +10,10 @@ public class RequestService {
 
     private static List<Request> requests;
 
-    static {
-        requests = populateDummyRequests();
-    }
-
     public List<Request> findAllRequests() {
+
+        requests =  RequestDao.findAllRequests();
+
         return requests;
     }
 

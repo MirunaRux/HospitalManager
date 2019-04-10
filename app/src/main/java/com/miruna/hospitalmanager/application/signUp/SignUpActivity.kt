@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
 
+    lateinit var user: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -20,6 +22,13 @@ class SignUpActivity : AppCompatActivity() {
                 SharedPreferenceManager.saveUsername(this, til_signUp_username.toString())
                 loginIntent.putExtra("EXTRA_USERNAME", et_signUp_username.text.toString())
                 loginIntent.putExtra("EXTRA_ROLE", spinner_signUp_role.selectedItem.toString())
+
+                user = User(
+                    et_signUp_username.text.toString(),
+                    et_signUp_password.text.toString(),
+                    spinner_signUp_role.selectedItem.toString()
+                )
+
                 startActivity(loginIntent)
                 finish()
             }
@@ -28,7 +37,7 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val loginIntent : Intent = Intent(this, LoginActivity()::class.java)
+        val loginIntent: Intent = Intent(this, LoginActivity()::class.java)
         startActivity(loginIntent)
         finish()
     }

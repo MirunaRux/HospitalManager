@@ -1,7 +1,9 @@
 package com.miruna.hospitalmanager.application.request
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,6 +13,8 @@ import android.view.ViewGroup
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
+import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
+import kotlinx.android.synthetic.main.fragment_pacient_list.*
 import kotlinx.android.synthetic.main.fragment_request_list.*
 
 private const val ARG_PARAM1 = "param1"
@@ -20,7 +24,7 @@ class RequestListFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
     var requestList: MutableList<Request>? = null
-    var requestsAdapter:RequestsAdapter? = null
+    var requestsAdapter: RequestsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,22 +40,12 @@ class RequestListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_request_list, container, false)
     }
 
-    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context : Context = view.getContext()
+        val context: Context = view.getContext()
 
-        requestList = RequestService().findAllRequests()
-
-        recyclerViewRequestList.apply {
-            layoutManager = LinearLayoutManager(context)
-            requestsAdapter = RequestsAdapter(requestList!!)
-
-            requestsAdapter?.onItemClick = {
-
-            }
-            this.adapter = requestsAdapter
-        }
+        getAllRequestsTask().execute()
     }
 
     override fun onAttach(context: Context?) {
@@ -80,5 +74,30 @@ class RequestListFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                 }
             }
+    }
+
+    private inner class getAllRequestsTask : AsyncTask<Void, Void, List<Request>>() {
+        override fun doInBackground(vararg params: Void): List<Request>? {
+            try {
+                return RequestService().findAllRequests()
+            } catch (e: Exception) {
+
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacients: List<Request>?) {
+            requestList = RequestService().findAllRequests()
+
+            recyclerViewRequestList.apply {
+                layoutManager = LinearLayoutManager(context)
+                requestsAdapter = RequestsAdapter(requestList!!)
+
+                requestsAdapter?.onItemClick = {
+
+                }
+                this.adapter = requestsAdapter
+            }
+        }
     }
 }

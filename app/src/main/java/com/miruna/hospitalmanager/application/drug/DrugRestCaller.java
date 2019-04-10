@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class DrugRestCaller {
     private final static Logger logger = Logger.getLogger(DrugRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.45:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,7 +30,7 @@ public class DrugRestCaller {
     public static Drug[] getAllDrugs() {
         try {
             ResponseEntity<Drug[]> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Drug/", Drug[].class);
+                    REST_SERVICE_URI + "/drug/", Drug[].class);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -43,7 +43,7 @@ public class DrugRestCaller {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("id", id);
             ResponseEntity<Drug> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Drug/{id}", Drug.class, parameters);
+                    REST_SERVICE_URI + "/drug/{id}", Drug.class, parameters);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -54,23 +54,23 @@ public class DrugRestCaller {
     public static Drug createDrug(Drug newDrug) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Drug> DrugEntity = new HttpEntity<>(newDrug, httpHeaders);
-        ResponseEntity<Drug> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Drug/", DrugEntity, Drug.class);
+        HttpEntity<Drug> drugEntity = new HttpEntity<>(newDrug, httpHeaders);
+        ResponseEntity<Drug> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/drug/", drugEntity, Drug.class);
         return response.getBody();
     }
 
-    public static Drug updateDrug(Drug Drug) {
-        if(Drug == null || Drug.getId() == null || Drug.getId().isEmpty()) {
+    public static Drug updateDrug(Drug drug) {
+        if(drug == null || drug.getId() == null || drug.getId().isEmpty()) {
             return null;
         }
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("id", Drug.getId());
+        parameters.put("id", drug.getId());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Drug> DrugEntity = new HttpEntity<>(Drug, httpHeaders);
-        ResponseEntity<Drug> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Drug/{id}", DrugEntity, Drug.class, parameters);
+        HttpEntity<Drug> drugEntity = new HttpEntity<>(drug, httpHeaders);
+        ResponseEntity<Drug> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/drug/{id}", drugEntity, Drug.class, parameters);
         return response.getBody();
     }
 
@@ -81,6 +81,6 @@ public class DrugRestCaller {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", id);
-        getRestTemplate().delete(REST_SERVICE_URI + "/Drug/{id}", parameters);
+        getRestTemplate().delete(REST_SERVICE_URI + "/drug/{id}", parameters);
     }
 }

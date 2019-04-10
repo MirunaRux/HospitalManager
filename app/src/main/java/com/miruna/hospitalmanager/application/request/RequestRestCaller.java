@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class RequestRestCaller {
     private final static Logger logger = Logger.getLogger(RequestRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.45:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,7 +30,7 @@ public class RequestRestCaller {
     public static Request[] getAllRequests() {
         try {
             ResponseEntity<Request[]> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Request/", Request[].class);
+                    REST_SERVICE_URI + "/request/", Request[].class);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -54,23 +54,23 @@ public class RequestRestCaller {
     public static Request createRequest(Request newRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Request> RequestEntity = new HttpEntity<>(newRequest, httpHeaders);
-        ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Request/", RequestEntity, Request.class);
+        HttpEntity<Request> requestEntity = new HttpEntity<>(newRequest, httpHeaders);
+        ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/request/", requestEntity, Request.class);
         return response.getBody();
     }
 
-    public static Request updateRequest(Request Request) {
-        if(Request == null || Request.getId() == null || Request.getId().isEmpty()) {
+    public static Request updateRequest(Request request) {
+        if(request == null || request.getId() == null || request.getId().isEmpty()) {
             return null;
         }
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("id", Request.getId());
+        parameters.put("id", request.getId());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Request> RequestEntity = new HttpEntity<>(Request, httpHeaders);
-        ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Request/{id}", RequestEntity, Request.class, parameters);
+        HttpEntity<Request> requestEntity = new HttpEntity<>(request, httpHeaders);
+        ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/request/{id}", requestEntity, Request.class, parameters);
         return response.getBody();
     }
 
@@ -81,6 +81,6 @@ public class RequestRestCaller {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", id);
-        getRestTemplate().delete(REST_SERVICE_URI + "/Request/{id}", parameters);
+        getRestTemplate().delete(REST_SERVICE_URI + "/request/{id}", parameters);
     }
 }

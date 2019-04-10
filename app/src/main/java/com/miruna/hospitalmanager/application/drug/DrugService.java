@@ -10,11 +10,10 @@ public class DrugService {
 
     private static List<Drug> drugs;
 
-    static {
-        drugs = populateDummyDrugs();
-    }
-
     public List<Drug> findAllDrugs() {
+
+        drugs = DrugDao.findAllDrugs();
+
         return drugs;
     }
 

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class EventRestCaller {
     private final static Logger logger = Logger.getLogger(EventRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.45:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,7 +30,7 @@ public class EventRestCaller {
     public static Event[] getAllEvents() {
         try {
             ResponseEntity<Event[]> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Event/", Event[].class);
+                    REST_SERVICE_URI + "/event/", Event[].class);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -43,7 +43,7 @@ public class EventRestCaller {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("id", id);
             ResponseEntity<Event> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Event/{id}", Event.class, parameters);
+                    REST_SERVICE_URI + "/event/{id}", Event.class, parameters);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -54,23 +54,23 @@ public class EventRestCaller {
     public static Event createEvent(Event newEvent) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Event> EventEntity = new HttpEntity<>(newEvent, httpHeaders);
-        ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Event/", EventEntity, Event.class);
+        HttpEntity<Event> eventEntity = new HttpEntity<>(newEvent, httpHeaders);
+        ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/event/", eventEntity, Event.class);
         return response.getBody();
     }
 
-    public static Event updateEvent(Event Event) {
-        if(Event == null || Event.getId() == null || Event.getId().isEmpty()) {
+    public static Event updateEvent(Event event) {
+        if(event == null || event.getId() == null || event.getId().isEmpty()) {
             return null;
         }
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("id", Event.getId());
+        parameters.put("id", event.getId());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Event> EventEntity = new HttpEntity<>(Event, httpHeaders);
-        ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Event/{id}", EventEntity, Event.class, parameters);
+        HttpEntity<Event> eventEntity = new HttpEntity<>(event, httpHeaders);
+        ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/event/{id}", eventEntity, Event.class, parameters);
         return response.getBody();
     }
 
@@ -81,6 +81,6 @@ public class EventRestCaller {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", id);
-        getRestTemplate().delete(REST_SERVICE_URI + "/Event/{id}", parameters);
+        getRestTemplate().delete(REST_SERVICE_URI + "/event/{id}", parameters);
     }
 }

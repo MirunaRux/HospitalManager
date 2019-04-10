@@ -3,6 +3,7 @@ package com.miruna.hospitalmanager.application.drug
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,15 +13,17 @@ import android.widget.EditText
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.utils.Constants
+import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_drug_list.*
+import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
 private const val ARG_PARAM1 = "param1"
 
 class DrugListFragment : Fragment() {
-    private var param1 : String? = null
-    private var listener : OnFragmentInteractionListener? = null
-    var drugList : MutableList<Drug>? = null
-    var drugsAdapter : DrugsAdapter? = null
+    private var param1: String? = null
+    private var listener: OnFragmentInteractionListener? = null
+    var drugList: MutableList<Drug>? = null
+    var drugsAdapter: DrugsAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +38,9 @@ class DrugListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_DRUG) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_DRUG") ?: return
-            val drugId = bundle.getString("DRUG_ID")?: ""
-            val drugName = bundle.getString("DRUG_NAME")?: ""
-            val drugNumber = bundle.getString("DRUG_NUMBER")?: ""
+            val drugId = bundle.getString("DRUG_ID") ?: ""
+            val drugName = bundle.getString("DRUG_NAME") ?: ""
+            val drugNumber = bundle.getString("DRUG_NUMBER") ?: ""
             val newDrug = Drug(drugId, drugName, drugNumber.toInt())
 
             drugList?.add(newDrug)
@@ -55,19 +58,12 @@ class DrugListFragment : Fragment() {
         return view
     }
 
-    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context : Context = view.getContext()
+        val context: Context = view.getContext()
 
-        drugList = DrugService().findAllDrugs()
-
-        recyclerViewDrugList.apply {
-            layoutManager = LinearLayoutManager(context)
-            drugsAdapter = DrugsAdapter(drugList!!)
-
-            this.adapter = drugsAdapter
-        }
+        getAllDrugsTask().execute()
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -93,5 +89,30 @@ class DrugListFragment : Fragment() {
                     putString(ARG_PARAM1, param1.toString())
                 }
             }
+    }
+
+    private inner class getAllDrugsTask : AsyncTask<Void, Void, List<Drug>>() {
+        override fun doInBackground(vararg params: Void): List<Drug>? {
+            try {
+                return DrugService().findAllDrugs()
+            } catch (e: Exception) {
+
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(pacients: List<Drug>?) {
+
+            drugList = DrugService().findAllDrugs()
+
+            recyclerViewDrugList.apply {
+                layoutManager = LinearLayoutManager(context)
+                drugsAdapter = DrugsAdapter(drugList!!)
+
+                this.adapter = drugsAdapter
+            }
+        }
+
     }
 }

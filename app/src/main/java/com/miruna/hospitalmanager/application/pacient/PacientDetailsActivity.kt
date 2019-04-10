@@ -1,6 +1,7 @@
 package com.miruna.hospitalmanager.application.pacient
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -35,28 +36,46 @@ class PacientDetailsActivity : AppCompatActivity() {
         pacient_date_in.setText("Check-in date : " + extraDateIn)
         pacient_date_ex.setText("Check-out date : " + extraDateEx)
 
-        fileList = FileService().findAllFiles()
+        getAllFilesTask().execute()
 
         if(extraFileId != null && extraFileContent != null){
             fileList?.add(File(extraFileId, extraFileContent))
         }
 
-        recyclerViewPacientFileList.apply {
-            layoutManager = LinearLayoutManager(context)
-            val filesAdapter = FilesAdapter(fileList!!)
-            filesAdapter?.onItemClick = {
-                val pacientFileDetailsIntent = Intent(context, FileDetailsActivity::class.java)
-                SharedPreferenceManager.saveFileId(context, it.id)
-                pacientFileDetailsIntent.putExtra("EXTRA_ID", it.id)
-                pacientFileDetailsIntent.putExtra("EXTRA_CONTENT", it.content)
-                startActivity(pacientFileDetailsIntent)
-            }
-            this.adapter = filesAdapter
-        }
 
         floating_button_addFile.setOnClickListener {
             val addPacientFileIntent = Intent(this, AddPacientFileActivity::class.java)
             startActivity(addPacientFileIntent)
+        }
+
+    }
+
+    private inner class getAllFilesTask : AsyncTask<Void, Void, List<File>>() {
+        override fun doInBackground(vararg params: Void): List<File>? {
+            try {
+                return FileService().findAllFiles()
+            } catch (e: Exception) {
+
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(pacients: List<File>?) {
+            fileList = FileService().findAllFiles()
+
+            recyclerViewPacientFileList.apply {
+                layoutManager = LinearLayoutManager(context)
+                val filesAdapter = FilesAdapter(fileList!!)
+                filesAdapter?.onItemClick = {
+                    val pacientFileDetailsIntent = Intent(context, FileDetailsActivity::class.java)
+                    SharedPreferenceManager.saveFileId(context, it.id)
+                    pacientFileDetailsIntent.putExtra("EXTRA_ID", it.id)
+                    pacientFileDetailsIntent.putExtra("EXTRA_CONTENT", it.content)
+                    startActivity(pacientFileDetailsIntent)
+                }
+                this.adapter = filesAdapter
+            }
         }
 
     }

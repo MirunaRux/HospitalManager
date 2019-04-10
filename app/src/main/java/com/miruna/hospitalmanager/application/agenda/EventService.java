@@ -1,8 +1,6 @@
 package com.miruna.hospitalmanager.application.agenda;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventService {
@@ -10,11 +8,10 @@ public class EventService {
 
     private static List<Event> events;
 
-    static {
-        events = populateDummyEvents();
-    }
-
     public List<Event> findAllEvents() {
+
+        events = EventDao.findAllEvents();
+
         return events;
     }
 
@@ -66,7 +63,7 @@ public class EventService {
     private static List<Event> populateDummyEvents() {
         List<Event> events = new ArrayList<Event>();
         for (int i = 1; i <= 9 ; i++) {
-            events.add(new Event(i + "", "Eveniment" + i, "Locatie" + i, "Pacient" + i, "Doctor"+i));
+            events.add(new Event(i + "", "Eveniment" + i, "Locatie" + i, Calendar.getInstance().getTime(), "Pacient" + i, "Doctor"+i));
         }
 
         return events;

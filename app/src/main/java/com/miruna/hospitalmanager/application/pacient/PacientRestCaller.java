@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class PacientRestCaller {
     private final static Logger logger = Logger.getLogger(PacientRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.45:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,10 +30,18 @@ public class PacientRestCaller {
     public static Pacient[] getAllPacients() {
         try {
             ResponseEntity<Pacient[]> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Pacient/", Pacient[].class);
-            return response.getBody();
+                    REST_SERVICE_URI + "/patient/", Pacient[].class);
+
+            Pacient pacients[] = response.getBody();
+            /*Pacient[] resultList = new Pacient[pacient.length];
+            for (int i = 0; i < resultList.length; i++) {
+                Pacient p = pacient[i];
+                resultList[i] = new Pacient(p.getId(), p.getName(), p.getSurname(), "", "", "", "");
+            }*/
+            return pacients;
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
+           e.printStackTrace();
         }
         return new Pacient[0];
     }
@@ -43,7 +51,7 @@ public class PacientRestCaller {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("id", id);
             ResponseEntity<Pacient> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/Pacient/{id}", Pacient.class, parameters);
+                    REST_SERVICE_URI + "/patient/{id}", Pacient.class, parameters);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -54,23 +62,23 @@ public class PacientRestCaller {
     public static Pacient createPacient(Pacient newPacient) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Pacient> PacientEntity = new HttpEntity<>(newPacient, httpHeaders);
-        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Pacient/", PacientEntity, Pacient.class);
+        HttpEntity<Pacient> pacientEntity = new HttpEntity<>(newPacient, httpHeaders);
+        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/patient/", pacientEntity, Pacient.class);
         return response.getBody();
     }
 
-    public static Pacient updatePacient(Pacient Pacient) {
-        if(Pacient == null || Pacient.getId() == null || Pacient.getId().isEmpty()) {
+    public static Pacient updatePacient(Pacient pacient) {
+        if(pacient == null || pacient.getId() == null || pacient.getId().isEmpty()) {
             return null;
         }
 
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("id", Pacient.getId());
+        parameters.put("id", pacient.getId());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
-        HttpEntity<Pacient> PacientEntity = new HttpEntity<>(Pacient, httpHeaders);
-        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/Pacient/{id}", PacientEntity, Pacient.class, parameters);
+        HttpEntity<Pacient> pacientEntity = new HttpEntity<>(pacient, httpHeaders);
+        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/patient/{id}", pacientEntity, Pacient.class, parameters);
         return response.getBody();
     }
 
@@ -81,6 +89,6 @@ public class PacientRestCaller {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", id);
-        getRestTemplate().delete(REST_SERVICE_URI + "/Pacient/{id}", parameters);
+        getRestTemplate().delete(REST_SERVICE_URI + "/patient/{id}", parameters);
     }
 }

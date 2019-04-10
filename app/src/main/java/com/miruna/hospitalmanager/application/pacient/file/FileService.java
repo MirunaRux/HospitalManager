@@ -10,11 +10,10 @@ public class FileService {
 
     private static List<File> files;
 
-    static {
-        files = populateDummyFiles();
-    }
-
     public List<File> findAllFiles() {
+
+        files = FileDao.findAllFiles();
+
         return files;
     }
 

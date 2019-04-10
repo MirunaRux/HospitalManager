@@ -16,6 +16,9 @@ import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommun
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_pacient_list.*
 import com.miruna.hospitalmanager.application.utils.Constants
+import android.widget.ArrayAdapter
+import android.os.AsyncTask
+import android.widget.Toast
 
 
 private const val ARG_PARAM1 = "param1"
@@ -45,13 +48,19 @@ class PacientListFragment : Fragment() {
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
             val pacientAge = bundle.getString("PACIENT_AGE") ?: ""
-            val pacientCNP = bundle.getString("PACIENT_CNP") ?: ""
+            val pacientCnp = bundle.getString("PACIENT_cnp") ?: ""
             val pacientDateIn = bundle.getString("PACIENT_DATE_IN") ?: ""
             val pacientDateEx = bundle.getString("PACIENT_DATE_EX") ?: ""
-            val newPacient =
-                Pacient(pacientId, pacientName, pacientSurname, pacientAge, pacientCNP, pacientDateIn, pacientDateEx)
-
-            pacientList?.add(newPacient)
+            val newPacient = Pacient(pacientId, pacientName, pacientSurname, pacientAge, pacientCnp, pacientDateIn, pacientDateEx)
+            /*newPacient.id = pacientId
+            newPacient.name = pacientName
+            newPacient.surname = pacientSurname
+            newPacient.age = pacientAge
+            newPacient.cnp = pacientcnp
+            newPacient.dateIn = pacientDateIn
+            newPacient.dateEx = pacientDateEx*/
+            PacientService().createPacient(newPacient)
+           // pacientList?.add(newPacient)
             pacientsAdapter?.notifyDataSetChanged()
         }
     }
@@ -70,15 +79,13 @@ class PacientListFragment : Fragment() {
 
         val context: Context = view.getContext()
 
-        pacientList = PacientService().findAllPacients()
-
-        var pacientListAux = pacientList
-
         search_pacient_button.setOnClickListener {
 
-            PacientService().findByName(pacientList, et_search_pacient.text.toString())?.let{
+            PacientService().findByName(pacientList, et_search_pacient.text.toString())?.let {
+                var pacientListAux: MutableList<Pacient>? = arrayListOf()
                 pacientListAux?.addAll(it)
-                pacientsAdapter = PacientsAdapter(pacientListAux!!)
+                pacientList = pacientListAux
+                //pacientsAdapter = PacientsAdapter(pacientListAux!!)
                 pacientsAdapter?.notifyDataSetChanged()
             }
         }
@@ -88,22 +95,7 @@ class PacientListFragment : Fragment() {
             pacientsAdapter?.notifyDataSetChanged()
         }
 
-        recyclerViewPacientList.apply {
-            layoutManager = LinearLayoutManager(context)
-            pacientsAdapter = PacientsAdapter(pacientList!!)
-            pacientsAdapter?.onItemClick = {
-                val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
-                SharedPreferenceManager.savePacientId(context, it.id)
-                pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
-                pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
-                pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
-                pacientDetailsIntent.putExtra("EXTRA_CNP", it.CNP)
-                pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
-                pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
-                startActivity(pacientDetailsIntent)
-            }
-            this.adapter = pacientsAdapter
-        }
+        getAllPacientsTask().execute()
     }
 
     override fun onAttach(context: Context?) {
@@ -136,6 +128,41 @@ class PacientListFragment : Fragment() {
                     putString(ARG_PARAM1, param1.toString())
                 }
             }
+
+    }
+
+    private inner class getAllPacientsTask : AsyncTask<Void, Void, List<Pacient>>() {
+        override fun doInBackground(vararg params: Void): List<Pacient>? {
+            try {
+                return PacientService().findAllPacients()
+            } catch (e: Exception) {
+
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(pacients: List<Pacient>?) {
+
+            pacientList = pacients as MutableList<Pacient>?
+
+            recyclerViewPacientList.apply {
+                layoutManager = LinearLayoutManager(context)
+                pacientsAdapter = PacientsAdapter(pacientList!!)
+                pacientsAdapter?.onItemClick = {
+                    val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
+                    SharedPreferenceManager.savePacientId(context, it.id)
+                    pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
+                    pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
+                    pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
+                    pacientDetailsIntent.putExtra("EXTRA_cnp", it.cnp)
+                    pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
+                    pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
+                    startActivity(pacientDetailsIntent)
+                }
+                this.adapter = pacientsAdapter
+            }
+        }
 
     }
 }

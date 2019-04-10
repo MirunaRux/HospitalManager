@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -15,7 +16,12 @@ import com.miruna.hospitalmanager.R
 import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
 import com.miruna.hospitalmanager.application.utils.Constants
+import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.event_alert_dialog.*
+import kotlinx.android.synthetic.main.fragment_pacient_list.*
+import java.text.SimpleDateFormat
+import java.util.*
+
 private const val ARG_PARAM1 = "param1"
 
 
@@ -24,7 +30,7 @@ class AgendaListFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
     var eventList: MutableList<Event>? = null
-    var eventsAdapter:EventsAdapter? = null
+    var eventsAdapter: EventsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +44,18 @@ class AgendaListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_EVENT") ?: return
-            val eventId = bundle.getString("EVENT_ID")?: ""
-            val eventName = bundle.getString("EVENT_NAME")?: ""
-            val eventLocation = bundle.getString("EVENT_LOCATION")?: ""
-            val eventPacient = bundle.getString("EVENT_PACIENT")?: ""
-            val eventDoctor = bundle.getString("EVENT_DOCTOR")?: ""
-            val newEvent = Event(eventId, eventName, eventLocation, eventPacient, eventDoctor)
+            val eventId = bundle.getString("EVENT_ID") ?: ""
+            val eventName = bundle.getString("EVENT_NAME") ?: ""
+            val eventLocation = bundle.getString("EVENT_LOCATION") ?: ""
+            //val eventStartTime = bundle.getString("EVENT_START_TIME")?: ""
+            val eventPacient = bundle.getString("EVENT_PACIENT") ?: ""
+            val eventDoctor = bundle.getString("EVENT_DOCTOR") ?: ""
+
+            /* val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_MDY)
+             val date : Date = dateFormat.parse(eventStartTime)*/
+
+            val newEvent =
+                Event(eventId, eventName, eventLocation, Calendar.getInstance().getTime(), eventPacient, eventDoctor)
 
             eventList?.add(newEvent)
             eventsAdapter?.notifyDataSetChanged()
@@ -59,30 +71,12 @@ class AgendaListFragment : Fragment() {
         return view
     }
 
-    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context : Context = view.getContext()
+        val context: Context = view.getContext()
 
-        eventList = EventService().findAllEvents()
-
-        recyclerViewAgendaList.apply {
-            layoutManager = LinearLayoutManager(context)
-            eventsAdapter = EventsAdapter(eventList!!)
-
-            eventsAdapter?.onItemClick = {
-                val event = it
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.event_alert_dialog, null)
-                val dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
-                val  alertDialog = dialogBuilder.show()
-
-                alertDialog.btn_dialog_delete.setOnClickListener {
-                    EventService().deleteEventById(event.id)
-                    alertDialog.dismiss()
-                }
-            }
-            this.adapter = eventsAdapter
-        }
+        getAllEventsTask().execute()
     }
 
     override fun onAttach(context: Context?) {
@@ -117,5 +111,39 @@ class AgendaListFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                 }
             }
+    }
+
+    private inner class getAllEventsTask : AsyncTask<Void, Void, List<Event>>() {
+        override fun doInBackground(vararg params: Void): List<Event>? {
+            try {
+                return EventService().findAllEvents()
+            } catch (e: Exception) {
+
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacients: List<Event>?) {
+
+            eventList = EventService().findAllEvents()
+
+            recyclerViewAgendaList.apply {
+                layoutManager = LinearLayoutManager(context)
+                eventsAdapter = EventsAdapter(eventList!!)
+
+                eventsAdapter?.onItemClick = {
+                    val event = it
+                    val dialogView = LayoutInflater.from(context).inflate(R.layout.event_alert_dialog, null)
+                    val dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
+                    val alertDialog = dialogBuilder.show()
+
+                    alertDialog.btn_dialog_delete.setOnClickListener {
+                        EventService().deleteEventById(event.id)
+                        alertDialog.dismiss()
+                    }
+                }
+                this.adapter = eventsAdapter
+            }
+        }
     }
 }

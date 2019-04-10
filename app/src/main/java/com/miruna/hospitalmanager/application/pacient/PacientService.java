@@ -10,11 +10,10 @@ public class PacientService {
 
     private static List<Pacient> pacients;
 
-    static {
-        pacients = populateDummyPacients();
-    }
-
     public List<Pacient> findAllPacients() {
+
+        pacients = PacientDao.findAllPacients();
+
         return pacients;
     }
 

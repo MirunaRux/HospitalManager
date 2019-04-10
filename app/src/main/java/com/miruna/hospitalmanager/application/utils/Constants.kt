@@ -19,6 +19,8 @@ object Constants {
     val RQUEST_CODE_ADD_DRUG = 222
     val RESULT_CODE_ADD_DRUG = 333
     val DATE_FORMAT_MDY = "MMM dd, yyyy"
+    val DATE_FORMAT_MDYHM = "yyyy-MM-dd'T'HH:mm"
+    val TIME_FORMAT_HHmm = "HH:mm"
     fun showKeyboard(context: Context) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)

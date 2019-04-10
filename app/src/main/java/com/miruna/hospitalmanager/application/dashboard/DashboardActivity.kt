@@ -46,6 +46,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -65,7 +66,25 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        //set agenda as default fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment = AgendaListFragment()
+        fragmentTransaction.replace(R.id.content_dashboard, fragment, "AGENDA_LIST_FRAGMENT")
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragmentTransaction.commit()
+
+        if(role.equals("Asistent")) {
+            floating_button.setOnClickListener {
+                val addEventActivity: Intent = Intent(this, AddEventActivity::class.java)
+                startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
+            }
+        }else
+        {
+            floating_button.visibility = View.INVISIBLE
+        }
+
         nav_view.setNavigationItemSelectedListener(this)
+        nav_view.menu.getItem(1).isChecked = true
     }
 
     override fun onBackPressed() {

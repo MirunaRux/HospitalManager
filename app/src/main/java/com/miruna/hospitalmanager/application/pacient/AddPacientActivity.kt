@@ -22,6 +22,7 @@ class AddPacientActivity : AppCompatActivity() {
                 et_add_pacient_dateIn.setText(it.formatToStringByPattern(Constants.DATE_FORMAT_MDY))
             }
         }
+
     private fun getDatePickerListener_et_dateEx() =
         DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
@@ -32,7 +33,7 @@ class AddPacientActivity : AppCompatActivity() {
             }
         }
 
-    fun Date.formatToStringByPattern(pattern: String): String{
+    fun Date.formatToStringByPattern(pattern: String): String {
         val df = SimpleDateFormat(pattern)
         return df.format(this)
     }
@@ -41,14 +42,14 @@ class AddPacientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_pacient)
 
-        var calendar : Calendar
+        var calendar: Calendar
 
-        btn_pick_dateIn.setOnClickListener {
+        et_add_pacient_dateIn.setOnClickListener {
             calendar = Calendar.getInstance()
 
-            var day : Int = calendar.get(Calendar.DAY_OF_MONTH)
-            var month : Int = calendar.get(Calendar.MONTH)
-            var year : Int = calendar.get(Calendar.YEAR)
+            var day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+            var month: Int = calendar.get(Calendar.MONTH)
+            var year: Int = calendar.get(Calendar.YEAR)
             val datePickerDialog = DatePickerDialog(
                 this,
                 getDatePickerListener_et_dateIn(),
@@ -58,7 +59,7 @@ class AddPacientActivity : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
-        btn_pick_dateEx.setOnClickListener {
+        et_add_pacient_dateEx.setOnClickListener {
             calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(
                 this,
@@ -71,7 +72,7 @@ class AddPacientActivity : AppCompatActivity() {
         }
 
         btn_submit_pacient.setOnClickListener {
-            if(isInputValid()){
+            if (isInputValid()) {
                 val bundle = Bundle()
                 bundle.putString("PACIENT_ID", et_add_pacient_id.text.toString())
                 bundle.putString("PACIENT_NAME", et_add_pacient_name.text.toString())
@@ -82,7 +83,7 @@ class AddPacientActivity : AppCompatActivity() {
                 bundle.putString("PACIENT_DATE_EX", et_add_pacient_dateEx.text.toString())
 
 
-                val dashboardIntent : Intent = Intent(this, DashboardActivity()::class.java)
+                val dashboardIntent: Intent = Intent(this, DashboardActivity()::class.java)
 
                 dashboardIntent.putExtra("BUNDLE_EXTRA_PACIENT", bundle)
 
