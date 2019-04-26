@@ -7,7 +7,7 @@
         <item
                 android:id="@+id/nav_pacienti"
                 android:icon="@drawable/ic_person_black_24dp"
-                android:title="Pacienti"/>
+                android:title="Pacients"/>
         <item
                 android:id="@+id/nav_agenda"
                 android:icon="@drawable/ic_storage_black_24dp"
@@ -15,11 +15,15 @@
         <item
                 android:id="@+id/nav_medicamente"
                 android:icon="@drawable/ic_healing_black_24dp"
-                android:title="Medicamente"/>
+                android:title="Drugs"/>
         <item
                 android:id="@+id/nav_cereri"
                 android:icon="@drawable/ic_report_black_24dp"
-                android:title="Cereri"/>
+                android:title="Request"/>
+        <item
+                android:id="@+id/nav_setari"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Setings"/>
     </group>
 
 </menu>

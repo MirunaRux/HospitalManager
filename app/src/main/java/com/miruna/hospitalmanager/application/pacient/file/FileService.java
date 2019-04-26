@@ -56,7 +56,7 @@ public class FileService {
     private static List<File> populateDummyFiles() {
         List<File> files = new ArrayList<File>();
         for (int i = 1; i <= 9 ; i++) {
-            files.add(new File(i + "", "File" + i));
+            files.add(new File(i + "", "File" + i, "Pacient" + i));
         }
 
         return files;

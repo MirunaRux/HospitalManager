@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class FileRestCaller {
     private final static Logger logger = Logger.getLogger(FileRestCaller.class.getName());
-            private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
+            private final static String REST_SERVICE_URI = "http://192.168.0.14:8080/medicalService/api";
 
             public static RestTemplate getRestTemplate() {
                 RestTemplate restTemplate = new RestTemplate();
@@ -35,7 +35,7 @@ public class FileRestCaller {
                     File[] resultList = new File[file.length];
                     for (int i = 0; i < resultList.length; i++) {
                         File f = file[i];
-                        resultList[i] = new File(f.getId(), f.getContent());
+                        resultList[i] = new File(f.getId(), f.getContent(), f.getPacient_id());
                     }
                     return resultList;
         } catch (Exception e) {

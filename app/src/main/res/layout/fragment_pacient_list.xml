@@ -6,31 +6,32 @@
                                              android:layout_height="match_parent"
                                              tools:context=".application.pacient.PacientListFragment">
 
+
     <LinearLayout
             android:id="@+id/searchbar_pacient_container"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/recyclerViewPacientList"
-            android:background="@color/colorPrimary"
+            android:background="@color/black"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal" app:layout_constraintHorizontal_bias="0.0">
 
         <EditText
                 android:id="@+id/et_search_pacient"
-                android:textSize="10sp"
+                android:textSize="15sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_text"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/search"
                 android:hint="@string/search_pacient"
                 android:inputType="textCapWords|textNoSuggestions"
-                android:padding="10dp"/>
+                android:padding="5dp"/>
 
         <Button
                 android:id="@+id/search_pacient_button"
@@ -40,7 +41,7 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:text="@string/search"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/white"/>
 
         <Button
                 android:id="@+id/cancel_search_pacient_button"
@@ -50,7 +51,7 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:text="@string/alert_cancel"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/white"/>
 
     </LinearLayout>
 
@@ -62,6 +63,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/recyclerViewPacientList"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1px"
     />
 
 </android.support.constraint.ConstraintLayout>

@@ -14,11 +14,14 @@ class PacientDetailsActivity : AppCompatActivity() {
     var fileList : MutableList<File>? = null
     var filesAdapter:FilesAdapter? = null
 
+    var extraId: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pacient_details)
 
         val pacientDetailsIntent : Intent = getIntent()
+        extraId = pacientDetailsIntent.getStringExtra("EXTRA_ID")
         val extraName = pacientDetailsIntent.getStringExtra("EXTRA_NAME")
         val extraSurname = pacientDetailsIntent.getStringExtra("EXTRA_SURNAME")
         val extraAge = pacientDetailsIntent.getStringExtra("EXTRA_AGE")
@@ -38,9 +41,9 @@ class PacientDetailsActivity : AppCompatActivity() {
 
         getAllFilesTask().execute()
 
-        if(extraFileId != null && extraFileContent != null){
-            fileList?.add(File(extraFileId, extraFileContent))
-        }
+        /*if(extraFileId != null && extraFileContent != null){
+            fileList?.add(File(extraFileId, extraFileContent, extraId))
+        }*/
 
 
         floating_button_addFile.setOnClickListener {
@@ -61,8 +64,16 @@ class PacientDetailsActivity : AppCompatActivity() {
             return null
         }
 
-        override fun onPostExecute(pacients: List<File>?) {
-            fileList = FileService().findAllFiles()
+        override fun onPostExecute(files: List<File>?) {
+
+            /*var fileListAll = files as MutableList<File>
+
+            for(file in fileListAll){
+                if(file.pacient_id.equals(extraId))
+                    fileList?.add(file)
+            }*/
+
+            var fileList = files as MutableList<File>
 
             recyclerViewPacientFileList.apply {
                 layoutManager = LinearLayoutManager(context)
@@ -70,8 +81,9 @@ class PacientDetailsActivity : AppCompatActivity() {
                 filesAdapter?.onItemClick = {
                     val pacientFileDetailsIntent = Intent(context, FileDetailsActivity::class.java)
                     SharedPreferenceManager.saveFileId(context, it.id)
-                    pacientFileDetailsIntent.putExtra("EXTRA_ID", it.id)
+                    pacientFileDetailsIntent.putExtra("EXTRA_FILE_ID", it.id)
                     pacientFileDetailsIntent.putExtra("EXTRA_CONTENT", it.content)
+                    //pacientFileDetailsIntent.putExtra("EXTRA_ID", it.pacient_id)
                     startActivity(pacientFileDetailsIntent)
                 }
                 this.adapter = filesAdapter

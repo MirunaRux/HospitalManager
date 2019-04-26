@@ -1,36 +1,16 @@
 package com.miruna.hospitalmanager.application.request
 
-import android.os.Parcel
-import android.os.Parcelable
 
-data class Request(
-    var id : String,
-    var drugName : String,
-    var cantity : Int
-):Parcelable, Cloneable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readInt()
-    )
+class Request{
+    var id : String = ""
+    var drugName : String? = null
+    var cantity : Int = 0
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(drugName)
-        parcel.writeInt(cantity)
-    }
+    constructor(){}
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Request> {
-        override fun createFromParcel(parcel: Parcel): Request {
-            return Request(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Request?> {
-            return arrayOfNulls(size)
-        }
+    constructor(id: String, drugName: String, cantity: Int){
+        this.id = id
+        this.drugName = drugName
+        this.cantity = cantity
     }
 }

@@ -2,10 +2,13 @@
 <resources>
     <color name="colorPrimary">#7da8ed</color>
     <color name="colorPrimaryDark">#0548b5</color>
-    <color name="colorAccent">#a5040a</color>
+    <color name="colorAccent">#a6272b</color>
     <color name="colorSpinner">#a5040a</color>
     <color name="white">#ffffff</color>
     <color name="dark_blue">#080dc2</color>
     <color name="light_blue">#86b9f1</color>
     <color name="medium_blue">#194eaf</color>
+    <color name="black">#FF212121</color>
+    <color name="medium_gray">#333335</color>
+    <color name="accent_material_light">#FF0AA193</color>
 </resources>

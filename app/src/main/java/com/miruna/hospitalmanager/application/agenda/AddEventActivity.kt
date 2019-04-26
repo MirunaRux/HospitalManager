@@ -83,6 +83,7 @@ class AddEventActivity : AppCompatActivity() {
                 bundle.putString("EVENT_ID", et_add_event_id.text.toString())
                 bundle.putString("EVENT_NAME", et_add_event_name.text.toString())
                 bundle.putString("EVENT_LOCATION", et_add_event_location.text.toString())
+                bundle.putString("EVENT_START_DATE", et_add_event_start_date.text.toString())
                 bundle.putString("EVENT_START_TIME", et_add_event_start_time.text.toString())
                 bundle.putString("EVENT_PACIENT", et_add_event_pacient.text.toString())
                 bundle.putString("EVENT_DOCTOR", et_add_event_doctor.text.toString())
@@ -113,6 +114,16 @@ class AddEventActivity : AppCompatActivity() {
         if (et_add_event_location.text.isNullOrEmpty()) {
             til_add_event_location.setError("Field required")
             et_add_event_location.requestFocus()
+            return false
+        }
+        if (et_add_event_start_date.text.isNullOrEmpty()) {
+            til_add_event_start_date.setError("Field required")
+            et_add_event_start_date.requestFocus()
+            return false
+        }
+        if (et_add_event_start_time.text.isNullOrEmpty()) {
+            til_add_event_start_time.setError("Field required")
+            et_add_event_start_time.requestFocus()
             return false
         }
         if (et_add_event_pacient.text.isNullOrEmpty()) {

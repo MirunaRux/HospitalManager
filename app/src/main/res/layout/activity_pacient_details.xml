@@ -14,6 +14,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/pacient_surname"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -23,6 +25,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_name"
             app:layout_constraintBottom_toTopOf="@+id/pacient_age"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -32,6 +36,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_surname"
             app:layout_constraintBottom_toTopOf="@+id/pacient_cnp"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -41,6 +47,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_age"
             app:layout_constraintBottom_toTopOf="@+id/pacient_date_in"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -50,6 +58,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_cnp"
             app:layout_constraintBottom_toTopOf="@+id/pacient_date_ex"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -59,6 +69,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_date_in"
             app:layout_constraintBottom_toTopOf="@+id/recyclerViewPacientFileList"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <android.support.v7.widget.RecyclerView
@@ -68,6 +80,8 @@
             app:layout_constraintTop_toBottomOf="@id/pacient_date_ex"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <android.support.design.widget.FloatingActionButton

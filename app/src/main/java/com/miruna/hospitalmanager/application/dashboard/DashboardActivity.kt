@@ -58,7 +58,9 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         val headerView = navigationView.getHeaderView(0)
         val navUsername = headerView.findViewById(R.id.dashboard_username) as TextView
-        navUsername.text = username + "     " + role
+        val navRole = headerView.findViewById(R.id.dashboard_role) as TextView
+        navUsername.text = username
+        navRole.text = role
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -163,14 +165,14 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 val role = getIntent().getStringExtra("EXTRA_ROLE")
                 if(role.equals("Farmacist")){
                     val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    val fragment = AddRequestFragment()
-                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "ADD_REQUESTS_FRAGMENT")
+                    val fragment = RequestListFragment()
+                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     fragmentTransaction.commit()
                 }else{
                     val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    val fragment = RequestListFragment()
-                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
+                    val fragment = AddRequestFragment()
+                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "ADD_REQUESTS_FRAGMENT")
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     fragmentTransaction.commit()
                 }

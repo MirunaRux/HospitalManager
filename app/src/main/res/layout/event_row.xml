@@ -2,15 +2,18 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
+                                             android:layout_margin="10dp"
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/event_name"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/pacient"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/number_of_drugs"
+            app:layout_constraintEnd_toStartOf="@id/location"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -18,9 +21,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/location"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/pacient"
             app:layout_constraintStart_toEndOf="@id/event_name"
             app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
 
     <TextView
@@ -28,9 +33,35 @@
             android:layout_height="wrap_content"
             android:id="@+id/pacient"
             app:layout_constraintTop_toBottomOf="@id/event_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/startDate"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
     />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startDate"
+            app:layout_constraintTop_toBottomOf="@id/pacient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/startTime"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startTime"
+            app:layout_constraintTop_toBottomOf="@id/pacient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/startDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/aller_bdit"
+            android:textSize="15sp"
+    />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -102,9 +102,9 @@ class DrugListFragment : Fragment() {
             return null
         }
 
-        override fun onPostExecute(pacients: List<Drug>?) {
+        override fun onPostExecute(drugs: List<Drug>?) {
 
-            drugList = DrugService().findAllDrugs()
+            drugList = drugs as MutableList<Drug>
 
             recyclerViewDrugList.apply {
                 layoutManager = LinearLayoutManager(context)

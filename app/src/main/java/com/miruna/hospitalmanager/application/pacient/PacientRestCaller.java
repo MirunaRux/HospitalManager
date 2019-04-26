@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class PacientRestCaller {
     private final static Logger logger = Logger.getLogger(PacientRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.14:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -30,14 +30,10 @@ public class PacientRestCaller {
     public static Pacient[] getAllPacients() {
         try {
             ResponseEntity<Pacient[]> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/patient/", Pacient[].class);
+                    REST_SERVICE_URI + "/pacient/", Pacient[].class);
 
             Pacient pacients[] = response.getBody();
-            /*Pacient[] resultList = new Pacient[pacient.length];
-            for (int i = 0; i < resultList.length; i++) {
-                Pacient p = pacient[i];
-                resultList[i] = new Pacient(p.getId(), p.getName(), p.getSurname(), "", "", "", "");
-            }*/
+
             return pacients;
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -51,7 +47,7 @@ public class PacientRestCaller {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("id", id);
             ResponseEntity<Pacient> response = getRestTemplate().getForEntity(
-                    REST_SERVICE_URI + "/patient/{id}", Pacient.class, parameters);
+                    REST_SERVICE_URI + "/pacient/{id}", Pacient.class, parameters);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -63,7 +59,7 @@ public class PacientRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Pacient> pacientEntity = new HttpEntity<>(newPacient, httpHeaders);
-        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/patient/", pacientEntity, Pacient.class);
+        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/pacient/", pacientEntity, Pacient.class);
         return response.getBody();
     }
 
@@ -78,10 +74,10 @@ public class PacientRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Pacient> pacientEntity = new HttpEntity<>(pacient, httpHeaders);
-        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/patient/{id}", pacientEntity, Pacient.class, parameters);
+        ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/pacient/{id}", pacientEntity, Pacient.class, parameters);
         return response.getBody();
     }
-
+/*
     public static void deletePacient(String id) {
         if(id == null || id.isEmpty()) {
             return;
@@ -89,6 +85,6 @@ public class PacientRestCaller {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", id);
-        getRestTemplate().delete(REST_SERVICE_URI + "/patient/{id}", parameters);
-    }
+        getRestTemplate().delete(REST_SERVICE_URI + "/pacient/{id}", parameters);
+    }*/
 }

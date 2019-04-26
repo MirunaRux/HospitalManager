@@ -46,6 +46,18 @@ class RequestListFragment : Fragment() {
         val context: Context = view.getContext()
 
         getAllRequestsTask().execute()
+
+        /*requestList = RequestService().findAllRequests()
+
+        recyclerViewRequestList.apply {
+            layoutManager = LinearLayoutManager(context)
+            requestsAdapter = RequestsAdapter(requestList!!)
+
+            requestsAdapter?.onItemClick = {
+
+            }
+            this.adapter = requestsAdapter
+        }*/
     }
 
     override fun onAttach(context: Context?) {
@@ -86,8 +98,8 @@ class RequestListFragment : Fragment() {
             return null
         }
 
-        override fun onPostExecute(pacients: List<Request>?) {
-            requestList = RequestService().findAllRequests()
+        override fun onPostExecute(requests: List<Request>?) {
+            requestList = requests as MutableList<Request>
 
             recyclerViewRequestList.apply {
                 layoutManager = LinearLayoutManager(context)

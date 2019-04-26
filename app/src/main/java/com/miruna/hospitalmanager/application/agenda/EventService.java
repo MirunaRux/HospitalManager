@@ -62,8 +62,9 @@ public class EventService {
 
     private static List<Event> populateDummyEvents() {
         List<Event> events = new ArrayList<Event>();
-        for (int i = 1; i <= 9 ; i++) {
-            events.add(new Event(i + "", "Eveniment" + i, "Locatie" + i, Calendar.getInstance().getTime(), "Pacient" + i, "Doctor"+i));
+        for (int i = 1; i <= 9; i++) {
+            events.add(new Event(i + "", "Eveniment" + i, "Locatie" + i, "Start Date" + i, "Start Time" + i,
+                    "Pacient" + i, "Doctor" + i));
         }
 
         return events;

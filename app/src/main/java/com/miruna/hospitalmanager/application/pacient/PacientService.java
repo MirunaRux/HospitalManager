@@ -37,7 +37,8 @@ public class PacientService {
     }
 
     public Pacient createPacient(Pacient pacient) {
-        pacients.add(pacient);
+        //pacients.add(pacient);
+        pacients.add(PacientDao.create(pacient));
         return pacient;
     }
 

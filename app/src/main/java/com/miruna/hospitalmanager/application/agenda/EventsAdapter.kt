@@ -22,6 +22,8 @@ class EventsAdapter (private val events: MutableList<Event>) : RecyclerView.Adap
         holder.event_name.text = events[position].name
         holder.location.text = events[position].location
         holder.pacient.text = events[position].pacientName
+        holder.startDate.text = events[position].startDate
+        holder.startTime.text = events[position].startTime
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,6 +31,8 @@ class EventsAdapter (private val events: MutableList<Event>) : RecyclerView.Adap
         val event_name : TextView = itemView.event_name
         val location : TextView = itemView.location
         val pacient : TextView = itemView.pacient
+        val startDate : TextView = itemView.startDate
+        val startTime : TextView = itemView.startTime
 
         init {
             itemView.setOnClickListener {

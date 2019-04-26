@@ -11,4 +11,12 @@ public class PacientDao {
         pacients.addAll(Arrays.asList(PacientRestCaller.getAllPacients()));
         return pacients;
     }
+
+    public static Pacient create(Pacient pacient){
+        return PacientRestCaller.createPacient(pacient);
+    }
+
+    public static Pacient update(Pacient pacient){
+        return PacientRestCaller.updatePacient(pacient);
+    }
 }
