@@ -25,6 +25,7 @@ import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
 import com.miruna.hospitalmanager.application.request.AddRequestFragment
 import com.miruna.hospitalmanager.application.request.RequestListFragment
+import com.miruna.hospitalmanager.application.settings.SettingsActivity
 import com.miruna.hospitalmanager.application.utils.Constants
 import kotlinx.android.synthetic.main.content_dashboard.*
 
@@ -178,6 +179,10 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 }
 
                 floating_button.visibility = View.INVISIBLE
+            }
+            R.id.nav_setari -> {
+                var settingsIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingsIntent)
             }
         }
 

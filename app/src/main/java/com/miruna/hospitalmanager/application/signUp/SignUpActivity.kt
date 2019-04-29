@@ -1,6 +1,7 @@
 package com.miruna.hospitalmanager.application.signUp
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.miruna.hospitalmanager.R
@@ -10,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
 
-    lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +22,29 @@ class SignUpActivity : AppCompatActivity() {
                 SharedPreferenceManager.saveUsername(this, til_signUp_username.toString())
                 loginIntent.putExtra("EXTRA_USERNAME", et_signUp_username.text.toString())
                 loginIntent.putExtra("EXTRA_ROLE", spinner_signUp_role.selectedItem.toString())
-
-                user = User(
-                    et_signUp_username.text.toString(),
-                    et_signUp_password.text.toString(),
-                    spinner_signUp_role.selectedItem.toString()
-                )
-
+                createUserTask().execute()
                 startActivity(loginIntent)
                 finish()
             }
+        }
+    }
+
+    private inner class createUserTask : AsyncTask<Void, Void, User>() {
+        override fun doInBackground(vararg params: Void): User? {
+            try {
+                return UserService().createUser(User(
+                    et_signUp_username.text.toString(),
+                    et_signUp_password.text.toString(),
+                    spinner_signUp_role.selectedItem.toString()
+                ))
+            } catch (e: Exception) {
+
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: User?) {
+
         }
     }
 

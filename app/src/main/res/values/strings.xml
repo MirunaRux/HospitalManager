@@ -13,7 +13,7 @@
     <string name="text_save">Save</string>
     <string name="text_signUp">Sign Up</string>
     <string name="cb_rememberMe">Remember me</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_dashboard">Hospital Manager</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -24,10 +24,28 @@
     <string name="all_cancel">Cancel</string>
     <string name="createAccount_dismiss_question">Are you sure you want to cancel?</string>
     <string name="label_createAccount_create">Create Account</string>
+    <string name="text_settings">Enable notifications</string>
+    <string name="text_settings_title">Custom settings</string>
+    <string name="text_terms_cond_title">Terms and Conditions</string>
+    <string name="text_terms_cond_content">
+        Help protect your website and its users with clear and fair website terms and conditions. These terms and conditions for a website set out key issues such as acceptable use, privacy, cookies, registration and passwords, intellectual property, links to other sites, termination and disclaimers of responsibility. Terms and conditions are used and necessary to protect a website owner from liability of a user relying on the information or the goods provided from the site then suffering a loss.
+
+        Making your own terms and conditions for your website is hard, not impossible, to do. It can take a few hours to few days for a person with no legal background to make. But worry no more; we are here to help you out.
+
+        All you need to do is fill up the blank spaces and then you will receive an email with your personalized terms and conditions.
+    </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_pacient_details">PacientDetailsActivity</string>
+    <string name="title_activity_pacient_details">Pacient Details</string>
+    <string name="title_activity_file_details">File Details</string>
+    <string name="title_activity_add_pacient_file">Add pacient file</string>
+    <string name="title_activity_edit_file">Add pacient file</string>
+    <string name="title_activity_add_pacient">Add pacient</string>
+    <string name="title_activity_add_drug">Add drug</string>
+    <string name="title_activity_add_event">Add event</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_terms_conditions">Terms and Conditions</string>
     <string name="hint_age">Age</string>
     <string name="hint_cnp">CNP</string>
     <string name="hint_dateIn">Check-In Date</string>

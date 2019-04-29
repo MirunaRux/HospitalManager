@@ -9,9 +9,9 @@ import com.miruna.hospitalmanager.application.signUp.SignUpActivity
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_login.*
 import android.widget.Spinner
-
-
-
+import android.widget.Toast
+import com.miruna.hospitalmanager.application.signUp.User
+import com.miruna.hospitalmanager.application.signUp.UserService
 
 
 class LoginActivity : AppCompatActivity() {
@@ -20,23 +20,33 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val loginIntent :Intent = getIntent()
+        val loginIntent: Intent = getIntent()
         val extraUsername = loginIntent.getStringExtra("EXTRA_USERNAME")
         val extraRole = loginIntent.getStringExtra("EXTRA_ROLE")
         et_login_username.setText(extraUsername)
 
-        if(extraRole!= null){
+        if (extraRole != null) {
             spinner_login_role.setSelection(getIndex(spinner_login_role, extraRole))
         }
 
-        btn_login.setOnClickListener{
+        btn_login.setOnClickListener {
             val dashboardIntent = Intent(this, DashboardActivity::class.java)
             if (isInputValid()) {
-                SharedPreferenceManager.saveUsername(this, et_login_username.text.toString())
-                dashboardIntent.putExtra("EXTRA_USERNAME", et_login_username.text.toString())
-                dashboardIntent.putExtra("EXTRA_ROLE", extraRole)
-                startActivity(dashboardIntent)
-                finish()
+                /*if (UserService().isUserExist(
+                        User(
+                            et_login_username.text.toString(), et_login_password.text.toString(),
+                            spinner_login_role.selectedItem.toString()
+                        )
+                    ) == null) {
+                    val toast = Toast.makeText(applicationContext, "User not registered !", Toast.LENGTH_SHORT)
+                    toast.show()
+                } else {*/
+                    SharedPreferenceManager.saveUsername(this, et_login_username.text.toString())
+                    dashboardIntent.putExtra("EXTRA_USERNAME", et_login_username.text.toString())
+                    dashboardIntent.putExtra("EXTRA_ROLE", extraRole)
+                    startActivity(dashboardIntent)
+                    finish()
+                //}
             }
         }
 
@@ -49,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getIndex(spinner: Spinner, myString: String): Int {
-        for (i in 0 .. spinner.count) {
+        for (i in 0..spinner.count) {
             if (spinner.getItemAtPosition(i).toString().equals(myString, ignoreCase = true)) {
                 return i
             }
