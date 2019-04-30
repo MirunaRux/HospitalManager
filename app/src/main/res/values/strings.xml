@@ -69,4 +69,7 @@
     <string name="hint_start_time">Start Time</string>
     <string name="pick_time">Pick Time</string>
     <string name="hint_start_date">Start Date</string>
+    <string name="search_event">Search by date</string>
+    <string name="hint_email">Enter email</string>
+    <string name="send">Send</string>
 </resources>

@@ -18,7 +18,7 @@ object Constants {
     val RESULT_CODE_ADD_EVENT = 666
     val RQUEST_CODE_ADD_DRUG = 222
     val RESULT_CODE_ADD_DRUG = 333
-    val DATE_FORMAT_MDY = "MMM dd, yyyy"
+    val DATE_FORMAT_MDY = "dd.MM.yyyy"
     val DATE_FORMAT_MDYHM = "yyyy-MM-dd'T'HH:mm"
     val TIME_FORMAT_HHmm = "HH:mm"
     fun showKeyboard(context: Context) {

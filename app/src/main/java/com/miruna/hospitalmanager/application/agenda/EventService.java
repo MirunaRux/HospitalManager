@@ -24,13 +24,14 @@ public class EventService {
         return null;
     }
 
-    public Event findByName(String name) {
+    public List<Event> findByDate(List<Event> eventsAux, String date) {
+        List<Event> aux = new ArrayList<>();
         for (Event event : events) {
-            if (event.getName().equalsIgnoreCase(name)) {
-                return event;
+            if (event.getStartDate().equalsIgnoreCase(date)) {
+                aux.add(event);
             }
         }
-        return null;
+        return aux;
     }
 
     public Event createEvent(Event event) {
@@ -53,7 +54,7 @@ public class EventService {
     }
 
     public boolean isEventExist(Event event) {
-        return findByName(event.getName()) != null;
+        return findById(event.getId()) != null;
     }
 
     public void deleteAllEvents() {
