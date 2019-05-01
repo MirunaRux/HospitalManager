@@ -44,12 +44,19 @@ public class EventService {
         events.set(index, event);
     }
 
-    public void deleteEventById(String id) {
-        for (Iterator<Event> iterator = events.iterator(); iterator.hasNext(); ) {
+    public boolean deleteEventById(String id) {
+        /*for (Iterator<Event> iterator = events.iterator(); iterator.hasNext(); ) {
             Event event = iterator.next();
             if (event.getId().equals(id)) {
                 iterator.remove();
             }
+        }*/
+
+        try{
+            EventDao.delete(id);
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

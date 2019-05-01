@@ -10,4 +10,12 @@ public class EventDao {
         events.addAll(Arrays.asList(EventRestCaller.getAllEvents()));
         return events;
     }
+
+    public static Event create(Event event){
+        return EventRestCaller.createEvent(event);
+    }
+
+    public static void delete(String id){
+        EventRestCaller.deleteEvent(id);
+    }
 }

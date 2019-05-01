@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class AgendaListFragment : Fragment() {
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
     var eventList: MutableList<Event>? = null
     var eventsAdapter: EventsAdapter? = null
+    lateinit var idDeletedEvent : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,7 @@ class AgendaListFragment : Fragment() {
             val eventLocation = bundle.getString("EVENT_LOCATION") ?: ""
             val eventStartDate = bundle.getString("EVENT_START_DATE") ?: ""
             val eventStartTime = bundle.getString("EVENT_START_TIME") ?: ""
-            val eventPacient = bundle.getString("EVENT_event") ?: ""
+            val eventPacient = bundle.getString("EVENT_PACIENT") ?: ""
             val eventDoctor = bundle.getString("EVENT_DOCTOR") ?: ""
 
             val newEvent =
@@ -157,12 +159,28 @@ class AgendaListFragment : Fragment() {
         }
     }
 
+    private inner class deleteEventTask : AsyncTask<Void, Void, Boolean >(){
+        override fun doInBackground(vararg params: Void?): Boolean? {
+            try{
+                return EventService().deleteEventById(idDeletedEvent)
+            }
+            catch(e: Exception){
+                e.printStackTrace()
+            }
+            return false
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+           getAllEventsTask().execute()
+        }
+    }
+
     private inner class getAllEventsTask : AsyncTask<Void, Void, List<Event>>() {
         override fun doInBackground(vararg params: Void): List<Event>? {
             try {
                 return EventService().findAllEvents()
             } catch (e: Exception) {
-
+                e.printStackTrace()
             }
 
             return null
@@ -182,7 +200,8 @@ class AgendaListFragment : Fragment() {
                     var dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
                     var alertDialog = dialogBuilder.show()
                     alertDialog.btn_dialog_delete.setOnClickListener {
-                        EventService().deleteEventById(event.id)
+                        idDeletedEvent = event.id
+                        deleteEventTask().execute()
                         alertDialog.dismiss()
                     }
                 }

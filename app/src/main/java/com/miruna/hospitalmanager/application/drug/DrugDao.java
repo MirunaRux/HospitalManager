@@ -10,4 +10,8 @@ public class DrugDao {
         drugs.addAll(Arrays.asList(DrugRestCaller.getAllDrugs()));
         return drugs;
     }
+
+    public static Drug update(Drug drug){
+        return DrugRestCaller.updateDrug(drug);
+    }
 }

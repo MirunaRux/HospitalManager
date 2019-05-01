@@ -18,8 +18,9 @@ class TermsConditionsActivity : AppCompatActivity() {
         }
 
         btn_send_email_terms.setOnClickListener {
+            var emails : Array<String> = et_email.text.toString().split(",").toTypedArray()
             var mailIntent = Intent(Intent.ACTION_SEND)
-            mailIntent.putExtra(Intent.EXTRA_EMAIL, et_email.text.toString())
+            mailIntent.putExtra(Intent.EXTRA_EMAIL, emails)
             mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Terms and Conditions")
             mailIntent.putExtra(Intent.EXTRA_TEXT, tv_terms_cond_content.text.toString())
             mailIntent.type = "message/rfc822"

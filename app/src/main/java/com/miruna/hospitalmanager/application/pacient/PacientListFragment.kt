@@ -19,6 +19,7 @@ import com.miruna.hospitalmanager.application.utils.Constants
 import android.widget.ArrayAdapter
 import android.os.AsyncTask
 import android.support.v7.widget.DividerItemDecoration
+import android.util.Log
 import android.widget.Toast
 
 
@@ -50,7 +51,7 @@ class PacientListFragment : Fragment() {
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
             val pacientAge = bundle.getString("PACIENT_AGE") ?: ""
-            val pacientCnp = bundle.getString("PACIENT_cnp") ?: ""
+            val pacientCnp = bundle.getString("PACIENT_CNP") ?: ""
             val pacientDateIn = bundle.getString("PACIENT_DATE_IN") ?: ""
             val pacientDateEx = bundle.getString("PACIENT_DATE_EX") ?: ""
             newPacient =
@@ -131,13 +132,14 @@ class PacientListFragment : Fragment() {
             try {
                 return PacientService().createPacient(newPacient)
             } catch (e: Exception) {
-
+                e.printStackTrace()
+                Log.i("aoleo gucci", "dragnea")
             }
             return null
         }
 
         override fun onPostExecute(pacient: Pacient?) {
-
+           getAllPacientsTask().execute()
         }
     }
 

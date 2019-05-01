@@ -40,9 +40,16 @@ public class DrugService {
         return drug;
     }
 
-    public void updateDrug(Drug drug) {
-        int index = drugs.indexOf(drug);
-        drugs.set(index, drug);
+    public boolean updateDrug(Drug drug) {
+       /* int index = drugs.indexOf(drug);
+        drugs.set(index, drug);*/
+       try{
+           DrugDao.update(drug);
+           return true;
+       }catch (Exception e){
+           e.printStackTrace();
+           return false;
+       }
     }
 
     public void deleteDrugById(String id) {

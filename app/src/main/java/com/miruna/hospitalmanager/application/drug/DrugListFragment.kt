@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.drug
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,12 +9,14 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.utils.Constants
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
+import kotlinx.android.synthetic.main.drug_alert_dialog.*
 import kotlinx.android.synthetic.main.fragment_drug_list.*
 import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
@@ -24,6 +27,7 @@ class DrugListFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     var drugList: MutableList<Drug>? = null
     var drugsAdapter: DrugsAdapter? = null
+    var updatedDrug: Drug = Drug("", "", 0)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +95,23 @@ class DrugListFragment : Fragment() {
             }
     }
 
+    private inner class updateDrugTask : AsyncTask<Void, Void, Boolean>() {
+        override fun doInBackground(vararg params: Void?): Boolean {
+            try {
+                return DrugService().updateDrug(updatedDrug)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return false
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            getAllDrugsTask().execute()
+        }
+
+    }
+
     private inner class getAllDrugsTask : AsyncTask<Void, Void, List<Drug>>() {
         override fun doInBackground(vararg params: Void): List<Drug>? {
             try {
@@ -110,9 +131,27 @@ class DrugListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 drugsAdapter = DrugsAdapter(drugList!!)
 
+                drugsAdapter?.onItemClick = {
+                    var drug = it
+                    var dialogView = LayoutInflater.from(context).inflate(R.layout.drug_alert_dialog, null)
+                    var dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
+                    var alertDialog = dialogBuilder.show()
+                    alertDialog.btn_update_drug.setOnClickListener {
+                        updatedDrug.id = drug.id
+                        updatedDrug.name = drug.name
+                        if(et_update_drug.text.isNullOrEmpty()){
+                            //Log.i("aaaa", et_update_drug.text.toString().toInt().toString())
+                            //updatedDrug.drugNumber = et_update_drug.text.toString().toInt()
+                        }else{
+                            updatedDrug.drugNumber = drug.drugNumber
+                        }
+                        updateDrugTask().execute()
+                        alertDialog.dismiss()
+                    }
+                }
                 this.adapter = drugsAdapter
             }
         }
-
     }
 }
+

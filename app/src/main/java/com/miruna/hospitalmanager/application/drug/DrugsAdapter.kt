@@ -16,14 +16,22 @@ class DrugsAdapter (private val drugs: MutableList<Drug>) : RecyclerView.Adapter
 
     override fun getItemCount() = drugs.size
 
+    var onItemClick: ((Drug) -> Unit)? = null
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.drug_name.text = drugs[position].name
         holder.number.text = drugs[position].drugNumber.toString()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val drug_name : TextView = itemView.drug_name
         val number : TextView = itemView.number_of_drugs
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(drugs[adapterPosition])
+            }
+        }
     }
 
 }
