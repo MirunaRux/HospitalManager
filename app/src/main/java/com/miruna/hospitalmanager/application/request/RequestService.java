@@ -27,7 +27,8 @@ public class RequestService {
     }
 
     public Request createRequest(Request request) {
-        requests.add(request);
+       // requests.add(request);
+        requests.add(RequestDao.create(request));
         return request;
     }
 
@@ -36,12 +37,19 @@ public class RequestService {
         requests.set(index, request);
     }
 
-    public void deleteRequestById(String id) {
-        for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {
+    public boolean deleteRequestById(String id) {
+       /* for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {
             Request request = iterator.next();
             if (request.getId().equals(id)) {
                 iterator.remove();
             }
+        }*/
+
+        try{
+            RequestDao.delete(id);
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

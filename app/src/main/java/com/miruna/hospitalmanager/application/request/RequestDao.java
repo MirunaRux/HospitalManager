@@ -10,4 +10,8 @@ public class RequestDao {
         requests.addAll(Arrays.asList(RequestRestCaller.getAllRequests()));
         return requests;
     }
+
+    public static Request create(Request request){ return RequestRestCaller.createRequest(request);}
+
+    public static void delete(String id){ RequestRestCaller.deleteRequest(id);}
 }

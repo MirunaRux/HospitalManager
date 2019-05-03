@@ -16,6 +16,17 @@ public class FileService {
 
         return files;
     }
+    public List<File> findAllPacientFiles(String pacientId) {
+
+        List<File> filteredFiles = new ArrayList<>();
+        for(File file: files){
+            if(file.getPacient_id().equals(pacientId)){
+                filteredFiles.add(file);
+            }
+        }
+
+        return filteredFiles;
+    }
 
     public File findById(String id) {
         for (File file : files) {

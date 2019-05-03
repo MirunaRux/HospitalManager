@@ -35,7 +35,8 @@ public class EventService {
     }
 
     public Event createEvent(Event event) {
-        events.add(event);
+        //events.add(event);
+        events.add(EventDao.create(event));
         return event;
     }
 

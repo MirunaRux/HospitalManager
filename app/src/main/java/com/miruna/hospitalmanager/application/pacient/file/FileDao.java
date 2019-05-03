@@ -10,4 +10,8 @@ public class FileDao {
         files.addAll(Arrays.asList(FileRestCaller.getAllFiles()));
         return files;
     }
+
+    public static File create(File file){ return FileRestCaller.createFile(file);}
+
+    public static File update(File file){ return FileRestCaller.updateFile(file);}
 }

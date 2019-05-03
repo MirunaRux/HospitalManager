@@ -7,12 +7,14 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
+import com.miruna.hospitalmanager.application.utils.Constants
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_pacient_list.*
 import kotlinx.android.synthetic.main.fragment_request_list.*
@@ -25,6 +27,8 @@ class RequestListFragment : Fragment() {
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
     var requestList: MutableList<Request>? = null
     var requestsAdapter: RequestsAdapter? = null
+    lateinit var newRequest: Request
+    lateinit var idDeletedRequest: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +51,22 @@ class RequestListFragment : Fragment() {
 
         getAllRequestsTask().execute()
 
-        /*requestList = RequestService().findAllRequests()
+    }
 
-        recyclerViewRequestList.apply {
-            layoutManager = LinearLayoutManager(context)
-            requestsAdapter = RequestsAdapter(requestList!!)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-            requestsAdapter?.onItemClick = {
+        if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
+            val bundle = data?.getBundleExtra("BUNDLE_EXTRA_REQUEST") ?: return
+            val requestId = bundle.getString("REQUEST_ID") ?: ""
+            val requestDrugName = bundle.getString("REQUEST_DRUG_NAME") ?: ""
+            val requestCantity = bundle.getString("REQUEST_CANTITY") ?: ""
 
-            }
-            this.adapter = requestsAdapter
-        }*/
+            newRequest =
+                Request(requestId, requestDrugName, requestCantity.toInt())
+
+            createRequestTask().execute()
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -88,6 +97,37 @@ class RequestListFragment : Fragment() {
             }
     }
 
+    private inner class createRequestTask : AsyncTask<Void, Void, Request>() {
+        override fun doInBackground(vararg params: Void): Request? {
+            try {
+                return RequestService().createRequest(newRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.i("check", "check")
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: Request?) {
+            getAllRequestsTask().execute()
+        }
+    }
+
+    private inner class deleteRequestTask : AsyncTask<Void, Void, Boolean>() {
+        override fun doInBackground(vararg params: Void?): Boolean? {
+            try {
+                return RequestService().deleteRequestById(idDeletedRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            getAllRequestsTask().execute()
+        }
+    }
+
     private inner class getAllRequestsTask : AsyncTask<Void, Void, List<Request>>() {
         override fun doInBackground(vararg params: Void): List<Request>? {
             try {
@@ -106,7 +146,8 @@ class RequestListFragment : Fragment() {
                 requestsAdapter = RequestsAdapter(requestList!!)
 
                 requestsAdapter?.onItemClick = {
-
+                    idDeletedRequest = it.id
+                    deleteRequestTask().execute()
                 }
                 this.adapter = requestsAdapter
             }

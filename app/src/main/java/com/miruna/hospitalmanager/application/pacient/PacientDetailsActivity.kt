@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.pacient.file.*
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
@@ -39,12 +40,7 @@ class PacientDetailsActivity : AppCompatActivity() {
         pacient_date_in.setText("Check-in date : " + extraDateIn)
         pacient_date_ex.setText("Check-out date : " + extraDateEx)
 
-        getAllFilesTask().execute()
-
-        /*if(extraFileId != null && extraFileContent != null){
-            fileList?.add(File(extraFileId, extraFileContent, extraId))
-        }*/
-
+        getAllPacientFilesTask().execute()
 
         floating_button_addFile.setOnClickListener {
             val addPacientFileIntent = Intent(this, AddPacientFileActivity::class.java)
@@ -53,31 +49,29 @@ class PacientDetailsActivity : AppCompatActivity() {
 
     }
 
-    private inner class getAllFilesTask : AsyncTask<Void, Void, List<File>>() {
+    private inner class getAllPacientFilesTask : AsyncTask<Void, Void, List<File>>() {
         override fun doInBackground(vararg params: Void): List<File>? {
             try {
-                return FileService().findAllFiles()
+                var filteredFiles = FileService().findAllFiles()
+
+                for(file: File in filteredFiles){
+                    if(!file.pacient_id.equals(extraId))
+                        filteredFiles.remove(file)
+                }
+                return filteredFiles
             } catch (e: Exception) {
-
+                e.printStackTrace()
             }
-
             return null
         }
 
         override fun onPostExecute(files: List<File>?) {
 
-            /*var fileListAll = files as MutableList<File>
-
-            for(file in fileListAll){
-                if(file.pacient_id.equals(extraId))
-                    fileList?.add(file)
-            }*/
-
             var fileList = files as MutableList<File>
 
             recyclerViewPacientFileList.apply {
                 layoutManager = LinearLayoutManager(context)
-                val filesAdapter = FilesAdapter(fileList!!)
+                val filesAdapter = FilesAdapter(fileList)
                 filesAdapter?.onItemClick = {
                     val pacientFileDetailsIntent = Intent(context, FileDetailsActivity::class.java)
                     SharedPreferenceManager.saveFileId(context, it.id)

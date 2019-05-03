@@ -38,7 +38,7 @@ public class RequestRestCaller {
         return new Request[0];
     }
 
-    public static Request getRequest(String id) {
+   /* public static Request getRequest(String id) {
         try {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.put("id", id);
@@ -50,7 +50,7 @@ public class RequestRestCaller {
         }
         return null;
     }
-
+*/
     public static Request createRequest(Request newRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
@@ -59,7 +59,7 @@ public class RequestRestCaller {
         return response.getBody();
     }
 
-    public static Request updateRequest(Request request) {
+    /*public static Request updateRequest(Request request) {
         if(request == null || request.getId() == null || request.getId().isEmpty()) {
             return null;
         }
@@ -73,7 +73,7 @@ public class RequestRestCaller {
         ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/request/{id}", requestEntity, Request.class, parameters);
         return response.getBody();
     }
-
+*/
     public static void deleteRequest(String id) {
         if(id == null || id.isEmpty()) {
             return;

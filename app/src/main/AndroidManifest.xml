@@ -43,29 +43,39 @@
                 android:name=".application.pacient.PacientDetailsActivity"
                 android:label="@string/title_activity_pacient_details">
         </activity>
-        <activity android:name=".application.pacient.file.FileDetailsActivity"
-                  android:label="@string/title_activity_file_details">
+        <activity
+                android:name=".application.pacient.file.FileDetailsActivity"
+                android:label="@string/title_activity_file_details">
         </activity>
-        <activity android:name=".application.pacient.file.AddPacientFileActivity"
-                  android:label="@string/title_activity_add_pacient_file">
+        <activity
+                android:name=".application.pacient.file.AddPacientFileActivity"
+                android:label="@string/title_activity_add_pacient_file">
         </activity>
-        <activity android:name=".application.agenda.AddEventActivity"
-                  android:label="@string/title_activity_add_event">
+        <activity
+                android:name=".application.agenda.AddEventActivity"
+                android:label="@string/title_activity_add_event">
         </activity>
-        <activity android:name=".application.pacient.AddPacientActivity"
-                  android:label="@string/title_activity_add_pacient">
+        <activity
+                android:name=".application.pacient.AddPacientActivity"
+                android:label="@string/title_activity_add_pacient">
         </activity>
-        <activity android:name=".application.drug.AddDrugActivity"
-                  android:label="@string/title_activity_add_drug">
+        <activity
+                android:name=".application.drug.AddDrugActivity"
+                android:label="@string/title_activity_add_drug">
         </activity>
-        <activity android:name=".application.pacient.file.EditFileContentActivity"
-                  android:label="@string/title_activity_edit_file">
+        <activity
+                android:name=".application.pacient.file.EditFileContentActivity"
+                android:label="@string/title_activity_edit_file">
         </activity>
-        <activity android:name=".application.settings.SettingsActivity"
-                  android:label="@string/title_activity_settings">
+        <activity
+                android:name=".application.settings.SettingsActivity"
+                android:label="@string/title_activity_settings">
         </activity>
-        <activity android:name=".application.settings.TermsConditionsActivity"
-                  android:label="@string/title_activity_terms_conditions">
+        <activity
+                android:name=".application.settings.TermsConditionsActivity"
+                android:label="@string/title_activity_terms_conditions">
+        </activity>
+        <activity android:name=".application.request.AddRequestActivity">
         </activity>
     </application>
 

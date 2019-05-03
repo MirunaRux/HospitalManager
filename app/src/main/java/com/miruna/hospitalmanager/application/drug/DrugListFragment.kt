@@ -8,17 +8,14 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.*
 import android.widget.EditText
 
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.utils.Constants
-import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
 import kotlinx.android.synthetic.main.drug_alert_dialog.*
 import kotlinx.android.synthetic.main.fragment_drug_list.*
-import kotlinx.android.synthetic.main.fragment_pacient_list.*
 
 private const val ARG_PARAM1 = "param1"
 
@@ -28,6 +25,7 @@ class DrugListFragment : Fragment() {
     var drugList: MutableList<Drug>? = null
     var drugsAdapter: DrugsAdapter? = null
     var updatedDrug: Drug = Drug("", "", 0)
+    lateinit var newDrug: Drug
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +43,9 @@ class DrugListFragment : Fragment() {
             val drugId = bundle.getString("DRUG_ID") ?: ""
             val drugName = bundle.getString("DRUG_NAME") ?: ""
             val drugNumber = bundle.getString("DRUG_NUMBER") ?: ""
-            val newDrug = Drug(drugId, drugName, drugNumber.toInt())
+            newDrug = Drug(drugId, drugName, drugNumber.toInt())
 
-            drugList?.add(newDrug)
-            drugsAdapter?.notifyDataSetChanged()
+            createDrugTask().execute()
         }
     }
 
@@ -95,6 +92,22 @@ class DrugListFragment : Fragment() {
             }
     }
 
+    private inner class createDrugTask : AsyncTask<Void, Void, Drug>() {
+        override fun doInBackground(vararg params: Void): Drug? {
+            try {
+                return DrugService().createDrug(newDrug)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.i("check", "check")
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: Drug?) {
+            getAllDrugsTask().execute()
+        }
+    }
+
     private inner class updateDrugTask : AsyncTask<Void, Void, Boolean>() {
         override fun doInBackground(vararg params: Void?): Boolean {
             try {
@@ -137,11 +150,14 @@ class DrugListFragment : Fragment() {
                     var dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
                     var alertDialog = dialogBuilder.show()
                     alertDialog.btn_update_drug.setOnClickListener {
+
                         updatedDrug.id = drug.id
                         updatedDrug.name = drug.name
-                        if(et_update_drug.text.isNullOrEmpty()){
-                            //Log.i("aaaa", et_update_drug.text.toString().toInt().toString())
-                            //updatedDrug.drugNumber = et_update_drug.text.toString().toInt()
+
+                        var editText = alertDialog.findViewById<EditText>(R.id.et_update_drug)
+
+                        if(!editText.text.isNullOrEmpty()){
+                            updatedDrug.drugNumber = editText.text.toString().toInt()
                         }else{
                             updatedDrug.drugNumber = drug.drugNumber
                         }

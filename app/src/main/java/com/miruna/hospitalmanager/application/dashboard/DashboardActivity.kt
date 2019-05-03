@@ -23,7 +23,7 @@ import com.miruna.hospitalmanager.application.drug.DrugListFragment
 import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
 import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
-import com.miruna.hospitalmanager.application.request.AddRequestFragment
+import com.miruna.hospitalmanager.application.request.AddRequestActivity
 import com.miruna.hospitalmanager.application.request.RequestListFragment
 import com.miruna.hospitalmanager.application.settings.SettingsActivity
 import com.miruna.hospitalmanager.application.utils.Constants
@@ -105,6 +105,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             is PacientListFragment -> fragment.onActivityResult(requestCode, resultCode,data)
             is AgendaListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
             is DrugListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
+            is RequestListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -171,11 +172,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     fragmentTransaction.commit()
                 }else{
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    val fragment = AddRequestFragment()
-                    fragmentTransaction.replace(R.id.content_dashboard, fragment, "ADD_REQUESTS_FRAGMENT")
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    fragmentTransaction.commit()
+                    var addRequestIntent = Intent(this, AddRequestActivity::class.java)
+                    startActivity(addRequestIntent)
                 }
 
                 floating_button.visibility = View.INVISIBLE

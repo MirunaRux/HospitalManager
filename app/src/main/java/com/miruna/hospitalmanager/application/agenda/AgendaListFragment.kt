@@ -31,7 +31,8 @@ class AgendaListFragment : Fragment() {
     private lateinit var mOnActivityFragmentCommunication: OnActivityFragmentCommunication
     var eventList: MutableList<Event>? = null
     var eventsAdapter: EventsAdapter? = null
-    lateinit var idDeletedEvent : String
+    lateinit var idDeletedEvent: String
+    lateinit var newEvent: Event
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +54,10 @@ class AgendaListFragment : Fragment() {
             val eventPacient = bundle.getString("EVENT_PACIENT") ?: ""
             val eventDoctor = bundle.getString("EVENT_DOCTOR") ?: ""
 
-            val newEvent =
+            newEvent =
                 Event(eventId, eventName, eventLocation, eventStartDate, eventStartTime, eventPacient, eventDoctor)
 
-            eventList?.add(newEvent)
-            eventsAdapter?.notifyDataSetChanged()
+            createEventTask().execute()
         }
     }
 
@@ -121,9 +121,35 @@ class AgendaListFragment : Fragment() {
             }
     }
 
-    fun Date.formatToStringByPattern(pattern: String): String {
-        val df = SimpleDateFormat(pattern)
-        return df.format(this)
+    private inner class createEventTask : AsyncTask<Void, Void, Event>() {
+        override fun doInBackground(vararg params: Void): Event? {
+            try {
+                return EventService().createEvent(newEvent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.i("check", "check")
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: Event?) {
+            getAllEventsTask().execute()
+        }
+    }
+
+    private inner class deleteEventTask : AsyncTask<Void, Void, Boolean>() {
+        override fun doInBackground(vararg params: Void?): Boolean? {
+            try {
+                return EventService().deleteEventById(idDeletedEvent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            getAllEventsTask().execute()
+        }
     }
 
     private inner class getFilteredEventsTask : AsyncTask<Void, Void, List<Event>>() {
@@ -159,21 +185,6 @@ class AgendaListFragment : Fragment() {
         }
     }
 
-    private inner class deleteEventTask : AsyncTask<Void, Void, Boolean >(){
-        override fun doInBackground(vararg params: Void?): Boolean? {
-            try{
-                return EventService().deleteEventById(idDeletedEvent)
-            }
-            catch(e: Exception){
-                e.printStackTrace()
-            }
-            return false
-        }
-
-        override fun onPostExecute(result: Boolean?) {
-           getAllEventsTask().execute()
-        }
-    }
 
     private inner class getAllEventsTask : AsyncTask<Void, Void, List<Event>>() {
         override fun doInBackground(vararg params: Void): List<Event>? {

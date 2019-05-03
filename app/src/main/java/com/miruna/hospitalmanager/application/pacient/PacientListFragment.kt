@@ -133,7 +133,7 @@ class PacientListFragment : Fragment() {
                 return PacientService().createPacient(newPacient)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.i("aoleo gucci", "dragnea")
+                Log.i("check", "check")
             }
             return null
         }
@@ -149,7 +149,7 @@ class PacientListFragment : Fragment() {
                 var pacientListAux = PacientService().findAllPacients()
                 return PacientService().findByName(pacientListAux, et_search_pacient.text.toString())
             } catch (e: Exception) {
-
+                e.printStackTrace()
             }
             return null
         }
@@ -161,7 +161,7 @@ class PacientListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 pacientsAdapter = PacientsAdapter(pacientList!!)
 
-                var itemDecoration: DividerItemDecoration =
+                var itemDecoration =
                     DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
                 itemDecoration.setDrawable(resources.getDrawable(R.drawable.list_divider))
                 recyclerViewPacientList.addItemDecoration(itemDecoration)
@@ -197,7 +197,7 @@ class PacientListFragment : Fragment() {
 
             pacientList = pacients as MutableList<Pacient>?
 
-            var itemDecoration: DividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
+            var itemDecoration = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
 
             itemDecoration.setDrawable(resources.getDrawable(R.drawable.list_divider))
 
@@ -207,7 +207,7 @@ class PacientListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 pacientsAdapter = PacientsAdapter(pacientList!!)
 
-                var itemDecoration: DividerItemDecoration =
+                var itemDecoration =
                     DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
                 itemDecoration.setDrawable(resources.getDrawable(R.drawable.list_divider))
                 recyclerViewPacientList.addItemDecoration(itemDecoration)

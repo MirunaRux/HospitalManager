@@ -11,6 +11,8 @@ public class DrugDao {
         return drugs;
     }
 
+    public static Drug create(Drug drug){ return DrugRestCaller.createDrug(drug);}
+
     public static Drug update(Drug drug){
         return DrugRestCaller.updateDrug(drug);
     }
