@@ -16,7 +16,7 @@ class PacientsAdapter(private val pacients: MutableList<Pacient>) : RecyclerView
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.pacient_name.text = pacients[position].name
         holder.pacient_surname.text = pacients[position].surname
-        holder.pacient_age.text = pacients[position].age
+        holder.pacient_birthday.text = pacients[position].birthday
         holder.pacient_date_in.text = pacients[position].dateIn
         holder.pacient_date_ex.text = pacients[position].dateEx
     }
@@ -27,7 +27,7 @@ class PacientsAdapter(private val pacients: MutableList<Pacient>) : RecyclerView
 
         val pacient_name : TextView = itemView.pacient_name
         val pacient_surname : TextView = itemView.surname
-        val pacient_age : TextView = itemView.age
+        val pacient_birthday : TextView = itemView.birthday
         val pacient_date_in : TextView = itemView.date_in
         val pacient_date_ex : TextView = itemView.date_ex
 

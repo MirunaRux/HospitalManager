@@ -42,9 +42,14 @@ public class PacientService {
         return pacient;
     }
 
-    public void updatePacient(Pacient pacient) {
-        int index = pacients.indexOf(pacient);
-        pacients.set(index, pacient);
+    public Boolean updatePacient(Pacient pacient) {
+        try{
+            PacientDao.update(pacient);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void deletePacientById(String id) {

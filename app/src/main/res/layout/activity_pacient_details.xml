@@ -45,39 +45,60 @@
             android:layout_height="wrap_content"
             android:id="@+id/pacient_cnp"
             app:layout_constraintTop_toBottomOf="@id/pacient_age"
-            app:layout_constraintBottom_toTopOf="@+id/pacient_date_in"
+            app:layout_constraintBottom_toTopOf="@+id/til_pacient_date_in"
             app:layout_constraintStart_toStartOf="parent"
             android:fontFamily="@font/aller_bdit"
             android:textSize="15sp"
     />
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_pacient_date_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pacient_date_in"
             app:layout_constraintTop_toBottomOf="@id/pacient_cnp"
-            app:layout_constraintBottom_toTopOf="@+id/pacient_date_ex"
-            app:layout_constraintStart_toStartOf="parent"
-            android:fontFamily="@font/aller_bdit"
-            android:textSize="15sp"
-    />
+            app:layout_constraintBottom_toTopOf="@+id/til_pacient_date_ex"
+            app:layout_constraintStart_toStartOf="parent">
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_pacient_date_in"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/aller_bdit"
+                android:textSize="15sp"/>
 
-    <TextView
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pacient_date_ex"
-            app:layout_constraintTop_toBottomOf="@id/pacient_date_in"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewPacientFileList"
+            android:id="@+id/til_pacient_date_ex"
+            app:layout_constraintTop_toBottomOf="@id/til_pacient_date_in"
+            app:layout_constraintBottom_toTopOf="@id/btn_submit_pacient"
+            app:layout_constraintStart_toStartOf="parent">
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_pacient_date_ex"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/aller_bdit"
+                android:textSize="15sp"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+            android:id="@+id/btn_submit_pacient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_submit"
+            app:layout_constraintTop_toBottomOf="@id/til_pacient_date_ex"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewPacientFileList"
             app:layout_constraintStart_toStartOf="parent"
-            android:fontFamily="@font/aller_bdit"
-            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
     />
 
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recyclerViewPacientFileList"
-            app:layout_constraintTop_toBottomOf="@id/pacient_date_ex"
+            app:layout_constraintTop_toBottomOf="@id/btn_submit_pacient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:fontFamily="@font/aller_bdit"

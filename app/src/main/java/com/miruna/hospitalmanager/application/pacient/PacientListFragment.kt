@@ -50,7 +50,7 @@ class PacientListFragment : Fragment() {
             val pacientId = bundle.getString("PACIENT_ID") ?: ""
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
-            val pacientAge = bundle.getString("PACIENT_AGE") ?: ""
+            val pacientBirthday = bundle.getString("PACIENT_BIRTHDAY") ?: ""
             val pacientCnp = bundle.getString("PACIENT_CNP") ?: ""
             val pacientDateIn = bundle.getString("PACIENT_DATE_IN") ?: ""
             val pacientDateEx = bundle.getString("PACIENT_DATE_EX") ?: ""
@@ -59,7 +59,7 @@ class PacientListFragment : Fragment() {
                         pacientId,
                         pacientName,
                         pacientSurname,
-                        pacientAge,
+                        pacientBirthday,
                         pacientCnp,
                         pacientDateIn,
                         pacientDateEx
@@ -172,8 +172,8 @@ class PacientListFragment : Fragment() {
                     pacientDetailsIntent.putExtra("EXTRA_ID", it.id)
                     pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
                     pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
-                    pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
-                    pacientDetailsIntent.putExtra("EXTRA_cnp", it.cnp)
+                    pacientDetailsIntent.putExtra("EXTRA_BIRTHDAY", it.birthday)
+                    pacientDetailsIntent.putExtra("EXTRA_CNP", it.cnp)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
                     startActivity(pacientDetailsIntent)
@@ -218,8 +218,8 @@ class PacientListFragment : Fragment() {
                     pacientDetailsIntent.putExtra("EXTRA_ID", it.id)
                     pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
                     pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
-                    pacientDetailsIntent.putExtra("EXTRA_AGE", it.age)
-                    pacientDetailsIntent.putExtra("EXTRA_cnp", it.cnp)
+                    pacientDetailsIntent.putExtra("EXTRA_BIRTHDAY", it.birthday)
+                    pacientDetailsIntent.putExtra("EXTRA_CNP", it.cnp)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
                     startActivity(pacientDetailsIntent)

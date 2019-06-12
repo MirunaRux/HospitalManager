@@ -77,7 +77,7 @@ class AddPacientActivity : AppCompatActivity() {
                 bundle.putString("PACIENT_ID", et_add_pacient_id.text.toString())
                 bundle.putString("PACIENT_NAME", et_add_pacient_name.text.toString())
                 bundle.putString("PACIENT_SURNAME", et_add_pacient_surname.text.toString())
-                bundle.putString("PACIENT_AGE", et_add_pacient_age.text.toString())
+                bundle.putString("PACIENT_BIRTHDAY", et_add_pacient_birthday.text.toString())
                 bundle.putString("PACIENT_CNP", et_add_pacient_cnp.text.toString())
                 bundle.putString("PACIENT_DATE_IN", et_add_pacient_dateIn.text.toString())
                 bundle.putString("PACIENT_DATE_EX", et_add_pacient_dateEx.text.toString())
@@ -111,9 +111,9 @@ class AddPacientActivity : AppCompatActivity() {
             et_add_pacient_surname.requestFocus()
             return false
         }
-        if (et_add_pacient_age.text.isNullOrEmpty()) {
-            til_add_pacient_age.setError("Field required")
-            et_add_pacient_age.requestFocus()
+        if (et_add_pacient_birthday.text.isNullOrEmpty()) {
+            til_add_pacient_birthday.setError("Field required")
+            et_add_pacient_birthday.requestFocus()
             return false
         }
         if (et_add_pacient_cnp.text.isNullOrEmpty()) {

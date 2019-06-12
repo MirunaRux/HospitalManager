@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 
 public class PacientRestCaller {
     private final static Logger logger = Logger.getLogger(PacientRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.0.14:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103" +
+            ":8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();

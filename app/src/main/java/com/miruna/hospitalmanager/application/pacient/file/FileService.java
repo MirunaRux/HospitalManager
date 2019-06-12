@@ -42,9 +42,14 @@ public class FileService {
         return file;
     }
 
-    public void updateFile(File file) {
-        int index = files.indexOf(file);
-        files.set(index, file);
+    public Boolean updateFile(File file) {
+        try{
+            FileDao.update(file);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void deleteFileById(String id) {

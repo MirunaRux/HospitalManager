@@ -56,6 +56,9 @@ public class UserRestCaller {
     }
 
     public static User createUser(User newUser) {
+        logger.info(newUser.getUsername());
+        logger.info(newUser.getPassword());
+        logger.info(newUser.getRole());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<User> userEntity = new HttpEntity<>(newUser, httpHeaders);

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".application.splash.WelcomeActivity"
-        android:background="@mipmap/backgroundlogin">
+        android:background="@mipmap/background_login">
 
     <ProgressBar
             android:id="@+id/progressBar"
