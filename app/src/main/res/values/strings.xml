@@ -46,7 +46,7 @@
     <string name="title_activity_pacient_details">Pacient Details</string>
     <string name="title_activity_file_details">File Details</string>
     <string name="title_activity_add_pacient_file">Add pacient file</string>
-    <string name="title_activity_edit_file">Add pacient file</string>
+    <string name="title_activity_edit_file">Edit pacient file</string>
     <string name="title_activity_add_pacient">Add pacient</string>
     <string name="title_activity_add_drug">Add drug</string>
     <string name="title_activity_add_event">Add event</string>

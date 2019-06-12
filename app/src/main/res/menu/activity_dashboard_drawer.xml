@@ -21,6 +21,10 @@
                 android:icon="@drawable/ic_report_black_24dp"
                 android:title="Request"/>
         <item
+                android:id="@+id/nav_stiri"
+                android:icon="@drawable/ic_fiber_new_black_24dp"
+                android:title="Setings"/>
+        <item
                 android:id="@+id/nav_setari"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Setings"/>

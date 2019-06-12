@@ -20,6 +20,7 @@ import com.miruna.hospitalmanager.application.agenda.AgendaListFragment
 import com.miruna.hospitalmanager.application.agenda.Event
 import com.miruna.hospitalmanager.application.drug.AddDrugActivity
 import com.miruna.hospitalmanager.application.drug.DrugListFragment
+import com.miruna.hospitalmanager.application.noutati.NewsActivity
 import com.miruna.hospitalmanager.application.pacient.AddPacientActivity
 import com.miruna.hospitalmanager.application.pacient.Pacient
 import com.miruna.hospitalmanager.application.pacient.PacientListFragment
@@ -33,9 +34,10 @@ interface OnActivityFragmentCommunication {
     fun onAddObject(TAG: String, bundle: Bundle? = null)
 }
 
-class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnActivityFragmentCommunication {
+class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    OnActivityFragmentCommunication {
 
-    lateinit var newEvent : Event
+    lateinit var newEvent: Event
 
     override fun onAddObject(TAG: String, bundle: Bundle?) {
         /*if(TAG.equals("EVENT_LIST_FRAGMENT")) {
@@ -76,13 +78,12 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         fragmentTransaction.commit()
 
-        if(role.equals("Asistent")) {
+        if (role.equals("Asistent")) {
             floating_button.setOnClickListener {
                 val addEventActivity: Intent = Intent(this, AddEventActivity::class.java)
                 startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
             }
-        }else
-        {
+        } else {
             floating_button.visibility = View.INVISIBLE
         }
 
@@ -101,8 +102,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val fragment = supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1]
-        when(fragment){
-            is PacientListFragment -> fragment.onActivityResult(requestCode, resultCode,data)
+        when (fragment) {
+            is PacientListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
             is AgendaListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
             is DrugListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
             is RequestListFragment -> fragment.onActivityResult(requestCode, resultCode, data)
@@ -120,12 +121,12 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.commit()
 
                 val role = getIntent().getStringExtra("EXTRA_ROLE")
-                if(role.equals("Asistent")) {
+                if (role.equals("Asistent")) {
                     floating_button.setOnClickListener {
                         val addPacientActivity: Intent = Intent(this, AddPacientActivity::class.java)
                         startActivityForResult(addPacientActivity, Constants.RQUEST_CODE_ADD_PACIENT)
                     }
-                }else{
+                } else {
                     floating_button.visibility = View.INVISIBLE
                 }
             }
@@ -137,13 +138,12 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.commit()
 
                 val role = getIntent().getStringExtra("EXTRA_ROLE")
-                if(role.equals("Asistent")) {
+                if (role.equals("Asistent")) {
                     floating_button.setOnClickListener {
                         val addEventActivity: Intent = Intent(this, AddEventActivity::class.java)
                         startActivityForResult(addEventActivity, Constants.RQUEST_CODE_ADD_EVENT)
                     }
-                }else
-                {
+                } else {
                     floating_button.visibility = View.INVISIBLE
                 }
             }
@@ -154,29 +154,34 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
                 val role = getIntent().getStringExtra("EXTRA_ROLE")
-                if(role.equals("Farmacist")) {
+                if (role.equals("Farmacist")) {
+                    floating_button.visibility = View.VISIBLE
                     floating_button.setOnClickListener {
-                        val addDrugActivity: Intent =  Intent(this, AddDrugActivity::class.java)
+                        val addDrugActivity: Intent = Intent(this, AddDrugActivity::class.java)
                         startActivityForResult(addDrugActivity, Constants.RQUEST_CODE_ADD_DRUG)
                     }
-                }else{
+                } else {
                     floating_button.visibility = View.INVISIBLE
                 }
             }
             R.id.nav_cereri -> {
                 val role = getIntent().getStringExtra("EXTRA_ROLE")
-                if(role.equals("Farmacist")){
+                if (role.equals("Farmacist")) {
                     val fragmentTransaction = supportFragmentManager.beginTransaction()
                     val fragment = RequestListFragment()
                     fragmentTransaction.replace(R.id.content_dashboard, fragment, "REQUESTS_LIST_FRAGMENT")
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     fragmentTransaction.commit()
-                }else{
+                } else {
                     var addRequestIntent = Intent(this, AddRequestActivity::class.java)
                     startActivity(addRequestIntent)
                 }
 
                 floating_button.visibility = View.INVISIBLE
+            }
+            R.id.nav_stiri -> {
+                var newsIntent = Intent(this, NewsActivity::class.java)
+                startActivity(newsIntent)
             }
             R.id.nav_setari -> {
                 var settingsIntent = Intent(this, SettingsActivity::class.java)
