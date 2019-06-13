@@ -81,4 +81,5 @@
     <string name="label_update_drug">Update cantity</string>
     <string name="new_cantity">Insert new cantity</string>
     <string name="update">Update</string>
+    <string name="hint_birthday">Birthday</string>
 </resources>

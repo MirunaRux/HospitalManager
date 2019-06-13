@@ -21,7 +21,8 @@
             app:layout_constraintBottom_toTopOf="@+id/til_addFile_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/hint_id">
+            android:hint="@string/hint_id"
+            android:visibility="invisible">
         <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_addFile_id"
                 android:layout_width="match_parent"
@@ -29,11 +30,23 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/tv_file_content"
+              android:text="Insert content"
+              android:fontFamily="@font/aller_bdit"
+              android:textSize="15sp"
+              app:layout_constraintTop_toBottomOf="@id/til_addFile_id"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintBottom_toTopOf="@id/til_addFile_content"
+    />
+
     <android.support.design.widget.TextInputLayout
             android:id="@+id/til_addFile_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/til_addFile_id"
+            app:layout_constraintTop_toBottomOf="@id/tv_file_content"
             app:layout_constraintBottom_toTopOf="@id/btn_submit_file"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
