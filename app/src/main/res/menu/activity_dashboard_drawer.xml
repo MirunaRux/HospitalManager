@@ -23,7 +23,7 @@
         <item
                 android:id="@+id/nav_stiri"
                 android:icon="@drawable/ic_fiber_new_black_24dp"
-                android:title="Setings"/>
+                android:title="News"/>
         <item
                 android:id="@+id/nav_setari"
                 android:icon="@drawable/ic_settings_black_24dp"

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 public class PacientService {
     private static final AtomicInteger counter = new AtomicInteger();
@@ -36,8 +37,10 @@ public class PacientService {
         return result;
     }
 
-    public Pacient createPacient(Pacient pacient) {
+    public Pacient createPacient(Pacient pacient) throws Exception {
         //pacients.add(pacient);
+        System.out.println("Gigel ccreate pacient service");
+
         pacients.add(PacientDao.create(pacient));
         return pacient;
     }

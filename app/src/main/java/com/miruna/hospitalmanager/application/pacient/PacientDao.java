@@ -12,11 +12,12 @@ public class PacientDao {
         return pacients;
     }
 
-    public static Pacient create(Pacient pacient){
+    public static Pacient create(Pacient pacient) throws Exception{
+        System.out.println("Dao create pacient");
         return PacientRestCaller.createPacient(pacient);
     }
 
-    public static Pacient update(Pacient pacient){
+    public static Pacient update(Pacient pacient) throws  Exception {
         return PacientRestCaller.updatePacient(pacient);
     }
 }

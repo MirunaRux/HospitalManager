@@ -179,6 +179,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 floating_button.visibility = View.INVISIBLE
             }
+
             R.id.nav_stiri -> {
                 var newsIntent = Intent(this, NewsActivity::class.java)
                 startActivity(newsIntent)
