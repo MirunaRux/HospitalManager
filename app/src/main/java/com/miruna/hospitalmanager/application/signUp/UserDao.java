@@ -6,13 +6,13 @@ import java.util.List;
 
 public class UserDao {
 
-    public static List<User> findAllUsers() {
+    public static List<User> findAllUsers() throws Exception{
         List<User> users = new ArrayList<>();
         users.addAll(Arrays.asList(UserRestCaller.getAllUsers()));
         return users;
     }
 
-    public static User create(User user){
+    public static User create(User user) throws Exception{
         return UserRestCaller.createUser(user);
     }
 }
