@@ -24,7 +24,6 @@ class AddRequestActivity : AppCompatActivity() {
                 toast.show()
 
                 val bundle = Bundle()
-                bundle.putString("REQUEST_ID", et_addRequest_id.text.toString())
                 bundle.putString("REQUEST_DRUG_NAME", et_addRequest_drug_name.text.toString())
                 bundle.putString("REQUEST_CANTITY", et_addRequest_cantity.text.toString())
 
@@ -49,30 +48,9 @@ class AddRequestActivity : AppCompatActivity() {
             }
         }
     }
-/*
-    private inner class createRequestTask : AsyncTask<Void, Void, Request>() {
-        override fun doInBackground(vararg params: Void): Request? {
-            try {
-                return RequestService().createRequest(newRequest)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.i("check", "check")
-            }
-            return null
-        }
-
-        override fun onPostExecute(pacient: Request?) {
-        }
-    }
-*/
 
     fun isInputValid(): Boolean {
 
-        if (et_addRequest_id.text.isNullOrEmpty()) {
-            til_addRequest_id.setError("Field required")
-            et_addRequest_id.requestFocus()
-            return false
-        }
         if (et_addRequest_drug_name.text.isNullOrEmpty()) {
             til_addRequest_drug_name.setError("Field required")
             et_addRequest_drug_name.requestFocus()

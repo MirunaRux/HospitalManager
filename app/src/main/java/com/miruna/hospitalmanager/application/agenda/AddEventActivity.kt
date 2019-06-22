@@ -37,7 +37,7 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun getTimePickerListener_et_start_time() =
         TimePickerDialog.OnTimeSetListener { view,hourOfDay,minute->
-            et_add_event_start_time.setText("Time " + getHourAMPM(hourOfDay).toString() + ":" + minute.toString()+ getAMPM(hourOfDay))
+            et_add_event_start_time.setText(getHourAMPM(hourOfDay).toString() + ":" + minute.toString()+ getAMPM(hourOfDay))
         }
 
 
@@ -80,7 +80,6 @@ class AddEventActivity : AppCompatActivity() {
         btn_submit_event.setOnClickListener {
             if (isInputValid()) {
                 val bundle = Bundle()
-                bundle.putString("EVENT_ID", et_add_event_id.text.toString())
                 bundle.putString("EVENT_NAME", et_add_event_name.text.toString())
                 bundle.putString("EVENT_LOCATION", et_add_event_location.text.toString())
                 bundle.putString("EVENT_START_DATE", et_add_event_start_date.text.toString())
@@ -101,11 +100,6 @@ class AddEventActivity : AppCompatActivity() {
 
     fun isInputValid(): Boolean {
 
-        if (et_add_event_id.text.isNullOrEmpty()) {
-            til_add_event_id.setError("Field required")
-            et_add_event_id.requestFocus()
-            return false
-        }
         if (et_add_event_name.text.isNullOrEmpty()) {
             til_add_event_name.setError("Field required")
             et_add_event_name.requestFocus()

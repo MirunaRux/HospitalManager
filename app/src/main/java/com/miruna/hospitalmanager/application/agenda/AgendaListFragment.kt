@@ -46,7 +46,7 @@ class AgendaListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_EVENT") ?: return
-            val eventId = bundle.getString("EVENT_ID") ?: ""
+            val eventId = "E" + ((eventList?.size ?: 0) + 1).toString()
             val eventName = bundle.getString("EVENT_NAME") ?: ""
             val eventLocation = bundle.getString("EVENT_LOCATION") ?: ""
             val eventStartDate = bundle.getString("EVENT_START_DATE") ?: ""

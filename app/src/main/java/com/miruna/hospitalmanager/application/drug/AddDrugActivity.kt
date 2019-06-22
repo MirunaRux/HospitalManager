@@ -17,7 +17,6 @@ class AddDrugActivity : AppCompatActivity() {
         btn_submit_drug.setOnClickListener {
             if(isInputValid()){
                 val bundle = Bundle()
-                bundle.putString("DRUG_ID", et_add_drug_id.text.toString())
                 bundle.putString("DRUG_NAME", et_add_drug_name.text.toString())
                 bundle.putString("DRUG_NUMBER", et_add_drug_number.text.toString())
 
@@ -34,11 +33,6 @@ class AddDrugActivity : AppCompatActivity() {
 
     fun isInputValid(): Boolean {
 
-        if (et_add_drug_id.text.isNullOrEmpty()) {
-            til_add_drug_id.setError("Field required")
-            et_add_drug_id.requestFocus()
-            return false
-        }
         if (et_add_drug_name.text.isNullOrEmpty()) {
             til_add_drug_name.setError("Field required")
             et_add_drug_name.requestFocus()
