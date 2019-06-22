@@ -47,7 +47,7 @@ class PacientListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_PACIENT) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_PACIENT") ?: return
-            val pacientId = bundle.getString("PACIENT_ID") ?: ""
+            val pacientId = ((pacientList?.size ?:0) + 1).toString()
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
             val pacientBirthday = bundle.getString("PACIENT_BIRTHDAY") ?: ""

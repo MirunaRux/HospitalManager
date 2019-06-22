@@ -40,7 +40,7 @@ class DrugListFragment : Fragment() {
 
         if (resultCode == Constants.RESULT_CODE_ADD_DRUG) {
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_DRUG") ?: return
-            val drugId = bundle.getString("DRUG_ID") ?: ""
+            val drugId = ((drugList?.size ?: 0) + 1).toString()
             val drugName = bundle.getString("DRUG_NAME") ?: ""
             val drugNumber = bundle.getString("DRUG_NUMBER") ?: ""
             newDrug = Drug(drugId, drugName, drugNumber.toInt())

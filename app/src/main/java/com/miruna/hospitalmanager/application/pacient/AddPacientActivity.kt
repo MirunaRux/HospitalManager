@@ -72,13 +72,9 @@ class AddPacientActivity : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        Log.i("gigel","e ok")
         btn_submit_pacient.setOnClickListener {
-            Log.i("gigel", "clicked")
             if (isInputValid()) {
-                Log.i("gigel", "input valid")
                 val bundle = Bundle()
-                bundle.putString("PACIENT_ID", et_add_pacient_id.text.toString())
                 bundle.putString("PACIENT_NAME", et_add_pacient_name.text.toString())
                 bundle.putString("PACIENT_SURNAME", et_add_pacient_surname.text.toString())
                 bundle.putString("PACIENT_BIRTHDAY", et_add_pacient_birthday.text.toString())
@@ -100,46 +96,34 @@ class AddPacientActivity : AppCompatActivity() {
 
     fun isInputValid(): Boolean {
 
-        if (et_add_pacient_id.text.isNullOrEmpty()) {
-            til_add_pacient_id.setError("Field required")
-            et_add_pacient_id.requestFocus()
-            Log.i("gigel","1")
-            return false
-        }
         if (et_add_pacient_name.text.isNullOrEmpty()) {
             til_add_pacient_name.setError("Field required")
             et_add_pacient_name.requestFocus()
-            Log.i("gigel","2")
             return false
         }
         if (et_add_pacient_surname.text.isNullOrEmpty()) {
             til_add_pacient_surname.setError("Field required")
             et_add_pacient_surname.requestFocus()
-            Log.i("gigel","3")
             return false
         }
         if (et_add_pacient_birthday.text.isNullOrEmpty()) {
             til_add_pacient_birthday.setError("Field required")
             et_add_pacient_birthday.requestFocus()
-            Log.i("gigel","4")
             return false
         }
         if (et_add_pacient_cnp.text.isNullOrEmpty()) {
             til_add_pacient_cnp.setError("Field required")
             et_add_pacient_cnp.requestFocus()
-            Log.i("gigel","5")
             return false
         }
         if (et_add_pacient_dateIn.text.isNullOrEmpty()) {
             til_add_pacient_dateIn.setError("Field required")
             et_add_pacient_dateIn.requestFocus()
-            Log.i("gigel","6")
             return false
         }
         if (et_add_pacient_dateEx.text.isNullOrEmpty()) {
             til_add_pacient_dateEx.setError("Field required")
             et_add_pacient_dateEx.requestFocus()
-            Log.i("gigel","7")
             return false
         }
 
