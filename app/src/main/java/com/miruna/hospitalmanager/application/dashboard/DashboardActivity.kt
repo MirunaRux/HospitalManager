@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.miruna.hospitalmanager.R
@@ -38,6 +39,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     OnActivityFragmentCommunication {
 
     lateinit var newEvent: Event
+    var role: String = ""
+    var username: String = ""
 
     override fun onAddObject(TAG: String, bundle: Bundle?) {
         /*if(TAG.equals("EVENT_LIST_FRAGMENT")) {
@@ -56,8 +59,9 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         setSupportActionBar(toolbar)
 
         var dahsboardIntent = getIntent()
-        val username = dahsboardIntent.getStringExtra("EXTRA_USERNAME")
-        val role = dahsboardIntent.getStringExtra("EXTRA_ROLE")
+        username = dahsboardIntent.getStringExtra("EXTRA_USERNAME")
+        role = dahsboardIntent.getStringExtra("EXTRA_ROLE")
+        Log.i("gigi dashbord", role)
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         val headerView = navigationView.getHeaderView(0)
         val navUsername = headerView.findViewById(R.id.dashboard_username) as TextView
@@ -73,8 +77,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         //set agenda as default fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = AgendaListFragment()
-        fragmentTransaction.replace(R.id.content_dashboard, fragment, "AGENDA_LIST_FRAGMENT")
+        val fragment = PacientListFragment()
+        fragmentTransaction.replace(R.id.content_dashboard, fragment, "PACIENT_LIST_FRAGMENT")
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         fragmentTransaction.commit()
 
@@ -89,6 +93,13 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.menu.getItem(1).isChecked = true
+    }
+
+    fun sendUsername(): String{
+        return username
+    }
+    fun sendRole(): String{
+        return role
     }
 
     override fun onBackPressed() {

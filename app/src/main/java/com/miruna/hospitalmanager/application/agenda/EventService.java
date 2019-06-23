@@ -34,6 +34,16 @@ public class EventService {
         return aux;
     }
 
+    public List<Event> findByDoctorUsername(List<Event> eventsAux, String username){
+        List<Event> aux = new ArrayList<>();
+        for(Event event: events){
+            if(event.getDoctorUsername().equals(username)){
+                aux.add(event);
+            }
+        }
+        return aux;
+    }
+
     public Event createEvent(Event event) {
         //events.add(event);
         events.add(EventDao.create(event));
@@ -46,13 +56,6 @@ public class EventService {
     }
 
     public boolean deleteEventById(String id) {
-        /*for (Iterator<Event> iterator = events.iterator(); iterator.hasNext(); ) {
-            Event event = iterator.next();
-            if (event.getId().equals(id)) {
-                iterator.remove();
-            }
-        }*/
-
         try{
             EventDao.delete(id);
             return true;

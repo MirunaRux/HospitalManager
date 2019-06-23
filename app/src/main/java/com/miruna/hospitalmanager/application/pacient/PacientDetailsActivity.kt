@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.miruna.hospitalmanager.R
+import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
 import com.miruna.hospitalmanager.application.pacient.file.*
 import com.miruna.hospitalmanager.application.utils.Constants
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
@@ -16,6 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PacientDetailsActivity : AppCompatActivity() {
+
     var fileList: MutableList<File>? = null
     var filesAdapter: FilesAdapter? = null
 
@@ -102,6 +105,9 @@ class PacientDetailsActivity : AppCompatActivity() {
             currentPacient.dateIn = et_pacient_date_in.text.toString()
             currentPacient.dateEx = et_pacient_date_ex.text.toString()
             updatePacientTask().execute()
+            finish()
+            var intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
         }
 
         getAllPacientFilesTask().execute()

@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.agenda;
 
+import android.util.Log;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -56,6 +57,7 @@ public class EventRestCaller {
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Event> eventEntity = new HttpEntity<>(newEvent, httpHeaders);
         ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/event/", eventEntity, Event.class);
+       logger.info("check event rest caller");
         return response.getBody();
     }
 

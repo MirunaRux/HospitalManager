@@ -14,8 +14,10 @@ import com.miruna.hospitalmanager.application.signUp.User
 import com.miruna.hospitalmanager.application.signUp.UserService
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 import com.miruna.hospitalmanager.R
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -107,10 +109,12 @@ class LoginActivity : AppCompatActivity() {
         val dashboardIntent = Intent(this, DashboardActivity::class.java)
         SharedPreferenceManager.saveUsername(this, et_login_username.text.toString())
         dashboardIntent.putExtra("EXTRA_USERNAME", et_login_username.text.toString())
-        dashboardIntent.putExtra("EXTRA_ROLE", extraRole)
-        startActivity(dashboardIntent)
-        finish()
 
+        if(!extraRole.equals("Role")) {
+            dashboardIntent.putExtra("EXTRA_ROLE", extraRole)
+        }else
+            dashboardIntent.putExtra("EXTRA_ROLE", spinner_login_role.selectedItem.toString())
+        startActivity(dashboardIntent)
     }
 
     private inner class isUserExistTask : AsyncTask<Void, Void, Void>() {

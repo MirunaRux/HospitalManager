@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.miruna.hospitalmanager.R
+import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
 import kotlinx.android.synthetic.main.fragment_agenda_list.*
 import com.miruna.hospitalmanager.application.dashboard.OnActivityFragmentCommunication
 import com.miruna.hospitalmanager.application.utils.Constants
@@ -33,12 +34,19 @@ class AgendaListFragment : Fragment() {
     var eventsAdapter: EventsAdapter? = null
     lateinit var idDeletedEvent: String
     lateinit var newEvent: Event
+    var doctorUsername: String = ""
+    var userRole: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
         }
+
+        val dashboardActivity = activity as DashboardActivity?
+        userRole = dashboardActivity?.sendRole() ?: ""
+        doctorUsername = dashboardActivity?.sendUsername() ?: ""
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,7 +91,13 @@ class AgendaListFragment : Fragment() {
             getAllEventsTask().execute()
         }
 
-        getAllEventsTask().execute()
+        if(userRole.equals("Asistent")){
+            getAllEventsTask().execute()
+        }
+        else if(userRole.equals("Medic")){
+            getEventsByDoctorUsername().execute()
+        }
+
 
     }
 
@@ -124,10 +138,11 @@ class AgendaListFragment : Fragment() {
     private inner class createEventTask : AsyncTask<Void, Void, Event>() {
         override fun doInBackground(vararg params: Void): Event? {
             try {
+                Log.i("check event", "check")
+
                 return EventService().createEvent(newEvent)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.i("check", "check")
             }
             return null
         }
@@ -156,7 +171,46 @@ class AgendaListFragment : Fragment() {
         override fun doInBackground(vararg params: Void?): List<Event>? {
             try {
                 var eventListAux = EventService().findAllEvents()
-                return EventService().findByDate(eventListAux, et_search_event.text.toString())
+                if(userRole.equals("Asistent")){
+                    return EventService().findByDate(eventListAux, et_search_event.text.toString())
+                }
+                else if(userRole.equals("Medic")){
+                    var personalEvents = EventService().findByDoctorUsername(eventListAux, doctorUsername)
+                    return EventService().findByDate(personalEvents, et_search_event.text.toString())
+                }
+            } catch (e: Exception) {
+
+            }
+            return null
+        }
+
+        override fun onPostExecute(events: List<Event>?) {
+            eventList = events as MutableList<Event>?
+
+            recyclerViewAgendaList.apply {
+                layoutManager = LinearLayoutManager(context)
+                eventsAdapter = EventsAdapter(eventList!!)
+
+                eventsAdapter?.onItemClick = {
+                    var event = it
+                    var dialogView = LayoutInflater.from(context).inflate(R.layout.event_alert_dialog, null)
+                    var dialogBuilder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
+                    var alertDialog = dialogBuilder.show()
+                    alertDialog.btn_dialog_delete.setOnClickListener {
+                        EventService().deleteEventById(event.id)
+                        alertDialog.dismiss()
+                    }
+                }
+                this.adapter = eventsAdapter
+            }
+        }
+    }
+
+    private inner class getEventsByDoctorUsername : AsyncTask<Void, Void, List<Event>>() {
+        override fun doInBackground(vararg params: Void?): List<Event>? {
+           try {
+                var eventListAux = EventService().findAllEvents()
+                return EventService().findByDoctorUsername(eventListAux, doctorUsername)
             } catch (e: Exception) {
 
             }

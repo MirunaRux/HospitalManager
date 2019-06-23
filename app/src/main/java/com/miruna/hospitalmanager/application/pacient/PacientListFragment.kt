@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_pacient_list.*
 import com.miruna.hospitalmanager.application.utils.Constants
 import android.widget.ArrayAdapter
 import android.os.AsyncTask
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.widget.Toast
@@ -26,13 +27,20 @@ import android.widget.Toast
 private const val ARG_PARAM1 = "param1"
 
 
-class PacientListFragment : Fragment() {
+class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
     lateinit var onActivityFragmentCommunication: OnActivityFragmentCommunication
     var pacientList: MutableList<Pacient>? = null
     var pacientsAdapter: PacientsAdapter? = null
     lateinit var newPacient: Pacient
+
+
+    override fun onRefresh() {
+        getAllPacientsTask().execute()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
