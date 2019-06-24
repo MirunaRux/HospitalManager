@@ -3,6 +3,7 @@ package com.miruna.hospitalmanager.application.pacient.file
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.pacient.PacientDetailsActivity
 import kotlinx.android.synthetic.main.activity_add_pacient_file.*
@@ -14,11 +15,11 @@ class AddPacientFileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_pacient_file)
 
         btn_submit_file.setOnClickListener {
-            if(isInputValid()){
+            if (isInputValid()) {
                 val pacientDetailsIntent = Intent(this, PacientDetailsActivity::class.java)
-                //pacientDetailsIntent.putExtra("EXTRA_FILE_ID", et_addFile_content.text.toString())
                 pacientDetailsIntent.putExtra("EXTRA_FILE_CONTENT", et_addFile_content.text.toString())
-                startActivity(pacientDetailsIntent)
+                Log.i("extraFile se pune",  et_addFile_content.text.toString())
+                finish()
             }
         }
     }

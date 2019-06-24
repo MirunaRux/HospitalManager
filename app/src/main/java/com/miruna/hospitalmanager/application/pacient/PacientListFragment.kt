@@ -38,7 +38,9 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     override fun onRefresh() {
-        getAllPacientsTask().execute()
+        swiperefresh_pacients.setOnRefreshListener {
+            getAllPacientsTask().execute()
+        }
     }
 
 
@@ -54,8 +56,9 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Constants.RESULT_CODE_ADD_PACIENT) {
+            var lastId = pacientList?.get(pacientList!!.size-1)?.id?.substring(1)
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_PACIENT") ?: return
-            val pacientId = ((pacientList?.size ?:0) + 1).toString()
+            val pacientId = "P" + ((lastId?.toInt() ?: 0) + 1).toString()
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
             val pacientBirthday = bundle.getString("PACIENT_BIRTHDAY") ?: ""
@@ -173,7 +176,6 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
                 itemDecoration.setDrawable(resources.getDrawable(R.drawable.list_divider))
                 recyclerViewPacientList.addItemDecoration(itemDecoration)
-
                 pacientsAdapter?.onItemClick = {
                     val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
                     SharedPreferenceManager.savePacientId(context, it.id)
@@ -230,6 +232,7 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     pacientDetailsIntent.putExtra("EXTRA_CNP", it.cnp)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_IN", it.dateIn)
                     pacientDetailsIntent.putExtra("EXTRA_DATE_EX", it.dateEx)
+                    Log.i("gigel3", "se seteaza" + it.id)
                     startActivity(pacientDetailsIntent)
                 }
                 this.adapter = pacientsAdapter

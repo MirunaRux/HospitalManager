@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class EventRestCaller {
     private final static Logger logger = Logger.getLogger(EventRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.1.6:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -56,6 +56,14 @@ public class EventRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Event> eventEntity = new HttpEntity<>(newEvent, httpHeaders);
+        logger.info("Stert event: " + newEvent.getName());
+        logger.info("Stert event: " + newEvent.getLocation());
+        logger.info("Stert event: " + newEvent.getStartDate());
+        logger.info("Stert event: " + newEvent.getStartTime());
+        logger.info("Stert event: " + newEvent.getPacientName());
+        logger.info("Stert event: " + newEvent.getDoctorUsername());
+        logger.info("Stert event: " + newEvent.getId());
+        logger.info("start event rest caller");
         ResponseEntity<Event> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/event/", eventEntity, Event.class);
        logger.info("check event rest caller");
         return response.getBody();

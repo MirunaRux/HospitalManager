@@ -53,8 +53,9 @@ class AgendaListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
+            var lastId = eventList?.get(eventList!!.size-1)?.id?.substring(1)
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_EVENT") ?: return
-            val eventId = "E" + ((eventList?.size ?: 0) + 1).toString()
+            val eventId = "E" + ((lastId?.toInt() ?: 0) + 1).toString()
             val eventName = bundle.getString("EVENT_NAME") ?: ""
             val eventLocation = bundle.getString("EVENT_LOCATION") ?: ""
             val eventStartDate = bundle.getString("EVENT_START_DATE") ?: ""

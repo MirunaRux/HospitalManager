@@ -57,8 +57,9 @@ class RequestListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Constants.RESULT_CODE_ADD_EVENT) {
+            var lastId = requestList?.get(requestList!!.size-1)?.id?.substring(1)
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_REQUEST") ?: return
-            val requestId = bundle.getString("REQUEST_ID") ?: ""
+            val requestId = "R" + ((lastId?.toInt() ?: 0) + 1).toString()
             val requestDrugName = bundle.getString("REQUEST_DRUG_NAME") ?: ""
             val requestCantity = bundle.getString("REQUEST_CANTITY") ?: ""
 

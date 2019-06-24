@@ -48,6 +48,7 @@ public class NewsActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mEditText = (EditText) findViewById(R.id.rssFeedEditText);
+        mEditText.setText("http://rss.realitatea.net/sanatate.xml");
         mFetchFeedButton = (Button) findViewById(R.id.fetchFeedButton);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mFeedTitleTextView = (TextView) findViewById(R.id.feedTitle);
@@ -68,6 +69,8 @@ public class NewsActivity extends AppCompatActivity {
                 new FetchFeedTask().execute((Void) null);
             }
         });
+        mFetchFeedButton.performClick();
+
     }
 
     public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException, IOException {

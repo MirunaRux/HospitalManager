@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.login.LoginActivity
 import com.miruna.hospitalmanager.application.utils.SharedPreferenceManager
@@ -22,6 +23,7 @@ class SignUpActivity : AppCompatActivity() {
                 SharedPreferenceManager.saveUsername(this, til_signUp_username.toString())
                 loginIntent.putExtra("EXTRA_USERNAME", et_signUp_username.text.toString())
                 loginIntent.putExtra("EXTRA_ROLE", spinner_signUp_role.selectedItem.toString())
+                Log.i("gigel", "cucu")
                 createUserTask().execute()
                 startActivity(loginIntent)
                 finish()

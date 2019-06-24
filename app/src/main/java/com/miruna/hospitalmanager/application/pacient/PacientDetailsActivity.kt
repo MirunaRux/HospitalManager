@@ -23,8 +23,10 @@ class PacientDetailsActivity : AppCompatActivity() {
     var filesAdapter: FilesAdapter? = null
 
     var extraId: String = ""
+    lateinit var newFile: File
 
     lateinit var currentPacient: Pacient
+
 
     fun Date.formatToStringByPattern(pattern: String): String {
         val df = SimpleDateFormat(pattern)
@@ -56,18 +58,21 @@ class PacientDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pacient_details)
 
         val pacientDetailsIntent: Intent = getIntent()
-        extraId = pacientDetailsIntent.getStringExtra("EXTRA_ID")
-        val extraName = pacientDetailsIntent.getStringExtra("EXTRA_NAME")
-        val extraSurname = pacientDetailsIntent.getStringExtra("EXTRA_SURNAME")
-        val extraBirthday = pacientDetailsIntent.getStringExtra("EXTRA_BIRTHDAY")
-        val extraCNP = pacientDetailsIntent.getStringExtra("EXTRA_CNP")
-        val extraDateIn = pacientDetailsIntent.getStringExtra("EXTRA_DATE_IN")
-        val extraDateEx = pacientDetailsIntent.getStringExtra("EXTRA_DATE_EX")
+        extraId = pacientDetailsIntent?.getStringExtra("EXTRA_ID") ?: ""
+        val extraName = pacientDetailsIntent?.getStringExtra("EXTRA_NAME") ?: ""
+        val extraSurname = pacientDetailsIntent?.getStringExtra("EXTRA_SURNAME") ?: ""
+        val extraBirthday = pacientDetailsIntent?.getStringExtra("EXTRA_BIRTHDAY") ?: ""
+        val extraCNP = pacientDetailsIntent?.getStringExtra("EXTRA_CNP") ?: ""
+        val extraDateIn = pacientDetailsIntent?.getStringExtra("EXTRA_DATE_IN") ?: ""
+        val extraDateEx = pacientDetailsIntent?.getStringExtra("EXTRA_DATE_EX") ?: ""
 
         currentPacient = Pacient(extraId, extraName, extraSurname, extraBirthday, extraCNP, extraDateIn, extraDateEx)
 
-        val extraFileId = pacientDetailsIntent.getStringExtra("EXTRA_FILE_ID")
         val extraFileContent = pacientDetailsIntent.getStringExtra("EXTRA_FILE_CONTENT")
+       /* Log.i("extraFile", pacientDetailsIntent.getStringExtra("EXTRA_FILE_CONTENT"))
+        var lastId = fileList?.get(fileList!!.size-1)?.id?.substring(1)
+        newFile = File(lastId!!, extraFileContent, extraId)*/
+
         var calendar: Calendar
 
         pacient_name.setText("Name : " + extraName)
@@ -115,9 +120,11 @@ class PacientDetailsActivity : AppCompatActivity() {
         floating_button_addFile.setOnClickListener {
             val addPacientFileIntent = Intent(this, AddPacientFileActivity::class.java)
             startActivity(addPacientFileIntent)
+           finish()
         }
 
     }
+
 
     private inner class updatePacientTask : AsyncTask<Void, Void, Boolean>() {
         override fun doInBackground(vararg params: Void): Boolean {
@@ -133,6 +140,22 @@ class PacientDetailsActivity : AppCompatActivity() {
 
         override fun onPostExecute(pacient: Boolean?) {
 
+        }
+    }
+
+    private inner class addPacientFileTask : AsyncTask<Void, Void, File>() {
+        override fun doInBackground(vararg params: Void): File? {
+            try {
+                return FileService().createFile(newFile)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.i("check", "check")
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: File?) {
+            getAllPacientFilesTask().execute()
         }
     }
 
