@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.pacient;
 
+import android.util.Log;
 import com.miruna.hospitalmanager.application.crypto.CryptoFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 
 public class PacientRestCaller {
     private final static Logger logger = Logger.getLogger(PacientRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.6:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -76,10 +77,24 @@ public class PacientRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         logger.info(newPacient.getName());
+        Log.i("gogu", newPacient.getName());
+        Log.i("gogu", newPacient.getSurname());
+        Log.i("gogu", newPacient.getBirthday());
+        Log.i("gogu", newPacient.getCnp());
+        Log.i("gogu", newPacient.getDateEx());
+        Log.i("gogu", newPacient.getDateIn());
         newPacient = encryptPacientData(newPacient);
         logger.info(newPacient.getName());
         HttpEntity<Pacient> pacientEntity = new HttpEntity<>(newPacient, httpHeaders);
+        Log.i("gogu", newPacient.getName());
+        Log.i("gogu", newPacient.getSurname());
+        Log.i("gogu", newPacient.getBirthday());
+        Log.i("gogu", newPacient.getCnp());
+        Log.i("gogu", newPacient.getDateEx());
+        Log.i("gogu", newPacient.getDateIn());
+        Log.i("gogu", "s-a ajuns la creare pacient");
         ResponseEntity<Pacient> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/pacient/", pacientEntity, Pacient.class);
+        Log.i("gogu", "s-a ajuns la creare pacient2");
         return response.getBody();
     }
 

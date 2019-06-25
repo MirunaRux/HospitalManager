@@ -1,5 +1,7 @@
 package com.miruna.hospitalmanager.application.pacient.file;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +40,9 @@ public class FileService {
     }
 
     public File createFile(File file) {
-        files.add(file);
+        files = FileDao.findAllFiles();
+        files.add(FileDao.create(file));
+        Log.i("gigica", "service file");
         return file;
     }
 

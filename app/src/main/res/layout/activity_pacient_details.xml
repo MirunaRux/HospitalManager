@@ -6,6 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".application.pacient.PacientDetailsActivity">
+   <!-- <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0px"
+            android:id="@+id/pacient_id"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/pacient_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+    />-->
 
     <TextView
             android:layout_width="wrap_content"

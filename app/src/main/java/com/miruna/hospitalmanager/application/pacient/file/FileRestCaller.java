@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class FileRestCaller {
     private final static Logger logger = Logger.getLogger(FileRestCaller.class.getName());
-            private final static String REST_SERVICE_URI = "http://192.168.1.6:8080/medicalService/api";
+            private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
             public static RestTemplate getRestTemplate() {
                 RestTemplate restTemplate = new RestTemplate();
@@ -62,7 +62,9 @@ public class FileRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<File> fileEntity = new HttpEntity<>(newFile, httpHeaders);
+        Log.i("gigica", "e ok response create file");
         ResponseEntity<File> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/file/", fileEntity, File.class);
+        Log.i("gigica", "e ok response create file2");
         return response.getBody();
     }
 

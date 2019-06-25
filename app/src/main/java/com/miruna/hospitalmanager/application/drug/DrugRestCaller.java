@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.drug;
 
+import android.util.Log;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 
 public class DrugRestCaller {
     private final static Logger logger = Logger.getLogger(DrugRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.6:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -55,7 +56,9 @@ public class DrugRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Drug> drugEntity = new HttpEntity<>(newDrug, httpHeaders);
+        Log.i("drugGigel", "rest ok 1");
         ResponseEntity<Drug> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/drug/", drugEntity, Drug.class);
+        Log.i("drugGigel", "rest ok 2");
         return response.getBody();
     }
 

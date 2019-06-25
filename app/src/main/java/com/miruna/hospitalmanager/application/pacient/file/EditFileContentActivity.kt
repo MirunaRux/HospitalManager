@@ -29,7 +29,6 @@ class EditFileContentActivity : AppCompatActivity() {
             currentFile.content = et_file_content.text.toString()
 
             updateFileTask().execute()
-            startActivity(fileDetailsIntent)
             finish()
         }
     }

@@ -19,7 +19,7 @@ public class UserService {
         return users;
     }
 
-    public boolean findByUsername(String username, String password) throws Exception {
+    public boolean findByUsername(String username, String password, String role) throws Exception {
         users = findAllUsers();
         Log.i("gigel", username);
         Log.i("gigel", password);
@@ -28,7 +28,7 @@ public class UserService {
             Log.i("gigel", "U:" + user.getUsername());
             Log.i("gigel", "P:" + user.getPassword());
             if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password)) {
+                if (user.getPassword().equals(password) && user.getRole().equals(role)) {
                     Log.i("gigel", "parola ok");
                     return true;
                 }
@@ -44,7 +44,7 @@ public class UserService {
 
     public boolean isUserExist(User user) throws Exception{
 
-        return findByUsername(user.getUsername(), user.getPassword());
+        return findByUsername(user.getUsername(), user.getPassword(), user.getRole());
     }
 
 }

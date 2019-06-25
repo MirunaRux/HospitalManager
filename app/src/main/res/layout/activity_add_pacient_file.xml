@@ -58,8 +58,7 @@
                 android:scrollbars="vertical"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:lines="4"/>
+                android:scrollbarStyle="insideInset"/>
 
     </android.support.design.widget.TextInputLayout>
 

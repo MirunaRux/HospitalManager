@@ -69,8 +69,8 @@ class NotificationService : IntentService("NotificationService") {
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, LoginActivity::class.java)
 
-            val title = "Sample Notification"
-            val message = "You have received a sample notification. This notification will take you to the details page."
+            val title = "Event reminder!"
+            val message = "A new event is coming in 15 minutes."
 
             notifyIntent.putExtra("title", title)
             notifyIntent.putExtra("message", message)

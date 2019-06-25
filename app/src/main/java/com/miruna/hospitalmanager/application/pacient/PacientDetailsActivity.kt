@@ -1,7 +1,9 @@
 package com.miruna.hospitalmanager.application.pacient
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -24,7 +26,7 @@ class PacientDetailsActivity : AppCompatActivity() {
 
     var extraId: String = ""
     lateinit var newFile: File
-
+    lateinit var mPrefs: SharedPreferences
     lateinit var currentPacient: Pacient
 
 
@@ -52,13 +54,22 @@ class PacientDetailsActivity : AppCompatActivity() {
             }
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pacient_details)
-
         val pacientDetailsIntent: Intent = getIntent()
         extraId = pacientDetailsIntent?.getStringExtra("EXTRA_ID") ?: ""
+        mPrefs = getPreferences(Context.MODE_PRIVATE)
+        Log.i("gogu", extraId)
+
+        val prefsEditor = mPrefs.edit()
+        prefsEditor.putString("idPacient", extraId)
+        prefsEditor.commit()
+        val testu = mPrefs.getString("User", "")
+        Log.i("gogu", "userul2 " + testu)
+        Log.i("gogu", "test gogu ok1")
+        Log.i("gogu", mPrefs.getString("idPacient", ""))
         val extraName = pacientDetailsIntent?.getStringExtra("EXTRA_NAME") ?: ""
         val extraSurname = pacientDetailsIntent?.getStringExtra("EXTRA_SURNAME") ?: ""
         val extraBirthday = pacientDetailsIntent?.getStringExtra("EXTRA_BIRTHDAY") ?: ""
@@ -74,7 +85,6 @@ class PacientDetailsActivity : AppCompatActivity() {
         newFile = File(lastId!!, extraFileContent, extraId)*/
 
         var calendar: Calendar
-
         pacient_name.setText("Name : " + extraName)
         pacient_surname.setText("Surname : " + extraSurname)
         pacient_age.setText("Birthday : " + extraBirthday)
@@ -119,6 +129,8 @@ class PacientDetailsActivity : AppCompatActivity() {
 
         floating_button_addFile.setOnClickListener {
             val addPacientFileIntent = Intent(this, AddPacientFileActivity::class.java)
+            Log.i("IntentTest", extraId)
+            addPacientFileIntent.putExtra("EXTRA_PACIENT_ID_FROM_DETAILS", extraId)
             startActivity(addPacientFileIntent)
            finish()
         }
@@ -143,7 +155,7 @@ class PacientDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private inner class addPacientFileTask : AsyncTask<Void, Void, File>() {
+   /* private inner class addPacientFileTask : AsyncTask<Void, Void, File>() {
         override fun doInBackground(vararg params: Void): File? {
             try {
                 return FileService().createFile(newFile)
@@ -157,7 +169,7 @@ class PacientDetailsActivity : AppCompatActivity() {
         override fun onPostExecute(pacient: File?) {
             getAllPacientFilesTask().execute()
         }
-    }
+    }*/
 
     private inner class getAllPacientFilesTask : AsyncTask<Void, Void, List<File>>() {
         override fun doInBackground(vararg params: Void): List<File>? {

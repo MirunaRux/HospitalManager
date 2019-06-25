@@ -3,8 +3,10 @@ package com.miruna.hospitalmanager.application.agenda
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.miruna.hospitalmanager.R
 import com.miruna.hospitalmanager.application.dashboard.DashboardActivity
 import com.miruna.hospitalmanager.application.utils.Constants
@@ -13,6 +15,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddEventActivity : AppCompatActivity() {
+    var eventList: MutableList<Event>? = null
+    lateinit var newEvent: Event
 
     private fun getDatePickerListener_et_start_date() =
         DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -25,7 +29,7 @@ class AddEventActivity : AppCompatActivity() {
         }
 
     private fun getAMPM(hour:Int):String{
-        return if(hour>11)"PM" else "AM"
+        return if(hour>11)" PM" else " AM"
     }
 
     private fun getHourAMPM(hour:Int):Int{
@@ -49,6 +53,8 @@ class AddEventActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
+
+        getAllEventsTask().execute()
 
         var calendar: Calendar
 
@@ -93,6 +99,14 @@ class AddEventActivity : AppCompatActivity() {
 
                 setResult(Constants.RESULT_CODE_ADD_EVENT, dashboardIntent)
 
+                var lastId = eventList?.get(eventList!!.size-1)?.id?.substring(1)
+                val eventId = "E" + ((lastId?.toInt() ?: 0) + 1).toString()
+                newEvent = Event(eventId, et_add_event_name.text.toString(), et_add_event_location.text.toString(),
+                    et_add_event_start_date.text.toString(), et_add_event_start_time.text.toString(), et_add_event_pacient.text.toString(),
+                    et_add_event_doctor.text.toString())
+
+                createEventTask().execute()
+
                 finish()
             }
         }
@@ -133,4 +147,39 @@ class AddEventActivity : AppCompatActivity() {
 
         return true
     }
+
+    private inner class createEventTask : AsyncTask<Void, Void, Event>() {
+        override fun doInBackground(vararg params: Void): Event? {
+            try {
+                Log.i("check event", "check")
+
+                return EventService().createEvent(newEvent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return null
+        }
+
+        override fun onPostExecute(pacient: Event?) {
+            getAllEventsTask().execute()
+        }
+    }
+
+    private inner class getAllEventsTask : AsyncTask<Void, Void, List<Event>>() {
+        override fun doInBackground(vararg params: Void): List<Event>? {
+            try {
+                return EventService().findAllEvents()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(events: List<Event>?) {
+
+            eventList = events as MutableList<Event>?
+        }
+    }
+
 }

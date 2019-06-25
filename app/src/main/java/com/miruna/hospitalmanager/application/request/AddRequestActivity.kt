@@ -13,10 +13,13 @@ import kotlinx.android.synthetic.main.activity_add_request.*
 
 class AddRequestActivity : AppCompatActivity() {
     lateinit var newRequest: Request
+    var requestList: MutableList<Request>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_request)
+
+        getAllRequestsTask().execute()
 
         btn_submit_request.setOnClickListener {
             if (isInputValid()) {
@@ -33,13 +36,11 @@ class AddRequestActivity : AppCompatActivity() {
 
                 setResult(Constants.RESULT_CODE_ADD_DRUG, dashboardIntent)
 
-               /* newRequest =
-                    Request(
-                        et_addRequest_id.text.toString(), et_addRequest_drug_name.text.toString(),
-                        et_addRequest_cantity.text.toString().toInt()
-                    )
+                var lastId = requestList?.get(requestList!!.size-1)?.id?.substring(1)
+                val requestId = "R" + ((lastId?.toInt() ?: 0) + 1).toString()
+                newRequest = Request(requestId, et_addRequest_drug_name.text.toString(), et_addRequest_cantity.text.toString().toInt())
 
-                createRequestTask().execute()*/
+                createRequestTask().execute()
 
                 finish()
             } else {
@@ -63,5 +64,32 @@ class AddRequestActivity : AppCompatActivity() {
         }
 
         return true
+    }
+    private inner class createRequestTask : AsyncTask<Void, Void, Request>() {
+        override fun doInBackground(vararg params: Void): Request? {
+            try {
+                return RequestService().createRequest(newRequest)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.i("check", "check")
+            }
+            return null
+        }
+    }
+
+    private inner class getAllRequestsTask : AsyncTask<Void, Void, List<Request>>() {
+        override fun doInBackground(vararg params: Void): List<Request>? {
+            try {
+                Log.i("requestGogu", "a ajuns unde trebuie")
+                return RequestService().findAllRequests()
+            } catch (e: Exception) {
+
+            }
+            return null
+        }
+
+        override fun onPostExecute(requests: List<Request>?) {
+            requestList = requests as MutableList<Request>?
+        }
     }
 }

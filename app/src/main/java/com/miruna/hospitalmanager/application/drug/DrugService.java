@@ -36,7 +36,7 @@ public class DrugService {
     }
 
     public Drug createDrug(Drug drug) {
-        drugs.add(drug);
+        drugs.add(DrugDao.create(drug));
         return drug;
     }
 

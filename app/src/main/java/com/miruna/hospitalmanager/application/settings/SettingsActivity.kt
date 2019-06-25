@@ -38,21 +38,34 @@ class SettingsActivity : AppCompatActivity() {
         if (toggleChecked) {
             tg_btn_notifications.toggle()
         }
-
+        Log.i("notifG", "checka")
+        getAllEventsTask().execute()
         tg_btn_notifications.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.i("notifG", "checkb")
+            Log.i("notifG", isChecked.toString())
+
             if (isChecked) {
+                Log.i("notifG", "checkc")
+
                 val prefsEditor = mPrefs.edit()
+                Log.i("notifG", "checkaaa")
                 prefsEditor.putBoolean("Toggle notifications", true)
+                Log.i("notifG", "checkbbb")
                 prefsEditor.commit()
-                Log.i("not", "checked")
+                Log.i("notifG", "checked")
                 toggleChecked = true
+                Log.i("notifG",eventList.size.toString())
+                val usrIntent = getIntent()
                 for (e in eventList) {
                     val gson = Gson()
                     val json = mPrefs.getString("User", "")
                     val savedUser = gson.fromJson<User>(json, User::class.java!!)
-                    if (e.doctorUsername!!.equals(savedUser)) {
+                    Log.i("notifG", "check1")
+                    if (e.doctorUsername!!.equals(usrIntent.getStringExtra("EXTRA_DOCTOR_USERNAME"))) {
+                        Log.i("notifG", "check2")
                         if (!mNotified) {
-                            var date = SimpleDateFormat("dd-MM-yyyy").parse(e.startDate).time
+                            Log.i("notifG", "check3")
+                            var date = SimpleDateFormat("dd.MM.yyyy").parse(e.startDate).time
                             var timeD = e.startTime?.split(" ")
                             var hm = timeD?.get(0)?.split(":")
                             if (timeD?.get(1).equals("AM")) {
@@ -64,8 +77,10 @@ class SettingsActivity : AppCompatActivity() {
                                 date = date + 43200000
                             }
                             date = date - 60000
+                            Log.i("notifG", Calendar.getInstance().timeInMillis.toString())
+                            Log.i("notifG", date.toString())
                             NotificationUtils().setNotification(date, this@SettingsActivity)
-                            mNotified = true
+                            //mNotified = true
                         }
                     }
                 }

@@ -2,6 +2,7 @@ package com.miruna.hospitalmanager.application.pacient
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -27,7 +28,7 @@ import android.widget.Toast
 private const val ARG_PARAM1 = "param1"
 
 
-class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class PacientListFragment : Fragment() {
 
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -35,13 +36,6 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     var pacientList: MutableList<Pacient>? = null
     var pacientsAdapter: PacientsAdapter? = null
     lateinit var newPacient: Pacient
-
-
-    override fun onRefresh() {
-        swiperefresh_pacients.setOnRefreshListener {
-            getAllPacientsTask().execute()
-        }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +46,11 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     }
 
+    override fun onStart() {
+        getAllPacientsTask().execute()
+        super.onStart()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -59,6 +58,7 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             var lastId = pacientList?.get(pacientList!!.size-1)?.id?.substring(1)
             val bundle = data?.getBundleExtra("BUNDLE_EXTRA_PACIENT") ?: return
             val pacientId = "P" + ((lastId?.toInt() ?: 0) + 1).toString()
+            Log.i("goguletu", pacientId)
             val pacientName = bundle.getString("PACIENT_NAME") ?: ""
             val pacientSurname = bundle.getString("PACIENT_SURNAME") ?: ""
             val pacientBirthday = bundle.getString("PACIENT_BIRTHDAY") ?: ""
@@ -178,7 +178,6 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 recyclerViewPacientList.addItemDecoration(itemDecoration)
                 pacientsAdapter?.onItemClick = {
                     val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
-                    SharedPreferenceManager.savePacientId(context, it.id)
                     pacientDetailsIntent.putExtra("EXTRA_ID", it.id)
                     pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
                     pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)
@@ -224,7 +223,6 @@ class PacientListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
                 pacientsAdapter?.onItemClick = {
                     val pacientDetailsIntent = Intent(context, PacientDetailsActivity::class.java)
-                    SharedPreferenceManager.savePacientId(context, it.id)
                     pacientDetailsIntent.putExtra("EXTRA_ID", it.id)
                     pacientDetailsIntent.putExtra("EXTRA_NAME", it.name)
                     pacientDetailsIntent.putExtra("EXTRA_SURNAME", it.surname)

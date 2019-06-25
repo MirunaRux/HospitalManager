@@ -77,8 +77,8 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         //set agenda as default fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = PacientListFragment()
-        fragmentTransaction.replace(R.id.content_dashboard, fragment, "PACIENT_LIST_FRAGMENT")
+        val fragment = AgendaListFragment()
+        fragmentTransaction.replace(R.id.content_dashboard, fragment, "AGENDA_LIST_FRAGMENT")
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         fragmentTransaction.commit()
 
@@ -197,6 +197,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_setari -> {
                 var settingsIntent = Intent(this, SettingsActivity::class.java)
+                settingsIntent.putExtra("EXTRA_DOCTOR_USERNAME", username)
                 startActivity(settingsIntent)
             }
         }

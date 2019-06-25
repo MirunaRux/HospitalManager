@@ -35,6 +35,11 @@ class DrugListFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        getAllDrugsTask().execute()
+        super.onStart()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -46,7 +51,7 @@ class DrugListFragment : Fragment() {
             val drugNumber = bundle.getString("DRUG_NUMBER") ?: ""
             newDrug = Drug(drugId, drugName, drugNumber.toInt())
 
-            createDrugTask().execute()
+            //createDrugTask().execute()
         }
     }
 

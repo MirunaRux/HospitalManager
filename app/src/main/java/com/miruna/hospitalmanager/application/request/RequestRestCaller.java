@@ -1,5 +1,6 @@
 package com.miruna.hospitalmanager.application.request;
 
+import android.util.Log;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 
 public class RequestRestCaller {
     private final static Logger logger = Logger.getLogger(RequestRestCaller.class.getName());
-    private final static String REST_SERVICE_URI = "http://192.168.1.6:8080/medicalService/api";
+    private final static String REST_SERVICE_URI = "http://192.168.0.103:8080/medicalService/api";
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -31,6 +32,7 @@ public class RequestRestCaller {
         try {
             ResponseEntity<Request[]> response = getRestTemplate().getForEntity(
                     REST_SERVICE_URI + "/request/", Request[].class);
+            Log.i("RequestGogu", "" + response.getBody().length);
             return response.getBody();
         } catch (Exception e) {
             logger.severe("Error calling medical service." + e);
@@ -55,7 +57,9 @@ public class RequestRestCaller {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
         HttpEntity<Request> requestEntity = new HttpEntity<>(newRequest, httpHeaders);
+        Log.i("requestGogu", "ok1");
         ResponseEntity<Request> response = getRestTemplate().postForEntity(REST_SERVICE_URI + "/request/", requestEntity, Request.class);
+        Log.i("reguestGogu", "ok2");
         return response.getBody();
     }
 

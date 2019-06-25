@@ -37,6 +37,11 @@ class RequestListFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        getAllRequestsTask().execute()
+        super.onStart()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
